@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="10.1.1" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Kwetter.Services.AuthService\Kwetter.Services.AuthService.Rest\Kwetter.Services.AuthService.Rest.csproj" />
+      <ProjectReference Include="..\Kwetter.Services.ProfileService.Domain\Kwetter.Services.ProfileService.Domain.csproj" />
+    </ItemGroup>
+
+</Project>
