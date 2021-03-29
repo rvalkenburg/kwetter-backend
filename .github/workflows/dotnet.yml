@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ master ]
 
+defaults:
+  run:
+    working-directory: src    
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,8 +20,8 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore ./src/src.sln
+      run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore ./src/src.sln
+      run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal ./src/src.sln
+      run: dotnet test --no-build --verbosity normal
