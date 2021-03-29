@@ -18,7 +18,7 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore ./src/Kwetter.Services/kwetter.sln
+      run: dotnet restore ./src/src.sln
     - name: Build
       run: dotnet build --no-restore
     - name: Test
