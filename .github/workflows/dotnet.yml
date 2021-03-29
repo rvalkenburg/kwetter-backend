@@ -23,8 +23,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Open Web Client Directory
-      run: |
-        ls
+    - name: Checkout
+      uses: actions/checkout@v2
     - name: Test
       run: dotnet test --no-build --verbosity normal src.sln
