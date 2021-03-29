@@ -25,6 +25,7 @@ jobs:
     steps:
     - name: Open Web Client Directory
       run: |
+        cd src
         pwd
     - name: Test
       run: dotnet test --no-build --verbosity normal src.sln
