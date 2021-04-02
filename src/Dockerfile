@@ -4,14 +4,14 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
-COPY ["Kwetter.Services/Kwetter.Services.ProfileService/Kwetter.Services.ProfileService.Rest/Kwetter.Services.ProfileService.Rest.csproj", "Kwetter.Services.ProfileService.Rest/"]
-COPY ["Kwetter.Services/Kwetter.Services.ProfileService/Kwetter.Services.ProfileService.Domain/Kwetter.Services.ProfileService.Domain.csproj", "Kwetter.Services.ProfileService.Domain/"]
-COPY ["Kwetter.Services/Kwetter.Services.ProfileService/Kwetter.Services.ProfileService.Persistence/Kwetter.Services.ProfileService.Persistence.csproj", "Kwetter.Services.ProfileService.Persistence/"]
-COPY ["Kwetter.Services/Kwetter.Services.ProfileService/Kwetter.Services.ProfileService.Application/Kwetter.Services.ProfileService.Application.csproj", "Kwetter.Services.ProfileService.Application/"]
+COPY ["Services/ProfileService/Rest/Kwetter.Services.ProfileService.Rest.csproj", "Rest/"]
+COPY ["Services/ProfileService/Domain/Kwetter.Services.ProfileService.Domain.csproj", "Domain/"]
+COPY ["Services/ProfileService/Persistence/Kwetter.Services.ProfileService.Persistence.csproj", "Persistence/"]
+COPY ["Services/ProfileService/Application/Kwetter.Services.ProfileService.Application.csproj", "Application/"]
 
-RUN dotnet restore "Kwetter.Services.ProfileService.Rest/Kwetter.Services.ProfileService.Rest.csproj"
+RUN dotnet restore "Rest/Kwetter.Services.ProfileService.Rest.csproj"
 COPY . .
-WORKDIR "/src/Kwetter.Services/Kwetter.Services.ProfileService/Kwetter.Services.ProfileService.Rest"
+WORKDIR "/src/Services/ProfileService/Kwetter.Services.ProfileService.Rest"
 RUN dotnet build "Kwetter.Services.ProfileService.Rest.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "Kwetter.Services.ProfileService.Rest.csproj" -c Release -o /app/publish
