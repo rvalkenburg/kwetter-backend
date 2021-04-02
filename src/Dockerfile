@@ -11,7 +11,7 @@ COPY ["Services/ProfileService/Application/Kwetter.Services.ProfileService.Appli
 
 RUN dotnet restore "Rest/Kwetter.Services.ProfileService.Rest.csproj"
 COPY . .
-WORKDIR "/src/Services/ProfileService/Kwetter.Services.ProfileService.Rest"
+WORKDIR "/src/Services/ProfileService/Rest"
 RUN dotnet build "Kwetter.Services.ProfileService.Rest.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "Kwetter.Services.ProfileService.Rest.csproj" -c Release -o /app/publish
