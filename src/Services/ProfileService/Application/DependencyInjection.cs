@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using Kwetter.Services.AuthService.Rest;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Kwetter.Services.ProfileService.Application

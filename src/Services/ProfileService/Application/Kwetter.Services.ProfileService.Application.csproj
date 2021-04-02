@@ -11,8 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Kwetter.Services.AuthService\Kwetter.Services.AuthService.Rest\Kwetter.Services.AuthService.Rest.csproj" />
-      <ProjectReference Include="..\Kwetter.Services.ProfileService.Domain\Kwetter.Services.ProfileService.Domain.csproj" />
+      <ProjectReference Include="..\Domain\Kwetter.Services.ProfileService.Domain.csproj" />
     </ItemGroup>
 
 </Project>

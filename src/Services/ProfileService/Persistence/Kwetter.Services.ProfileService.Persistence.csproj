@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Kwetter.Services.ProfileService.Application\Kwetter.Services.ProfileService.Application.csproj" />
+      <ProjectReference Include="..\Application\Kwetter.Services.ProfileService.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>

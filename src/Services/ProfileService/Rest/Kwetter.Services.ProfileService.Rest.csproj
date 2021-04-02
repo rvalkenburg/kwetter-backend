@@ -13,7 +13,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Kwetter.Services.ProfileService.Persistence\Kwetter.Services.ProfileService.Persistence.csproj" />
+      <ProjectReference Include="..\Application\Kwetter.Services.ProfileService.Application.csproj" />
+      <ProjectReference Include="..\Persistence\Kwetter.Services.ProfileService.Persistence.csproj" />
     </ItemGroup>
 
 </Project>
