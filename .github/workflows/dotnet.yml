@@ -25,14 +25,14 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-  build-docker:
-    needs: [ build ]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build the Docker image
-      - name: Build the docker ProfileService image
-        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s) 
+#   build-docker:
+#     needs: [ build ]
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Build the Docker image
+#       - name: Build the docker ProfileService image
+#         run: docker build . --file Dockerfile --tag my-image-name:$(date +%s) 
   sonar:
     name: Review
     runs-on: windows-latest
