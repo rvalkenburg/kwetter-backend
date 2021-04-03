@@ -34,7 +34,7 @@ jobs:
       - name: Build the docker ProfileService image
         run: docker build . --file Dockerfile --tag my-image-name:$(date +%s) 
   sonar:
-    name: Build
+    name: Review
     runs-on: windows-latest
     steps:
       - name: Set up JDK 11
