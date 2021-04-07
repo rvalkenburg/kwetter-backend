@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kwetter.Services.KweetService.Application.Common.Mappings;
@@ -41,6 +42,19 @@ namespace Kwetter.Services.KweetService.Test.Unit
             var response = await _kweetService.CreateKweetAsync(new Guid(), "Test");
             
             Assert.True(response.Success);
+        }
+        
+        [Test]
+        public async Task GetPaginatedKweets()
+        {
+            await _kweetService.CreateKweetAsync(new Guid(), "Test");
+            await _kweetService.CreateKweetAsync(new Guid(), "Test");
+            await _kweetService.CreateKweetAsync(new Guid(), "Test");
+            await _kweetService.CreateKweetAsync(new Guid(), "Test");
+            
+            var response = await _kweetService.GetPaginatedKweets(0, 1);
+            
+            Assert.AreEqual(1, response.Data.Count());
         }
     }
 }
