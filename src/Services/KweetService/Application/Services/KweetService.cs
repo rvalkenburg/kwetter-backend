@@ -24,6 +24,7 @@ namespace Kwetter.Services.KweetService.Application.Services
             
             var kweet = new Kweet
             {
+                Id = Guid.NewGuid(),
                 ProfileId = profileId,
                 Message = message,
             };

@@ -10,11 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Profile = Kwetter.Services.ProfileService.Domain.Entity.Profile;
 
-namespace Kwetter.Services.ProfileService.Test
+namespace Kwetter.Services.ProfileService.Test.Unit
 {
-    public class Tests
+    public class ProfileServiceTest
     {
-        private ServiceProvider ServiceProvider { get; set; }
         private Application.Services.ProfileService _profileService;
         private ProfileContext _context;
         
