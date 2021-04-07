@@ -9,7 +9,6 @@ namespace Kwetter.Services.KweetService.Application.Common.Mappings
         public AutoMapping()
         {
             CreateMap<Domain.Entities.Kweet, KweetDto>();
-            CreateMap<Domain.Entities.Kweet, IEnumerable<KweetDto>>();
         }
     }
 }

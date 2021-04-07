@@ -14,6 +14,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Application\Kwetter.Services.KweetService.Application.csproj" />
+      <ProjectReference Include="..\Persistence\Kwetter.Services.KweetService.Persistence.csproj" />
     </ItemGroup>
 
     <ItemGroup>

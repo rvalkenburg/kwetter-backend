@@ -10,7 +10,7 @@ namespace Kwetter.Services.KweetService.Rest.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [AllowAnonymous]
-    public class KweetController
+    public class KweetController : ControllerBase
     {
         private readonly IKweetService _kweetService;
 
@@ -24,7 +24,8 @@ namespace Kwetter.Services.KweetService.Rest.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create([FromBody] CreateKweetRequest createProfileRequest)
         {
-            return new OkResult();
+            var response = await _kweetService.CreateKweetAsync(createProfileRequest.ProfileId, createProfileRequest.Message);
+            return response.Success ? new OkObjectResult(response.Data) : StatusCode(500);
         }
     }
 }
