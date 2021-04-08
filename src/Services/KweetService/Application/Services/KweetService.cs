@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +7,6 @@ using Kwetter.Services.KweetService.Application.Common.Interfaces;
 using Kwetter.Services.KweetService.Application.Common.Models;
 using Kwetter.Services.KweetService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Kwetter.Services.KweetService.Application.Services
 {
@@ -49,12 +47,15 @@ namespace Kwetter.Services.KweetService.Application.Services
         {
             Response<IEnumerable<KweetDto>> response = new();
 
-            var entities = await _context.Kweets
+            IEnumerable<Kweet> entities = await _context.Kweets
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            if (entities == null) return response;
+            if (entities == null)
+            {
+                return response;
+            }
             
             response.Data = _mapper.Map<IEnumerable<KweetDto>>(entities);
             response.Success = true;

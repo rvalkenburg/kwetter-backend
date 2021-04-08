@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Kwetter.Services.ProfileService.Application.Common.Interfaces;
-using Kwetter.Services.ProfileService.Application.Common.Models;
 using Kwetter.Services.ProfileService.Rest.Models.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -27,16 +26,21 @@ namespace Kwetter.Services.ProfileService.Rest.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             var response = await _profileService.GetProfileAsync(id);
-            return response.Success == true ? new OkObjectResult(response.Data) : new NotFoundResult();
+            return response.Success ? new OkObjectResult(response.Data) : new NotFoundResult();
         }
         
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPaginated(int pageNumber, int pageSize)
+        public async Task<IActionResult> GetPaginated(GetProfilesRequest profilesRequest)
         {
-            var response = await _profileService.GetPaginatedProfiles(pageSize, pageNumber);
-            return response.Success == true ? new OkObjectResult(response.Data) : new NotFoundResult();
+            if (ModelState.IsValid)
+            {
+                var response = await _profileService.GetPaginatedProfiles(profilesRequest.PageSize, profilesRequest.PageNumber);
+                return response.Success ? new OkObjectResult(response) : new NotFoundResult();
+            }
+
+            return StatusCode(500);
         }
         
         [HttpPost("")]
@@ -44,10 +48,14 @@ namespace Kwetter.Services.ProfileService.Rest.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create([FromBody] CreateProfileRequest createProfileRequest)
         {
-            var response = await _profileService.CreateProfileAsync(createProfileRequest.Id, createProfileRequest.Avatar,
-                createProfileRequest.Description, createProfileRequest.DisplayName);
+            if (ModelState.IsValid)
+            {
+                var response = await _profileService.CreateProfileAsync(createProfileRequest.Id, createProfileRequest.Avatar,
+                    createProfileRequest.Description, createProfileRequest.DisplayName);
 
-            return response.Success == true ? new OkObjectResult(response.Data) : StatusCode(500);
+                return response.Success ? new OkObjectResult(response.Data) : StatusCode(500);
+            }
+            return StatusCode(500);
         }
     }
 }

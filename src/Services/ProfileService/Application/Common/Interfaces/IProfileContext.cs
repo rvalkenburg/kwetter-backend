@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Profile = Kwetter.Services.ProfileService.Domain.Entity.Profile;
 

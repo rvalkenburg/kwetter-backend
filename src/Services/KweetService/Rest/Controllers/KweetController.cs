@@ -27,5 +27,20 @@ namespace Kwetter.Services.KweetService.Rest.Controllers
             var response = await _kweetService.CreateKweetAsync(createProfileRequest.ProfileId, createProfileRequest.Message);
             return response.Success ? new OkObjectResult(response.Data) : StatusCode(500);
         }
+        
+        
+        [HttpGet("")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetPaginated(int pageNumber, int pageSize)
+        {
+            if (ModelState.IsValid)
+            {
+                
+            }
+
+            var response = await _kweetService.GetPaginatedKweets(pageSize, pageNumber);
+            return response.Success ? new OkObjectResult(response.Data) : new NotFoundResult();
+        }
     }
 }

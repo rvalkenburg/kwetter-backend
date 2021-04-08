@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kwetter.Services.ProfileService.Application.Common.Interfaces;
@@ -35,9 +34,9 @@ namespace Kwetter.Services.ProfileService.Application.Services
             return response;
         }
 
-        public async Task<Response<IEnumerable<ProfileDto>>> GetPaginatedProfiles(int pageSize, int pageNumber)
+        public async Task<PaginationResponse<ProfileDto>> GetPaginatedProfiles(int pageSize, int pageNumber)
         {
-            Response<IEnumerable<ProfileDto>> response = new();
+            PaginationResponse<ProfileDto> response = new();
 
             var entities = await _context.Profiles
                 .Skip(pageNumber * pageSize)
@@ -47,6 +46,8 @@ namespace Kwetter.Services.ProfileService.Application.Services
             if (entities == null) return response;
             
             response.Data = _mapper.Map<IEnumerable<ProfileDto>>(entities);
+            response.PageSize = pageSize;
+            response.PageNumber = pageNumber;
             response.Success = true;
 
             return response;

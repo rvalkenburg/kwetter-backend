@@ -8,7 +8,7 @@ namespace Kwetter.Services.ProfileService.Application.Common.Interfaces
     public interface IProfileService
     {
         Task<Response<ProfileDto>> GetProfileAsync(Guid id);
-        Task<Response<IEnumerable<ProfileDto>>> GetPaginatedProfiles(int pageSize, int pageNumber);
+        Task<PaginationResponse<ProfileDto>> GetPaginatedProfiles(int pageSize, int pageNumber);
         Task<Response<ProfileDto>> CreateProfileAsync(Guid id, string avatar, string description, string displayName);
     }
 }
