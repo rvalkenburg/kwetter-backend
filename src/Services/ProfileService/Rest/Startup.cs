@@ -1,4 +1,5 @@
 using System;
+using Kwetter.Services.KweetService.Consumer;
 using Kwetter.Services.ProfileService.Application;
 using Kwetter.Services.ProfileService.Application.Common.Interfaces;
 using Kwetter.Services.ProfileService.Infrastructure;
@@ -29,6 +30,7 @@ namespace Kwetter.Services.ProfileService.Rest
             services.AddApplication();
             services.AddPersistence(Configuration);
             services.AddInfrastructure(Configuration);
+            services.AddConsumer();
             services.AddSwaggerGen(c=> {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
                     Title="Kwetter",
