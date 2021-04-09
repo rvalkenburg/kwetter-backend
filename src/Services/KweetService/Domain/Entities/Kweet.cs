@@ -7,7 +7,7 @@ namespace Kwetter.Services.KweetService.Domain.Entities
     public class Kweet
     {
         public Guid Id { get; set; }
-        public Guid ProfileId { get; set; }
+        public Profile ProfileId { get; set; }
         public string Message { get; set; }
 
         public IEnumerable<Like> Likes { get; set; }

@@ -3,9 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kwetter.Services.KweetService.Application.Common.Mappings;
+using Kwetter.Services.KweetService.Domain.Entities;
 using Kwetter.Services.KweetService.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
+using Profile = Kwetter.Services.KweetService.Domain.Entities.Profile;
 
 namespace Kwetter.Services.KweetService.Test.Unit
 {
@@ -39,7 +41,18 @@ namespace Kwetter.Services.KweetService.Test.Unit
         [Test]
         public async Task CreateNewKweet()
         {
-            var response = await _kweetService.CreateKweetAsync(new Guid(), "Test");
+            Profile profile = new Profile
+            {
+                Id = new Guid("0001aec8-1fdd-42ae-b552-9cbfb693767e"),
+                DisplayName = "John Doe",
+                Avatar = "Avatar.png"
+                
+            };
+
+            await _context.Profiles.AddAsync(profile);
+            await _context.SaveChangesAsync();
+            
+            var response = await _kweetService.CreateKweetAsync(new Guid("0001aec8-1fdd-42ae-b552-9cbfb693767e"), "Test");
             
             Assert.True(response.Success);
         }
@@ -47,10 +60,19 @@ namespace Kwetter.Services.KweetService.Test.Unit
         [Test]
         public async Task GetPaginatedKweets()
         {
-            await _kweetService.CreateKweetAsync(new Guid(), "Test");
-            await _kweetService.CreateKweetAsync(new Guid(), "Test");
-            await _kweetService.CreateKweetAsync(new Guid(), "Test");
-            await _kweetService.CreateKweetAsync(new Guid(), "Test");
+            Profile profile = new Profile
+            {
+                Id = new Guid("0001aec8-1fdd-42ae-b552-9cbfb693767e"),
+                DisplayName = "John Doe",
+                Avatar = "Avatar.png"
+                
+            };
+
+            await _context.Profiles.AddAsync(profile);
+            await _context.SaveChangesAsync();
+            
+            await _kweetService.CreateKweetAsync(new Guid("0001aec8-1fdd-42ae-b552-9cbfb693767e"), "Test");
+            await _kweetService.CreateKweetAsync(new Guid("0001aec8-1fdd-42ae-b552-9cbfb693767e"), "Test");
             
             var response = await _kweetService.GetPaginatedKweets(0, 1);
             

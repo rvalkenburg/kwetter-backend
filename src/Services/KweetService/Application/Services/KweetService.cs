@@ -7,6 +7,7 @@ using Kwetter.Services.KweetService.Application.Common.Interfaces;
 using Kwetter.Services.KweetService.Application.Common.Models;
 using Kwetter.Services.KweetService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Profile = Kwetter.Services.KweetService.Domain.Entities.Profile;
 
 namespace Kwetter.Services.KweetService.Application.Services
 {
@@ -23,11 +24,14 @@ namespace Kwetter.Services.KweetService.Application.Services
         public async Task<Response<KweetDto>> CreateKweetAsync(Guid profileId, string message)
         {
             Response<KweetDto> response = new Response<KweetDto>();
+            Profile profile = await _context.Profiles.FindAsync(profileId);
+
+            if (profile == null) return response;
             
             var kweet = new Kweet
             {
                 Id = Guid.NewGuid(),
-                ProfileId = profileId,
+                ProfileId = profile,
                 Message = message,
             };
             

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using Kwetter.Services.KweetService.Domain.Entities;
 
 namespace Kwetter.Services.KweetService.Application.Common.Models
 {
-    public class KweetDto
+    public class LikeDto
     {
         public Guid Id { get; set; }
         public Profile ProfileId { get; set; }
-        public string Message { get; set; }
-
-        public IEnumerable<Like> Likes { get; set; }
+        public Kweet KweetId { get; set; }
     }
 }

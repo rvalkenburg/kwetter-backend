@@ -8,6 +8,9 @@ namespace Kwetter.Services.KweetService.Persistence.Contexts
     public class KweetContext : DbContext, IKweetContext
     {
         public DbSet<Kweet> Kweets { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
+
         public Task<int> SaveChangesAsync()
         {
             return base.SaveChangesAsync();
