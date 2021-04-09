@@ -19,5 +19,11 @@ namespace Kwetter.Services.KweetService.Persistence.Contexts
         public KweetContext(DbContextOptions<KweetContext> options) : base(options)
         {
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+            base.OnConfiguring(optionsBuilder);
+        }
     }
 }

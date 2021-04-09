@@ -29,8 +29,9 @@ namespace Kwetter.Services.KweetService.Application.Services
             Like like = new Like
             {
                 Id = new Guid(),
-                ProfileId = profile,
-                KweetId = kweet
+                Profile = profile,
+                Kweet = kweet,
+                DateOfCreation = DateTime.Now,
             };
 
             await _context.Likes.AddAsync(like);

@@ -39,7 +39,7 @@ namespace Kwetter.Services.KweetService.Rest.Controllers
                 
             }
 
-            var response = await _kweetService.GetPaginatedKweets(pageSize, pageNumber);
+            var response = await _kweetService.GetPaginatedKweets(pageNumber, pageSize);
             return response.Success ? new OkObjectResult(response.Data) : new NotFoundResult();
         }
     }

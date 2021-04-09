@@ -5,7 +5,9 @@ namespace Kwetter.Services.KweetService.Domain.Entities
     public class Like
     {
         public Guid Id { get; set; }
-        public Profile ProfileId { get; set; }
-        public Kweet KweetId { get; set; }
+        public virtual Profile Profile { get; set; }
+        public virtual Kweet Kweet { get; set; }
+        
+        public DateTime DateOfCreation { get; set; }
     }
 }

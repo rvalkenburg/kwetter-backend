@@ -31,8 +31,9 @@ namespace Kwetter.Services.KweetService.Application.Services
             var kweet = new Kweet
             {
                 Id = Guid.NewGuid(),
-                ProfileId = profile,
+                Profile = profile,
                 Message = message,
+                DateOfCreation = DateTime.Now,
             };
             
             await _context.Kweets.AddAsync(kweet);
@@ -50,7 +51,7 @@ namespace Kwetter.Services.KweetService.Application.Services
         public async Task<Response<IEnumerable<KweetDto>>> GetPaginatedKweets(int pageNumber, int pageSize)
         {
             Response<IEnumerable<KweetDto>> response = new();
-
+            
             IEnumerable<Kweet> entities = await _context.Kweets
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
