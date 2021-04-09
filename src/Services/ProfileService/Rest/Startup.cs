@@ -30,7 +30,6 @@ namespace Kwetter.Services.ProfileService.Rest
             services.AddApplication();
             services.AddPersistence(Configuration);
             services.AddInfrastructure(Configuration);
-            services.AddConsumer();
             services.AddSwaggerGen(c=> {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
                     Title="Kwetter",

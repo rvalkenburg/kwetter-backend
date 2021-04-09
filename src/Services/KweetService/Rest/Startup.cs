@@ -1,5 +1,6 @@
 using Kwetter.Services.KweetService.Application;
 using Kwetter.Services.KweetService.Application.Common.Interfaces;
+using Kwetter.Services.KweetService.Consumer;
 using Kwetter.Services.KweetService.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +29,7 @@ namespace Kwetter.Services.KweetService.Rest
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddApplication();
             services.AddPersistence(Configuration);
+            services.AddConsumer();
             services.AddSwaggerGen(c=> {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
                     Title="Kwetter",

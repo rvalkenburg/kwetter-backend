@@ -2,7 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Confluent.Kafka;
+using Kwetter.Services.KweetService.Application.Common.Models;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 
 namespace Kwetter.Services.KweetService.Consumer.Handlers
 {
@@ -29,7 +31,8 @@ namespace Kwetter.Services.KweetService.Consumer.Handlers
                     var consumer = builder.Consume(cancelToken.Token);
                     if (consumer != null)
                     {
-                        //Create new profile
+                        ProfileDto account = JsonConvert.DeserializeObject<ProfileDto>(consumer.Message.Value);
+                        string test = account.DisplayName;
                     }
 
                     Console.WriteLine($"Message: {consumer.Message.Value} received from {consumer.TopicPartitionOffset}");
