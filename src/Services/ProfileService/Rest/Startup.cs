@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Kwetter.Services.ProfileService.Application;
 using Kwetter.Services.ProfileService.Application.Common.Interfaces;
+using Kwetter.Services.ProfileService.Infrastructure;
 using Kwetter.Services.ProfileService.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,6 +28,7 @@ namespace Kwetter.Services.ProfileService.Rest
             services.AddControllers();
             services.AddApplication();
             services.AddPersistence(Configuration);
+            services.AddInfrastructure(Configuration);
             services.AddSwaggerGen(c=> {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
                     Title="Kwetter",

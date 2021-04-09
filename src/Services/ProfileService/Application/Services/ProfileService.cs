@@ -14,11 +14,13 @@ namespace Kwetter.Services.ProfileService.Application.Services
     {
         private readonly IProfileContext _context;
         private readonly IMapper _mapper;
+        private readonly INewProfileEvent _newProfileEvent;
         
-        public ProfileService(IProfileContext context, IMapper mapper)
+        public ProfileService(IProfileContext context, IMapper mapper, INewProfileEvent newProfileEvent)
         {
             _context = context;
             _mapper = mapper;
+            _newProfileEvent = newProfileEvent;
         }
 
         public async Task<Response<ProfileDto>> GetProfileAsync(Guid id)
@@ -70,9 +72,12 @@ namespace Kwetter.Services.ProfileService.Application.Services
 
             if (!success) return response;
             
+            ProfileDto profileDto = _mapper.Map<ProfileDto>(profile);
             response.Success = true;
-            response.Data = _mapper.Map<ProfileDto>(profile);
+            response.Data = profileDto;
 
+            _newProfileEvent.SendNewProfileEvent(profileDto);
+            
             return response;
         }
     }
