@@ -1,5 +1,6 @@
 using Kwetter.Services.KweetService.Application;
 using Kwetter.Services.KweetService.Application.Common.Interfaces;
+using Kwetter.Services.KweetService.Application.Services;
 using Kwetter.Services.KweetService.Consumer;
 using Kwetter.Services.KweetService.Persistence;
 using Microsoft.AspNetCore.Builder;
@@ -25,11 +26,15 @@ namespace Kwetter.Services.KweetService.Rest
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IKweetService, Application.Services.KweetService>();
+            services.AddScoped<IProfileService, ProfileService>();
+            
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddApplication();
             services.AddPersistence(Configuration);
-            services.AddConsumer();
+
+            services.AddConsumer(Configuration);
             services.AddSwaggerGen(c=> {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
                     Title="Kwetter",
@@ -37,7 +42,6 @@ namespace Kwetter.Services.KweetService.Rest
                     Description="Kweet API for Kwetter."                   
                 });
             });
-            services.AddScoped<IKweetService, Application.Services.KweetService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
