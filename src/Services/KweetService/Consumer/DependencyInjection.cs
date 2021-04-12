@@ -15,13 +15,9 @@ namespace Kwetter.Services.KweetService.Consumer
 
             ConsumerConfig config = new ConsumerConfig();
             config.BootstrapServers = configuration.GetValue<string>("KafkaConsumer:BootstrapServers");
-            config.SaslUsername = configuration.GetValue<string>("KafkaConsumer:SaslUsername");
-            config.SaslPassword = configuration.GetValue<string>("KafkaConsumer:SaslPassword");
-            config.SaslMechanism = SaslMechanism.Plain;
-            config.SecurityProtocol = SecurityProtocol.SaslSsl;
             config.GroupId = Guid.NewGuid().ToString();
             config.AutoOffsetReset = AutoOffsetReset.Earliest;
-            services.AddSingleton<ConsumerConfig>(option => config);
+            services.AddSingleton(option => config);
             
             return services;
         }

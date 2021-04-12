@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using Confluent.Kafka;
-using Kwetter.Services.KweetService.Application.Common.Interfaces;
-using Kwetter.Services.KweetService.Application.Common.Models;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
 
 namespace Kwetter.Services.KweetService.Consumer.Handlers
 {
