@@ -32,5 +32,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the docker ProfileService image
-        run: docker build . --file ProfileService --tag my-image-name:$(date +%s)
+        run: docker build . --file ProfileService.Dockerfile --tag my-image-name:$(date +%s)
 
