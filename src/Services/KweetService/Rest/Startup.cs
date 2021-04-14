@@ -26,15 +26,11 @@ namespace Kwetter.Services.KweetService.Rest
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IKweetService, Application.Services.KweetService>();
-            services.AddScoped<IProfileService, ProfileService>();
-            
+
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            services.AddApplication();
             services.AddPersistence(Configuration);
-
-            services.AddConsumer(Configuration);
+            services.AddApplication();
             services.AddSwaggerGen(c=> {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
                     Title="Kwetter",

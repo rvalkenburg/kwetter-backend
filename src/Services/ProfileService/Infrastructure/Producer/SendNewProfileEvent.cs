@@ -23,7 +23,7 @@ namespace Kwetter.Services.ProfileService.Infrastructure.Producer
             {
                 try
                 {
-                    return producer.ProduceAsync("NewProfileEvent", new Message<Null, string> { Value = serializedProfile })
+                    return producer.ProduceAsync("ProfileUpdated", new Message<Null, string> { Value = serializedProfile })
                         .GetAwaiter()
                         .GetResult();
                 }

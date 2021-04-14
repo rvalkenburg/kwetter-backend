@@ -14,4 +14,8 @@
       <ProjectReference Include="..\Application\Kwetter.Services.KweetService.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Handlers" />
+    </ItemGroup>
+
 </Project>

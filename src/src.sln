@@ -35,8 +35,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.Services.KweetServi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.Services.ProfileService.Infrastructure", "Services\ProfileService\Infrastructure\Kwetter.Services.ProfileService.Infrastructure.csproj", "{B2965F0C-1C05-4F38-9D09-FC0DA63F5B3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.Services.KweetService.Consumer", "Services\KweetService\Consumer\Kwetter.Services.KweetService.Consumer.csproj", "{FF8C8646-39EB-401A-88ED-9BDE7140E57B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,7 +63,6 @@ Global
 		{764D489F-9253-4D3F-9CD7-14D5F7F0ECDE} = {790FC393-14F3-4A2D-AE1E-AB171196C6C1}
 		{3DB2CF49-C534-4AB9-876B-1AE277E5F247} = {790FC393-14F3-4A2D-AE1E-AB171196C6C1}
 		{B2965F0C-1C05-4F38-9D09-FC0DA63F5B3E} = {386C94D0-BC4C-44EB-A116-72BF5FA08894}
-		{FF8C8646-39EB-401A-88ED-9BDE7140E57B} = {790FC393-14F3-4A2D-AE1E-AB171196C6C1}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B3FCAC2B-17D0-4EBF-8CAD-8D80E735468C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -212,17 +209,5 @@ Global
 		{B2965F0C-1C05-4F38-9D09-FC0DA63F5B3E}.Release|x64.Build.0 = Release|Any CPU
 		{B2965F0C-1C05-4F38-9D09-FC0DA63F5B3E}.Release|x86.ActiveCfg = Release|Any CPU
 		{B2965F0C-1C05-4F38-9D09-FC0DA63F5B3E}.Release|x86.Build.0 = Release|Any CPU
-		{FF8C8646-39EB-401A-88ED-9BDE7140E57B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF8C8646-39EB-401A-88ED-9BDE7140E57B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF8C8646-39EB-401A-88ED-9BDE7140E57B}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{FF8C8646-39EB-401A-88ED-9BDE7140E57B}.Debug|x64.Build.0 = Debug|Any CPU
-		{FF8C8646-39EB-401A-88ED-9BDE7140E57B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FF8C8646-39EB-401A-88ED-9BDE7140E57B}.Debug|x86.Build.0 = Debug|Any CPU
-		{FF8C8646-39EB-401A-88ED-9BDE7140E57B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF8C8646-39EB-401A-88ED-9BDE7140E57B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF8C8646-39EB-401A-88ED-9BDE7140E57B}.Release|x64.ActiveCfg = Release|Any CPU
-		{FF8C8646-39EB-401A-88ED-9BDE7140E57B}.Release|x64.Build.0 = Release|Any CPU
-		{FF8C8646-39EB-401A-88ED-9BDE7140E57B}.Release|x86.ActiveCfg = Release|Any CPU
-		{FF8C8646-39EB-401A-88ED-9BDE7140E57B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
