@@ -1,7 +1,4 @@
 using Kwetter.Services.KweetService.Application;
-using Kwetter.Services.KweetService.Application.Common.Interfaces;
-using Kwetter.Services.KweetService.Application.Services;
-using Kwetter.Services.KweetService.Consumer;
 using Kwetter.Services.KweetService.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,7 +23,6 @@ namespace Kwetter.Services.KweetService.Rest
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddPersistence(Configuration);

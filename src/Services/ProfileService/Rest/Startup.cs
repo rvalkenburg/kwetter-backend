@@ -1,5 +1,3 @@
-using System;
-using Kwetter.Services.KweetService.Consumer;
 using Kwetter.Services.ProfileService.Application;
 using Kwetter.Services.ProfileService.Application.Common.Interfaces;
 using Kwetter.Services.ProfileService.Infrastructure;
