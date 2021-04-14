@@ -24,7 +24,6 @@ namespace Kwetter.Services.KweetService.Application.EventHandlers
         {
             await Task.Yield();
             
-            var i = 0;
             while (!stoppingToken.IsCancellationRequested)
             {
                 var consumeResult = _consumer.Consume(stoppingToken);
@@ -32,13 +31,8 @@ namespace Kwetter.Services.KweetService.Application.EventHandlers
                 if (consumeResult != null)
                 {
                     ProfileDto profileDto = JsonConvert.DeserializeObject<ProfileDto>(consumeResult.Message.Value);
-                    _services.AddProfile(profileDto);
+                     await _services.AddProfile(profileDto);
                     Console.WriteLine($"Consumed message '{consumeResult.Message.Value}' at: '{consumeResult.TopicPartitionOffset}'.");
-                }
-                
-                if (i++ % 1000 == 0)
-                {
-                    _consumer.Commit();
                 }
             }
         }

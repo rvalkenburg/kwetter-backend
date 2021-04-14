@@ -1,4 +1,5 @@
-﻿using Kwetter.Services.KweetService.Application.Common.Interfaces;
+﻿using System.Threading.Tasks;
+using Kwetter.Services.KweetService.Application.Common.Interfaces;
 using Kwetter.Services.KweetService.Application.Common.Models;
 using Kwetter.Services.KweetService.Domain.Entities;
 
@@ -12,7 +13,7 @@ namespace Kwetter.Services.KweetService.Application.Services
         {
             _context = context;
         }
-        public void AddProfile(ProfileDto profileDto)
+        public async Task AddProfile(ProfileDto profileDto)
         {
             Profile profile = new Profile
             {
@@ -21,7 +22,7 @@ namespace Kwetter.Services.KweetService.Application.Services
                 Avatar = profileDto.Avatar
             };
             _context.Profiles.Add(profile);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }
