@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json.Serialization;
 using Confluent.Kafka;
 using Kwetter.Services.ProfileService.Application.Common.Interfaces;
 using Kwetter.Services.ProfileService.Application.Common.Models;
@@ -7,32 +6,39 @@ using Newtonsoft.Json;
 
 namespace Kwetter.Services.ProfileService.Infrastructure.Producer
 {
-    public class NewProfileEvent : INewProfileEvent
+    public class NewProfileEvent : INewProfileEvent, IDisposable
     {
-        private readonly ProducerConfig config = new()
+        private readonly IProducer<string, string> _producer;
+        private readonly string _topic;
+
+        public NewProfileEvent(IProducer<string, string> producer, string topic)
         {
-            BootstrapServers = "localhost:9092"
-        };
-        
-        public object SendNewProfileEvent(ProfileDto message)
+            _producer = producer;
+            _topic = topic;
+        }
+
+        public object SendNewProfileEvent(ProfileDto profileDto)
         {
-            string serializedProfile = JsonConvert.SerializeObject(message);
-            
-            using (var producer = 
-                new ProducerBuilder<Null, string>(config).Build())
+            Message<string, string> message = new()
             {
-                try
-                {
-                    return producer.ProduceAsync("ProfileUpdated", new Message<Null, string> { Value = serializedProfile })
-                        .GetAwaiter()
-                        .GetResult();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Oops, something went wrong: {e}");
-                }
+                Value = JsonConvert.SerializeObject(profileDto),
+            };
+
+            try
+            {
+                return _producer.ProduceAsync(_topic, message);
             }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Oops, something went wrong: {e}");
+            }
+
             return null;
+        }
+
+        public void Dispose()
+        {
+            _producer.Dispose();
         }
     }
 }
