@@ -8,6 +8,7 @@ COPY ["Services/ProfileService/Rest/Kwetter.Services.ProfileService.Rest.csproj"
 COPY ["Services/ProfileService/Domain/Kwetter.Services.ProfileService.Domain.csproj", "Domain/"]
 COPY ["Services/ProfileService/Persistence/Kwetter.Services.ProfileService.Persistence.csproj", "Persistence/"]
 COPY ["Services/ProfileService/Application/Kwetter.Services.ProfileService.Application.csproj", "Application/"]
+COPY ["Services/ProfileService/Infrastructure/Kwetter.Services.ProfileService.Infrastructure.csproj", "Infrastructure/"]
 
 RUN dotnet restore "Rest/Kwetter.Services.ProfileService.Rest.csproj"
 COPY . .
