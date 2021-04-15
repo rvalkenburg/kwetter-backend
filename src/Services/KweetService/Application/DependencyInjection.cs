@@ -3,21 +3,22 @@ using Confluent.Kafka;
 using Kwetter.Services.KweetService.Application.Common.Interfaces;
 using Kwetter.Services.KweetService.Application.EventHandlers;
 using Kwetter.Services.KweetService.Application.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Kwetter.Services.KweetService.Application
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services)
+        public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IKweetService, Application.Services.KweetService>();
             services.AddScoped<IProfileService, ProfileService>();
             
             ConsumerConfig config = new ConsumerConfig
             {
-                BootstrapServers = "localhost:9092",
-                GroupId = "InNeedOfProfiles",
+                BootstrapServers = configuration.GetValue<string>("ProducerConfig:BootstrapServers"),
+                GroupId = configuration.GetValue<string>("ProducerConfig:GroupId"),
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
             

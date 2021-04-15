@@ -26,7 +26,7 @@ namespace Kwetter.Services.KweetService.Rest
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddPersistence(Configuration);
-            services.AddApplication();
+            services.AddApplication(Configuration);
             services.AddSwaggerGen(c=> {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
                     Title="Kwetter",
