@@ -26,13 +26,21 @@ namespace Kwetter.Services.KweetService.Application.EventHandlers
             
             while (!stoppingToken.IsCancellationRequested)
             {
-                var consumeResult = _consumer.Consume(stoppingToken);
-
-                if (consumeResult != null)
+                try
                 {
-                    ProfileDto profileDto = JsonConvert.DeserializeObject<ProfileDto>(consumeResult.Message.Value);
-                     await _services.AddProfile(profileDto);
-                    Console.WriteLine($"Consumed message '{consumeResult.Message.Value}' at: '{consumeResult.TopicPartitionOffset}'.");
+                    var consumeResult = _consumer.Consume(stoppingToken);
+
+                    if (consumeResult != null)
+                    {
+                        ProfileDto profileDto = JsonConvert.DeserializeObject<ProfileDto>(consumeResult.Message.Value);
+                        await _services.AddProfile(profileDto);
+                        _consumer.Commit();
+                        Console.WriteLine($"Consumed message '{consumeResult.Message.Value}' at: '{consumeResult.TopicPartitionOffset}'.");
+                    }
+                }
+                catch (ConsumeException e)
+                {
+                    Console.WriteLine($"Error occured: {e.Error.Reason}");
                 }
             }
         }

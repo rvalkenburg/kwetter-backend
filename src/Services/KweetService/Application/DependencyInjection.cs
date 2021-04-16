@@ -19,7 +19,8 @@ namespace Kwetter.Services.KweetService.Application
             {
                 BootstrapServers = configuration.GetValue<string>("ProducerConfig:BootstrapServers"),
                 GroupId = configuration.GetValue<string>("ProducerConfig:GroupId"),
-                AutoOffsetReset = AutoOffsetReset.Earliest
+                AutoOffsetReset = AutoOffsetReset.Earliest,
+                EnableAutoCommit = false,
             };
             
             var consumer = new ConsumerBuilder<Ignore, string>(config).Build();
