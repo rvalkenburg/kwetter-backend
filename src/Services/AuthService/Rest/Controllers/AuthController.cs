@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Kwetter.Services.AuthService.Rest.Interfaces;
+using Kwetter.Services.AuthService.Application.Common.Interfaces;
 using Kwetter.Services.AuthService.Rest.Models.Requests;
 using Kwetter.Services.AuthService.Rest.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
@@ -19,39 +19,13 @@ namespace Kwetter.Services.AuthService.Rest.Controllers
             _authService = authService;
         }
 
-        [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody] UserRegistrationRequest userRegistrationRequest)
+        [HttpPost("")]
+        public async Task<IActionResult> Register([FromBody] AuthorizationRequest authorizationRequest)
         {
             if (!ModelState.IsValid) return BadRequest();
-            var authResponse =
-                await _authService.RegisterAsync(userRegistrationRequest.Email, userRegistrationRequest.Password);
-
-            return authResponse.Success
-                ? new OkObjectResult(new AuthSuccessResponse
-                {
-                    Token = authResponse.Token
-                })
-                : new BadRequestObjectResult(new AuthFailedResponse
-                {
-                    errors = authResponse.Errors
-                });
-        }
-        [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] UserLoginRequest userLoginRequest)
-        {
-            if (!ModelState.IsValid) return BadRequest();
-            var authResponse =
-                await _authService.LoginAsync(userLoginRequest.Email, userLoginRequest.Password);
-
-            return authResponse.Success
-                ? new OkObjectResult(new AuthSuccessResponse
-                {
-                    Token = authResponse.Token
-                })
-                : new BadRequestObjectResult(new AuthFailedResponse
-                {
-                    errors = authResponse.Errors
-                });
+            await _authService.AuthorizeAsync(authorizationRequest.Code);
+            
+            return Ok();
         }
     }
 }
