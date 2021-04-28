@@ -1,5 +1,8 @@
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 using Kwetter.Services.AuthService.Application.Common.Interfaces;
 using Kwetter.Services.AuthService.Infrastructure;
+using Kwetter.Services.AuthService.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,37 +26,17 @@ namespace Kwetter.Services.AuthService.Rest
         {
             services.AddControllers();
             services.AddHttpClient();
-
+            services.AddPersistence(Configuration);
             services.AddInfrastructure(Configuration);
-            
-            // var jwtConfig = new JwtConfig();
-            // Configuration.Bind(nameof(jwtConfig), jwtConfig);
-            // services.AddSingleton(jwtConfig);
             services.AddScoped<IAuthService, Application.Services.AuthService>();
-            // services.AddDbContext<AuthContext>(options =>
-            //     options.UseSqlServer(
-            //         Configuration.GetConnectionString("ConnectionString"),
-            //         b => b.MigrationsAssembly(typeof(AuthContext).Assembly.FullName)));
-            // services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AuthContext>();
-            // services.AddAuthentication(x =>
-            //     {
-            //         x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //         x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            //         x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //     })
-            //     .AddJwtBearer(x =>
-            //     {
-            //         x.SaveToken = true;
-            //         x.TokenValidationParameters = new TokenValidationParameters
-            //         {
-            //             ValidateIssuerSigningKey = true,
-            //             IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtConfig.Secret)),
-            //             ValidateIssuer = false,
-            //             ValidateAudience = false,
-            //             RequireExpirationTime = false,
-            //             ValidateLifetime = true
-            //         };
-            //     });
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile("s64-1-vetis-b11d08b838cc"),
+            });
+
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -55,13 +55,13 @@ namespace Kwetter.Services.ProfileService.Application.Services
             return response;
         }
 
-        public async Task<Response<ProfileDto>> CreateProfileAsync(Guid id, string avatar, string description, string displayName)
+        public async Task<Response<ProfileDto>> CreateProfileAsync(string avatar, string description, string displayName)
         {
             Response<ProfileDto> response = new();
             
             Profile profile = new Profile
             {
-                Id = id,
+                Id = new Guid(),
                 Avatar = avatar,
                 Description = description,
                 DisplayName = displayName,

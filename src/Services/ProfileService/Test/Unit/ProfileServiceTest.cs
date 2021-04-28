@@ -75,7 +75,7 @@ namespace Kwetter.Services.ProfileService.Test.Unit
             };
 
             var result =
-                await _profileService.CreateProfileAsync(entity.Id, entity.Avatar, entity.Description,
+                await _profileService.CreateProfileAsync(entity.Avatar, entity.Description,
                     entity.DisplayName);
             Assert.IsTrue(result.Success);
             

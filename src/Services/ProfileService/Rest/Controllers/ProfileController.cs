@@ -50,7 +50,7 @@ namespace Kwetter.Services.ProfileService.Rest.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _profileService.CreateProfileAsync(createProfileRequest.Id, createProfileRequest.Avatar,
+                var response = await _profileService.CreateProfileAsync(createProfileRequest.Avatar,
                     createProfileRequest.Description, createProfileRequest.DisplayName);
 
                 return response.Success ? new OkObjectResult(response.Data) : StatusCode(500);

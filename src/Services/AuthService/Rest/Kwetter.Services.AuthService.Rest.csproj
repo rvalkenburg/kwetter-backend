@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="FirebaseAdmin" Version="2.1.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.4" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
@@ -16,6 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Infrastructure\Kwetter.Services.AuthService.Infrastructure.csproj" />
+      <ProjectReference Include="..\Persistence\Kwetter.Services.AuthService.Persistence.csproj" />
     </ItemGroup>
 
 </Project>

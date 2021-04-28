@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Kwetter.Services.AuthService.Application.Common.Interfaces;
 using Kwetter.Services.AuthService.Rest.Models.Requests;
-using Kwetter.Services.AuthService.Rest.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,9 +22,8 @@ namespace Kwetter.Services.AuthService.Rest.Controllers
         public async Task<IActionResult> Register([FromBody] AuthorizationRequest authorizationRequest)
         {
             if (!ModelState.IsValid) return BadRequest();
-            await _authService.AuthorizeAsync(authorizationRequest.Code);
-            
-            return Ok();
+            var response = await _authService.AuthorizeAsync(authorizationRequest.Code);
+            return response.Success ? new OkObjectResult(response) : StatusCode(500);
         }
     }
 }
