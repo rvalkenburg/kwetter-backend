@@ -55,7 +55,7 @@ namespace Kwetter.Services.ProfileService.Application.Services
             return response;
         }
 
-        public async Task<Response<ProfileDto>> CreateProfileAsync(string avatar, string description, string displayName)
+        public async Task<Response<ProfileDto>> CreateProfileAsync(string avatar, string displayName, string googleId, string email)
         {
             Response<ProfileDto> response = new();
             
@@ -63,8 +63,10 @@ namespace Kwetter.Services.ProfileService.Application.Services
             {
                 Id = new Guid(),
                 Avatar = avatar,
-                Description = description,
                 DisplayName = displayName,
+                DateOfCreation = DateTime.Now,
+                Email = email,
+                GoogleId = googleId
             };
 
             await _context.Profiles.AddAsync(profile);
@@ -75,10 +77,41 @@ namespace Kwetter.Services.ProfileService.Application.Services
             ProfileDto profileDto = _mapper.Map<ProfileDto>(profile);
             response.Success = true;
             response.Data = profileDto;
-
-            _newProfileEvent.SendNewProfileEvent(profileDto);
+            //CreateProfileEvent(response.Data);
             
             return response;
+        }
+
+        public async Task<Response<ProfileDto>> UpdateProfileAsync(string displayName, string email, string description, string googleId)
+        {
+            Response<ProfileDto> response = new();
+
+            Profile profile =  _context.Profiles.FirstOrDefault(x => x.GoogleId == googleId);
+            
+            if (profile == null) return response;
+            
+            profile.DisplayName = displayName;
+            profile.Email = email;
+            profile.Description = description;
+            
+            _context.Profiles.Update(profile);
+            bool success = await _context.SaveChangesAsync() > 0;
+
+            if (success)
+            {
+                response.Success = true;
+                response.Data = _mapper.Map<ProfileDto>(profile);
+                //CreateProfileEvent(response.Data);
+            }
+            return response;
+        }
+
+        private void CreateProfileEvent(ProfileDto profileDto)
+        {
+            if (profileDto != null)
+            {
+                _newProfileEvent.SendNewProfileEvent(profileDto);
+            }
         }
     }
 }

@@ -57,26 +57,26 @@ namespace Kwetter.Services.KweetService.Test.Unit
             Assert.True(response.Success);
         }
         
-        [Test]
-        public async Task GetPaginatedKweets()
-        {
-            Profile profile = new Profile
-            {
-                Id = new Guid("0001aec8-1fdd-42ae-b552-9cbfb693767e"),
-                DisplayName = "John Doe",
-                Avatar = "Avatar.png"
-                
-            };
-
-            await _context.Profiles.AddAsync(profile);
-            await _context.SaveChangesAsync();
-            
-            await _kweetService.CreateKweetAsync(new Guid("0001aec8-1fdd-42ae-b552-9cbfb693767e"), "Test");
-            await _kweetService.CreateKweetAsync(new Guid("0001aec8-1fdd-42ae-b552-9cbfb693767e"), "Test");
-            
-            var response = await _kweetService.GetPaginatedKweets(0, 1);
-            
-            Assert.AreEqual(1, response.Data.Count());
-        }
+        // [Test]
+        // public async Task GetPaginatedKweets()
+        // {
+        //     Profile profile = new Profile
+        //     {
+        //         Id = new Guid("0001aec8-1fdd-42ae-b552-9cbfb693767e"),
+        //         DisplayName = "John Doe",
+        //         Avatar = "Avatar.png"
+        //         
+        //     };
+        //
+        //     await _context.Profiles.AddAsync(profile);
+        //     await _context.SaveChangesAsync();
+        //     
+        //     await _kweetService.CreateKweetAsync(new Guid("0001aec8-1fdd-42ae-b552-9cbfb693767e"), "Test");
+        //     await _kweetService.CreateKweetAsync(new Guid("0001aec8-1fdd-42ae-b552-9cbfb693767e"), "Test");
+        //     
+        //     var response = await _kweetService.GetPaginatedKweets(0, 1);
+        //     
+        //     Assert.AreEqual(1, response.Data.Count());
+        // }
     }
 }

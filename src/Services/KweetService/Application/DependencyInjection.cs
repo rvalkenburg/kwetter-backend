@@ -14,6 +14,7 @@ namespace Kwetter.Services.KweetService.Application
         {
             services.AddScoped<IKweetService, Application.Services.KweetService>();
             services.AddScoped<IProfileService, ProfileService>();
+            services.AddScoped<ILikeService, LikeService>();
             
             ConsumerConfig config = new ConsumerConfig
             {

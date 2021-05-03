@@ -75,8 +75,8 @@ namespace Kwetter.Services.ProfileService.Test.Unit
             };
 
             var result =
-                await _profileService.CreateProfileAsync(entity.Avatar, entity.Description,
-                    entity.DisplayName);
+                await _profileService.CreateProfileAsync(entity.Avatar, entity.DisplayName,
+                    "d1080a8c-a1b5-4b14-8d30-ee74dccc500d", "jdoe@contoso.com");
             Assert.IsTrue(result.Success);
             
         }

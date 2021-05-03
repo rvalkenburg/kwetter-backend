@@ -48,11 +48,16 @@ namespace Kwetter.Services.KweetService.Application.Services
             return response;
         }
 
-        public async Task<Response<IEnumerable<KweetDto>>> GetPaginatedKweets(int pageNumber, int pageSize)
+        public async Task<Response<IEnumerable<KweetDto>>> GetPaginatedKweetsByProfile(int pageNumber, int pageSize, Guid profileId)
         {
+            
             Response<IEnumerable<KweetDto>> response = new();
             
+            Profile profile = await _context.Profiles.FindAsync(profileId);
+            
             IEnumerable<Kweet> entities = await _context.Kweets
+                .Where(x => x.Profile == profile)
+                .OrderBy(x => x.DateOfCreation)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -61,8 +66,8 @@ namespace Kwetter.Services.KweetService.Application.Services
             {
                 return response;
             }
-            
-            response.Data = _mapper.Map<IEnumerable<KweetDto>>(entities);
+
+            response.Data = _mapper.Map<IEnumerable<Kweet>, IEnumerable<KweetDto>>(entities);
             response.Success = true;
 
             return response;

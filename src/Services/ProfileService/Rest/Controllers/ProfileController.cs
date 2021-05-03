@@ -51,7 +51,22 @@ namespace Kwetter.Services.ProfileService.Rest.Controllers
             if (ModelState.IsValid)
             {
                 var response = await _profileService.CreateProfileAsync(createProfileRequest.Avatar,
-                    createProfileRequest.Description, createProfileRequest.DisplayName);
+                    createProfileRequest.DisplayName, createProfileRequest.GoogleId, createProfileRequest.Email);
+
+                return response.Success ? new OkObjectResult(response.Data) : StatusCode(500);
+            }
+            return StatusCode(500);
+        }
+        
+        [HttpPut("")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Update([FromBody] UpdateProfileRequest updateProfileRequest)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _profileService.UpdateProfileAsync(updateProfileRequest.DisplayName,
+                    updateProfileRequest.Email, updateProfileRequest.Description, updateProfileRequest.GoogleId);
 
                 return response.Success ? new OkObjectResult(response.Data) : StatusCode(500);
             }

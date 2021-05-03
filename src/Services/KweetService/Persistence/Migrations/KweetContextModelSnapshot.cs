@@ -25,6 +25,9 @@ namespace Kwetter.Services.KweetService.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
@@ -43,6 +46,9 @@ namespace Kwetter.Services.KweetService.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid?>("KweetId")
                         .HasColumnType("uniqueidentifier");

@@ -10,7 +10,7 @@ namespace Kwetter.Services.KweetService.Application.Common.Models
         public ProfileDto Profile { get; set; }
         public string Message { get; set; }
         public DateTime DateOfCreation { get; set; }
-
-        public IEnumerable<LikeDto> Likes { get; set; }
+        public int LikeCount { get; set; }
+        public bool IsLiked { get; set; }
     }
 }

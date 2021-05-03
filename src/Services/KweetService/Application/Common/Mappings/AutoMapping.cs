@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Kwetter.Services.KweetService.Application.Common.Models;
 
@@ -8,9 +9,11 @@ namespace Kwetter.Services.KweetService.Application.Common.Mappings
     {
         public AutoMapping()
         {
-            CreateMap<Domain.Entities.Kweet, KweetDto>();
+            CreateMap<Domain.Entities.Kweet, KweetDto>()
+                .ForMember(x => x.LikeCount, o => o.MapFrom(x => x.Likes.Count()))
+                .ForMember(x => x.IsLiked, o => o.MapFrom(x => x.Likes.Any(c => c.Profile == x.Profile)));
+
             CreateMap<Domain.Entities.Profile, ProfileDto>();
-            CreateMap<Domain.Entities.Like, LikeDto>();
 
 
         }

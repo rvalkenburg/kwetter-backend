@@ -6,8 +6,8 @@ namespace Kwetter.Services.KweetService.Application.Common.Interfaces
 {
     public interface ILikeService
     {
-        Task<Response<LikeDto>> CreateLikeAsync(Guid profileId, Guid kweetId);
-        Task<Response<LikeDto>> DeleteLikeAsync(Guid id);
+        Task<Response<int>> CreateLikeAsync(Guid profileId, Guid kweetId);
+        Task<Response<int>> DeleteLikeAsync(Guid id);
 
     }
 }

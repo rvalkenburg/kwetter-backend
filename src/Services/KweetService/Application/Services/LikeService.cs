@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kwetter.Services.KweetService.Application.Common.Interfaces;
@@ -19,9 +20,9 @@ namespace Kwetter.Services.KweetService.Application.Services
             _mapper = mapper;
         }
         
-        public async Task<Response<LikeDto>> CreateLikeAsync(Guid profileId, Guid kweetId)
+        public async Task<Response<int>> CreateLikeAsync(Guid profileId, Guid kweetId)
         {
-            Response<LikeDto> response = new Response<LikeDto>();
+            Response<int> response = new Response<int>();
             
             Kweet kweet = await _context.Kweets.FindAsync(kweetId);
             Profile profile = await _context.Profiles.FindAsync(profileId);
@@ -39,15 +40,16 @@ namespace Kwetter.Services.KweetService.Application.Services
 
             if (success)
             {
+                response.Data = kweet.Likes.Count();
                 response.Success = true;
             }
 
             return response;
         }
 
-        public async Task<Response<LikeDto>> DeleteLikeAsync(Guid id)
+        public async Task<Response<int>> DeleteLikeAsync(Guid id)
         {
-            Response<LikeDto> response = new Response<LikeDto>();
+            Response<int> response = new Response<int>();
 
             Like like = new Like()
             {
