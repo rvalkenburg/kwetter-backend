@@ -14,8 +14,6 @@ namespace Kwetter.Services.KweetService.Application.Common.Mappings
                 .ForMember(x => x.IsLiked, o => o.MapFrom(x => x.Likes.Any(c => c.Profile == x.Profile)));
 
             CreateMap<Domain.Entities.Profile, ProfileDto>();
-
-
         }
     }
 }

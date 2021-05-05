@@ -2,11 +2,13 @@ using Kwetter.Services.ProfileService.Application;
 using Kwetter.Services.ProfileService.Application.Common.Interfaces;
 using Kwetter.Services.ProfileService.Infrastructure;
 using Kwetter.Services.ProfileService.Persistence;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace Kwetter.Services.ProfileService.Rest
@@ -24,10 +26,23 @@ namespace Kwetter.Services.ProfileService.Rest
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
             services.AddApplication();
             services.AddPersistence(Configuration);
             services.AddInfrastructure(Configuration);
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = "https://securetoken.google.com/s64-1-vetis";
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = "https://securetoken.google.com/s64-1-vetis",
+                        ValidateAudience = true,
+                        ValidAudience = "s64-1-vetis",
+                        ValidateLifetime = true
+                    };
+                });
             services.AddSwaggerGen(c=> {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
                     Title="Kwetter",
@@ -36,6 +51,8 @@ namespace Kwetter.Services.ProfileService.Rest
                 });
             });
             services.AddScoped<IProfileService, Application.Services.ProfileService>();
+            services.AddControllers();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,9 +66,10 @@ namespace Kwetter.Services.ProfileService.Rest
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kwetter");
                 });
             }
-
-
+            
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -1,10 +1,12 @@
 using Kwetter.Services.KweetService.Application;
 using Kwetter.Services.KweetService.Persistence;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace Kwetter.Services.KweetService.Rest
@@ -27,6 +29,20 @@ namespace Kwetter.Services.KweetService.Rest
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddPersistence(Configuration);
             services.AddApplication(Configuration);
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = "https://securetoken.google.com/s64-1-vetis";
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = "https://securetoken.google.com/s64-1-vetis",
+                        ValidateAudience = true,
+                        ValidAudience = "my-firebase-project",
+                        ValidateLifetime = true
+                    };
+                });
             services.AddSwaggerGen(c=> {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
                     Title="Kwetter",
@@ -48,6 +64,8 @@ namespace Kwetter.Services.KweetService.Rest
             }
             
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kwetter.Services.KweetService.Application.Common.Interfaces;
@@ -71,6 +72,25 @@ namespace Kwetter.Services.KweetService.Application.Services
             response.Success = true;
 
             return response;
+        }
+
+        private void GetHashTagsFromMessage(string message)
+        {
+            var regex = new Regex(@"#\w+");
+            var matches = regex.Matches(message);
+            foreach (var match in matches)
+            {
+                Console.WriteLine(match);
+            }
+        }
+        private void GetMentionsFromMessage(string message)
+        {
+            var regex = new Regex(@"@\w+");
+            var matches = regex.Matches(message);
+            foreach (var match in matches)
+            {
+                Console.WriteLine(match);
+            }
         }
     }
 }

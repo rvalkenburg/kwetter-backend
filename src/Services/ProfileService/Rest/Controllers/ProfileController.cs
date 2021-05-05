@@ -10,7 +10,7 @@ namespace Kwetter.Services.ProfileService.Rest.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [AllowAnonymous]
+    [Authorize]
     public class ProfileController : ControllerBase
     {
         private readonly IProfileService _profileService;
@@ -20,12 +20,12 @@ namespace Kwetter.Services.ProfileService.Rest.Controllers
             _profileService = profileService;
         }
         
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> Get(string id)
         {
-            var response = await _profileService.GetProfileAsync(id);
+            var response = await _profileService.GetProfileAsync(new Guid(id));
             return response.Success ? new OkObjectResult(response.Data) : new NotFoundResult();
         }
         

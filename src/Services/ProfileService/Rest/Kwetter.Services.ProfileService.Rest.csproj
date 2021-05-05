@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -13,10 +14,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\KweetService\Consumer\Kwetter.Services.KweetService.Consumer.csproj" />
       <ProjectReference Include="..\Application\Kwetter.Services.ProfileService.Application.csproj" />
       <ProjectReference Include="..\Infrastructure\Kwetter.Services.ProfileService.Infrastructure.csproj" />
       <ProjectReference Include="..\Persistence\Kwetter.Services.ProfileService.Persistence.csproj" />
     </ItemGroup>
-
 </Project>

@@ -10,7 +10,7 @@ namespace Kwetter.Services.KweetService.Rest.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [AllowAnonymous]
+    [Authorize]
     public class LikeController : ControllerBase
     {
         private readonly ILikeService _likeService;
@@ -25,17 +25,21 @@ namespace Kwetter.Services.KweetService.Rest.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create([FromBody] LikeKweetRequest likeKweetRequest)
         {
-            var response = await _likeService.CreateLikeAsync(new Guid(likeKweetRequest.ProfileId),
-                new Guid(likeKweetRequest.KweetId));
-            return response.Success ? new OkObjectResult(response) : StatusCode(500);
+            if (ModelState.IsValid)
+            {
+                var response = await _likeService.CreateLikeAsync(new Guid(likeKweetRequest.ProfileId),
+                    new Guid(likeKweetRequest.KweetId));
+                return response.Success ? new OkObjectResult(response) : StatusCode(500);
+            }
+            return StatusCode(500);
         }
         
-        [HttpDelete("{likeId}")]
+        [HttpDelete("{profileId}/{kweetId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Delete(string likeId)
+        public async Task<IActionResult> Delete(string profileId, string kweetId)
         {
-            var response = await _likeService.DeleteLikeAsync(new Guid(likeId));
+            var response = await _likeService.DeleteLikeAsync(new Guid(profileId), new Guid(kweetId));
             return response.Success ? new OkObjectResult(response) : StatusCode(500);
         }
     }

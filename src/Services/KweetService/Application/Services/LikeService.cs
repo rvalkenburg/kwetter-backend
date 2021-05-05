@@ -47,23 +47,23 @@ namespace Kwetter.Services.KweetService.Application.Services
             return response;
         }
 
-        public async Task<Response<int>> DeleteLikeAsync(Guid id)
+        public async Task<Response<int>> DeleteLikeAsync(Guid profileId, Guid kweetId)
         {
             Response<int> response = new Response<int>();
 
-            Like like = new Like()
-            {
-                Id = id,
-            };
-            
-            _context.Likes.Remove(like);
-            bool success = await _context.SaveChangesAsync() > 0;
+            Kweet kweet = await _context.Kweets.FindAsync(kweetId);
+            Profile profile = await _context.Profiles.FindAsync(profileId);
 
-            if (success)
+            Like like = _context.Likes.FirstOrDefault(x => x.Profile == profile && x.Kweet == kweet);
+            if (like != null)
             {
-                response.Success = true;
+                _context.Likes.Remove(like);
+                bool success = await _context.SaveChangesAsync() > 0;
+                if (success)
+                {
+                    response.Success = true;
+                }
             }
-
             return response;
         }
     }
