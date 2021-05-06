@@ -4,4 +4,11 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Common\Interfaces" />
+      <Folder Include="Common\Mappings" />
+      <Folder Include="Common\Models" />
+      <Folder Include="Services" />
+    </ItemGroup>
+
 </Project>
