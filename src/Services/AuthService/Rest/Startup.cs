@@ -1,5 +1,3 @@
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
 using Kwetter.Services.AuthService.Application.Common.Interfaces;
 using Kwetter.Services.AuthService.Infrastructure;
 using Kwetter.Services.AuthService.Persistence;
@@ -29,14 +27,6 @@ namespace Kwetter.Services.AuthService.Rest
             services.AddPersistence(Configuration);
             services.AddInfrastructure(Configuration);
             services.AddScoped<IAuthService, Application.Services.AuthService>();
-            FirebaseApp.Create(new AppOptions()
-            {
-                Credential = GoogleCredential.FromFile("s64-1-vetis-b11d08b838cc"),
-            });
-
-
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
