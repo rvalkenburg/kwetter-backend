@@ -37,10 +37,11 @@ namespace Kwetter.Services.KweetService.Application.Services
                 DateOfCreation = DateTime.Now,
             };
             
+            
             await _context.Kweets.AddAsync(kweet);
             bool success = await _context.SaveChangesAsync() > 0;
-
-            if (success)
+            bool addedTags = await GetHashTagsFromMessage(kweet);
+            if (success && addedTags)
             {
                 response.Success = true;
                 response.Data = _mapper.Map<KweetDto>(kweet);
@@ -74,23 +75,38 @@ namespace Kwetter.Services.KweetService.Application.Services
             return response;
         }
 
-        private void GetHashTagsFromMessage(string message)
+        public async Task<Response<IEnumerable<KweetDto>>> GetPaginatedTrendingKweets(int pageNumber, int pageSize)
         {
-            var regex = new Regex(@"#\w+");
-            var matches = regex.Matches(message);
-            foreach (var match in matches)
-            {
-                Console.WriteLine(match);
-            }
+            Response<IEnumerable<KweetDto>> response = new();
+
+            return response;
         }
-        private void GetMentionsFromMessage(string message)
+
+        private async Task<bool> GetHashTagsFromMessage(Kweet kweet)
         {
-            var regex = new Regex(@"@\w+");
-            var matches = regex.Matches(message);
-            foreach (var match in matches)
+            List<HashTag> tags = new List<HashTag>();
+            
+            var regex = new Regex(@"#\w+");
+            var matches = regex.Matches(kweet.Message);
+            if (matches.Count > 0)
             {
-                Console.WriteLine(match);
+                foreach (var match in matches)
+                {
+                    HashTag tag = new HashTag
+                    {
+                        Tag = match.ToString().ToLower(),
+                        Kweet = kweet,
+                    };
+                    tags.Add(tag);
+                }
+                _context.Tags.AddRange(tags);
+                bool success = await _context.SaveChangesAsync() > 0;
+                if (!success)
+                {
+                    return false;
+                }
             }
+            return true;
         }
     }
 }

@@ -10,6 +10,8 @@ namespace Kwetter.Services.KweetService.Persistence.Contexts
         public DbSet<Kweet> Kweets { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Profile> Profiles { get; set; }
+        
+        public DbSet<HashTag> Tags { get; set; }
 
         public Task<int> SaveChangesAsync()
         {
