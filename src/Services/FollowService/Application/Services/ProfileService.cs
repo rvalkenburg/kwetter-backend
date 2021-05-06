@@ -1,15 +1,15 @@
 ﻿using System.Threading.Tasks;
-using Kwetter.Services.KweetService.Application.Common.Interfaces;
-using Kwetter.Services.KweetService.Application.Common.Models;
-using Kwetter.Services.KweetService.Domain.Entities;
+using Kwetter.Services.FollowService.Application.Common.Interfaces;
+using Kwetter.Services.FollowService.Application.Common.Models;
+using Kwetter.Services.FollowService.Domain.Entities;
 
-namespace Kwetter.Services.KweetService.Application.Services
+namespace Kwetter.Services.FollowService.Application.Services
 {
     public class ProfileService : IProfileService
     {
-        private readonly IKweetContext _context;
+        private readonly IFollowContext _context;
         
-        public ProfileService(IKweetContext context)
+        public ProfileService(IFollowContext context)
         {
             _context = context;
         }
@@ -17,7 +17,7 @@ namespace Kwetter.Services.KweetService.Application.Services
         {
             if (profileDto == null) return false;
             
-            Profile profile = await _context.Profiles.FindAsync(profileDto.Id);
+            Profile profile = await _context.Profile.FindAsync(profileDto.Id);
 
             if (profile == null)
             {
@@ -31,7 +31,7 @@ namespace Kwetter.Services.KweetService.Application.Services
         {
             profile.Avatar = profileDto.Avatar;
             profile.DisplayName = profileDto.DisplayName;
-            _context.Profiles.Update(profile);
+            _context.Profile.Update(profile);
             return await _context.SaveChangesAsync() > 0;
         }
         
@@ -44,7 +44,7 @@ namespace Kwetter.Services.KweetService.Application.Services
                 Avatar = profileDto.Avatar
             };
             
-            _context.Profiles.Add(profile);
+            _context.Profile.Add(profile);
             return await _context.SaveChangesAsync() > 0;
         }
     }

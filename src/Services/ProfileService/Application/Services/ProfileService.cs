@@ -77,7 +77,7 @@ namespace Kwetter.Services.ProfileService.Application.Services
             ProfileDto profileDto = _mapper.Map<ProfileDto>(profile);
             response.Success = true;
             response.Data = profileDto;
-            //CreateProfileEvent(response.Data);
+            CreateProfileEvent(response.Data);
             
             return response;
         }
@@ -101,7 +101,7 @@ namespace Kwetter.Services.ProfileService.Application.Services
             {
                 response.Success = true;
                 response.Data = _mapper.Map<ProfileDto>(profile);
-                //CreateProfileEvent(response.Data);
+                CreateProfileEvent(response.Data);
             }
             return response;
         }

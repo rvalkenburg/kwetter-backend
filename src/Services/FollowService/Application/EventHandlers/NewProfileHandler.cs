@@ -2,12 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Confluent.Kafka;
-using Kwetter.Services.KweetService.Application.Common.Interfaces;
-using Kwetter.Services.KweetService.Application.Common.Models;
+using Kwetter.Services.FollowService.Application.Common.Interfaces;
+using Kwetter.Services.FollowService.Application.Common.Models;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
-namespace Kwetter.Services.KweetService.Application.EventHandlers
+namespace Kwetter.Services.FollowService.Application.EventHandlers
 {
     public class NewProfileHandler : BackgroundService
     {
