@@ -19,7 +19,6 @@ namespace Kwetter.Services.KweetService.Rest
         {
             Configuration = configuration;
         }
-
         
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -39,7 +38,7 @@ namespace Kwetter.Services.KweetService.Rest
                         ValidateIssuer = true,
                         ValidIssuer = "https://securetoken.google.com/s64-1-vetis",
                         ValidateAudience = true,
-                        ValidAudience = "my-firebase-project",
+                        ValidAudience = "s64-1-vetis",
                         ValidateLifetime = true
                     };
                 });

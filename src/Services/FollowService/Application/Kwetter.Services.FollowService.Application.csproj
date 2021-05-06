@@ -5,10 +5,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Common\Interfaces" />
-      <Folder Include="Common\Mappings" />
-      <Folder Include="Common\Models" />
-      <Folder Include="Services" />
+        <PackageReference Include="AutoMapper" Version="10.1.1" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+        <PackageReference Include="Confluent.Kafka" Version="1.6.3" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.4" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Domain\Kwetter.Services.FollowService.Domain.csproj" />
     </ItemGroup>
 
 </Project>
