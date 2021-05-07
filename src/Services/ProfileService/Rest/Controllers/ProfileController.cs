@@ -10,7 +10,7 @@ namespace Kwetter.Services.ProfileService.Rest.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [AllowAnonymous]
     public class ProfileController : ControllerBase
     {
         private readonly IProfileService _profileService;
