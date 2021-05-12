@@ -59,6 +59,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kwetter.Gateway", "Kwetter.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.Gateway", "Gateway\KwetterGateway\Kwetter.Gateway.csproj", "{C4A894ED-F828-4738-BF99-60EABA08EEB8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwetter.Services.FollowService.Infrastructure", "Services\FollowService\Infrastructure\Kwetter.Services.FollowService.Infrastructure.csproj", "{24217BBC-12C5-49C4-8AAC-47C14E68353E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,6 +100,7 @@ Global
 		{E422507D-26CA-43D0-9F3D-58A24593E361} = {218420C9-6548-41E7-B916-277D31FD5744}
 		{BBF2B285-A36D-4C70-9546-77C07CB769F5} = {218420C9-6548-41E7-B916-277D31FD5744}
 		{C4A894ED-F828-4738-BF99-60EABA08EEB8} = {D39BC283-226E-459E-83C6-F6A0EF19F9F0}
+		{24217BBC-12C5-49C4-8AAC-47C14E68353E} = {218420C9-6548-41E7-B916-277D31FD5744}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B3FCAC2B-17D0-4EBF-8CAD-8D80E735468C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -364,5 +367,17 @@ Global
 		{C4A894ED-F828-4738-BF99-60EABA08EEB8}.Release|x64.Build.0 = Release|Any CPU
 		{C4A894ED-F828-4738-BF99-60EABA08EEB8}.Release|x86.ActiveCfg = Release|Any CPU
 		{C4A894ED-F828-4738-BF99-60EABA08EEB8}.Release|x86.Build.0 = Release|Any CPU
+		{24217BBC-12C5-49C4-8AAC-47C14E68353E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24217BBC-12C5-49C4-8AAC-47C14E68353E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24217BBC-12C5-49C4-8AAC-47C14E68353E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{24217BBC-12C5-49C4-8AAC-47C14E68353E}.Debug|x64.Build.0 = Debug|Any CPU
+		{24217BBC-12C5-49C4-8AAC-47C14E68353E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{24217BBC-12C5-49C4-8AAC-47C14E68353E}.Debug|x86.Build.0 = Debug|Any CPU
+		{24217BBC-12C5-49C4-8AAC-47C14E68353E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24217BBC-12C5-49C4-8AAC-47C14E68353E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24217BBC-12C5-49C4-8AAC-47C14E68353E}.Release|x64.ActiveCfg = Release|Any CPU
+		{24217BBC-12C5-49C4-8AAC-47C14E68353E}.Release|x64.Build.0 = Release|Any CPU
+		{24217BBC-12C5-49C4-8AAC-47C14E68353E}.Release|x86.ActiveCfg = Release|Any CPU
+		{24217BBC-12C5-49C4-8AAC-47C14E68353E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

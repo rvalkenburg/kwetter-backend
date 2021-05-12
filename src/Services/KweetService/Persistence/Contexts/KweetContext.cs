@@ -12,6 +12,7 @@ namespace Kwetter.Services.KweetService.Persistence.Contexts
         public DbSet<Profile> Profiles { get; set; }
         
         public DbSet<HashTag> Tags { get; set; }
+        public DbSet<Follow> Follows { get; set; }
 
         public Task<int> SaveChangesAsync()
         {

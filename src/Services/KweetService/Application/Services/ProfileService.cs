@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Kwetter.Services.KweetService.Application.Common.Interfaces;
 using Kwetter.Services.KweetService.Application.Common.Models;
+using Kwetter.Services.KweetService.Application.Events;
 using Kwetter.Services.KweetService.Domain.Entities;
 
 namespace Kwetter.Services.KweetService.Application.Services
@@ -13,35 +14,35 @@ namespace Kwetter.Services.KweetService.Application.Services
         {
             _context = context;
         }
-        public async Task<bool> AddOrUpdateProfile(ProfileDto profileDto)
+        public async Task<bool> AddOrUpdateProfile(ProfileEvent profileEvent)
         {
-            if (profileDto == null) return false;
+            if (profileEvent == null) return false;
             
-            Profile profile = await _context.Profiles.FindAsync(profileDto.Id);
+            Profile profile = await _context.Profiles.FindAsync(profileEvent.Id);
 
             if (profile == null)
             {
-                return await AddProfile(profileDto);
+                return await AddProfile(profileEvent);
             }
 
-            return await UpdateProfile(profile, profileDto);
+            return await UpdateProfile(profile, profileEvent);
         }
 
-        private async Task<bool> UpdateProfile(Profile profile, ProfileDto profileDto)
+        private async Task<bool> UpdateProfile(Profile profile, ProfileEvent profileEvent)
         {
-            profile.Avatar = profileDto.Avatar;
-            profile.DisplayName = profileDto.DisplayName;
+            profile.Avatar = profileEvent.Avatar;
+            profile.DisplayName = profileEvent.DisplayName;
             _context.Profiles.Update(profile);
             return await _context.SaveChangesAsync() > 0;
         }
         
-        private async Task<bool> AddProfile(ProfileDto profileDto)
+        private async Task<bool> AddProfile(ProfileEvent profileEvent)
         {
             Profile profile = new Profile
             {
-                Id = profileDto.Id,
-                DisplayName = profileDto.DisplayName,
-                Avatar = profileDto.Avatar
+                Id = profileEvent.Id,
+                DisplayName = profileEvent.DisplayName,
+                Avatar = profileEvent.Avatar
             };
             
             _context.Profiles.Add(profile);

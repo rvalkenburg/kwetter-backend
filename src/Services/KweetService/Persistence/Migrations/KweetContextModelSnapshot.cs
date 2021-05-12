@@ -19,6 +19,46 @@ namespace Kwetter.Services.KweetService.Persistence.Migrations
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Kwetter.Services.KweetService.Domain.Entities.Follow", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("FollowerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FollowerId");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("Follows");
+                });
+
+            modelBuilder.Entity("Kwetter.Services.KweetService.Domain.Entities.HashTag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("KweetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Tag")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KweetId");
+
+                    b.ToTable("Tags");
+                });
+
             modelBuilder.Entity("Kwetter.Services.KweetService.Domain.Entities.Kweet", b =>
                 {
                     b.Property<Guid>("Id")
@@ -80,6 +120,30 @@ namespace Kwetter.Services.KweetService.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Profiles");
+                });
+
+            modelBuilder.Entity("Kwetter.Services.KweetService.Domain.Entities.Follow", b =>
+                {
+                    b.HasOne("Kwetter.Services.KweetService.Domain.Entities.Profile", "Follower")
+                        .WithMany()
+                        .HasForeignKey("FollowerId");
+
+                    b.HasOne("Kwetter.Services.KweetService.Domain.Entities.Profile", "Profile")
+                        .WithMany()
+                        .HasForeignKey("ProfileId");
+
+                    b.Navigation("Follower");
+
+                    b.Navigation("Profile");
+                });
+
+            modelBuilder.Entity("Kwetter.Services.KweetService.Domain.Entities.HashTag", b =>
+                {
+                    b.HasOne("Kwetter.Services.KweetService.Domain.Entities.Kweet", "Kweet")
+                        .WithMany()
+                        .HasForeignKey("KweetId");
+
+                    b.Navigation("Kweet");
                 });
 
             modelBuilder.Entity("Kwetter.Services.KweetService.Domain.Entities.Kweet", b =>

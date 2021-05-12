@@ -12,6 +12,11 @@ namespace Kwetter.Services.FollowService.Application.Common.Mappings
                 .ForMember(x => x.Avatar, opt => opt.MapFrom(o => o.Follower.Avatar))
                 .ForMember(x => x.DisplayName, opt => opt.MapFrom(o => o.Follower.DisplayName))
                 .ForMember(x => x.Id, opt => opt.MapFrom(o => o.Follower.Id));
+                
+            CreateMap<Follow, FollowingDto>()
+                .ForMember(x => x.Avatar, opt => opt.MapFrom(o => o.Profile.Avatar))
+                .ForMember(x => x.DisplayName, opt => opt.MapFrom(o => o.Profile.DisplayName))
+                .ForMember(x => x.Id, opt => opt.MapFrom(o => o.Profile.Id));
         }
     }
 }

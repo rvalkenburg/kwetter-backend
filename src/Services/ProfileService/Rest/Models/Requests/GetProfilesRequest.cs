@@ -10,6 +10,6 @@ namespace Kwetter.Services.ProfileService.Rest.Models.Requests
         
         [Required]
         public int PageNumber { get; set; }
-        public int Name { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -9,9 +9,7 @@ namespace Kwetter.Services.KweetService.Domain.Entities
         public Guid Id { get; set; }
         public virtual Profile Profile { get; set; }
         public string Message { get; set; }
-
         public DateTime DateOfCreation { get; set; }
-
         public virtual IEnumerable<Like> Likes { get; set; }
     }
 }

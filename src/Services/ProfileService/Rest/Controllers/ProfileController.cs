@@ -29,14 +29,15 @@ namespace Kwetter.Services.ProfileService.Rest.Controllers
             return response.Success ? new OkObjectResult(response.Data) : new NotFoundResult();
         }
         
-        [HttpGet("")]
+        [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPaginated(GetProfilesRequest profilesRequest)
+        public async Task<IActionResult> GetPaginated([FromQuery] GetProfilesRequest profilesRequest)
         {
             if (ModelState.IsValid)
             {
-                var response = await _profileService.GetPaginatedProfiles(profilesRequest.PageSize, profilesRequest.PageNumber);
+                var response = await _profileService.GetPaginatedProfiles(profilesRequest.PageSize, profilesRequest.PageNumber, profilesRequest
+                    .Name);
                 return response.Success ? new OkObjectResult(response) : new NotFoundResult();
             }
 

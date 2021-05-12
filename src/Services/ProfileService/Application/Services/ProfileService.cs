@@ -36,11 +36,12 @@ namespace Kwetter.Services.ProfileService.Application.Services
             return response;
         }
 
-        public async Task<PaginationResponse<ProfileDto>> GetPaginatedProfiles(int pageSize, int pageNumber)
+        public async Task<PaginationResponse<ProfileDto>> GetPaginatedProfiles(int pageSize, int pageNumber, string name)
         {
             PaginationResponse<ProfileDto> response = new();
 
             var entities = await _context.Profiles
+                .Where(x => x.DisplayName == name)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .ToListAsync();

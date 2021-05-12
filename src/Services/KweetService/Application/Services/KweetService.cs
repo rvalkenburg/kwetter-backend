@@ -52,7 +52,6 @@ namespace Kwetter.Services.KweetService.Application.Services
 
         public async Task<Response<IEnumerable<KweetDto>>> GetPaginatedKweetsByProfile(int pageNumber, int pageSize, Guid profileId)
         {
-            
             Response<IEnumerable<KweetDto>> response = new();
             
             Profile profile = await _context.Profiles.FindAsync(profileId);
@@ -75,11 +74,37 @@ namespace Kwetter.Services.KweetService.Application.Services
             return response;
         }
 
+        public async Task<Response<IEnumerable<KweetDto>>> GetPaginatedTimeline(int pageNumber, int pageSize, Guid profileId)
+        {
+            Response<IEnumerable<KweetDto>> response = new();
+            
+            Profile profile = await _context.Profiles.FindAsync(profileId);
+
+            List<Follow> follows = await _context.Follows.Where(x => x.Profile == profile).ToListAsync();
+
+            List<Kweet> kweets = await _context.Kweets.Where(x => follows.Select(y => y.Follower)
+                .Contains(x.Profile))
+                .OrderBy(x => x.DateOfCreation)
+                .Skip(pageNumber * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            if (kweets != null)
+            {
+                response.Data = _mapper.Map<IEnumerable<Kweet>, IEnumerable<KweetDto>>(kweets);;
+            }
+
+            response.Success = true;
+
+            return response;
+        }
+
         public async Task<Response<IEnumerable<KweetDto>>> GetPaginatedTrendingKweets(int pageNumber, int pageSize)
         {
             Response<IEnumerable<KweetDto>> response = new();
 
             return response;
+
         }
 
         private async Task<bool> GetHashTagsFromMessage(Kweet kweet)

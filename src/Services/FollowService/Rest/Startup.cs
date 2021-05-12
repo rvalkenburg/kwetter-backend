@@ -1,4 +1,5 @@
 using Kwetter.Services.FollowService.Application;
+using Kwetter.Services.FollowService.Infrastructure;
 using Kwetter.Services.FollowService.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -28,6 +29,7 @@ namespace Kwetter.Services.FollowService.Rest
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddPersistence(Configuration);
+            services.AddInfrastructure(Configuration);
             services.AddApplication(Configuration);
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
