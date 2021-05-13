@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Kwetter.Services.KweetService.Application.Events;
 
-namespace Kwetter.Services.KweetService.Application.Common.Interfaces
+namespace Kwetter.Services.KweetService.Application.Common.Interfaces.Handlers
 {
     public interface IHandler
     {

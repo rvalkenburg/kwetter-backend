@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 using Confluent.Kafka;
-using Kwetter.Services.KweetService.Application.Common.Interfaces;
+using Kwetter.Services.KweetService.Application.Common.Interfaces.Handlers;
 using Microsoft.Extensions.Hosting;
 
 namespace Kwetter.Services.KweetService.Application.EventHandlers
@@ -35,8 +35,7 @@ namespace Kwetter.Services.KweetService.Application.EventHandlers
                         continue;
                     }
 
-                    bool success = true;
-                    //bool success = await handler.Consume(consumeResult.Message.Value);
+                    bool success = await handler.Consume(consumeResult.Message.Value);
                         
                     if (success)
                     {

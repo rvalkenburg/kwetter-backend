@@ -18,4 +18,8 @@
       <ProjectReference Include="..\Domain\Kwetter.Services.KweetService.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Common\Interfaces\Services" />
+    </ItemGroup>
+
 </Project>
