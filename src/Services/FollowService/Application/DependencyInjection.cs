@@ -1,8 +1,10 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using Confluent.Kafka;
 using Kwetter.Services.FollowService.Application.Common.Interfaces;
+using Kwetter.Services.FollowService.Application.Common.Interfaces.Handlers;
 using Kwetter.Services.FollowService.Application.EventHandlers;
-using Kwetter.Services.FollowService.Application.Services;
+using Kwetter.Services.FollowService.Application.EventHandlers.Profile;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,7 +15,9 @@ namespace Kwetter.Services.FollowService.Application
         public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IFollowService, Application.Services.FollowService>();
-            services.AddScoped<IProfileService, ProfileService>();
+            
+            services.AddScoped<ICreateProfileHandler, CreateProfileHandler>();
+            services.AddScoped<IUpdateProfileHandler, UpdateProfileHandler>();
             
             ConsumerConfig config = new ConsumerConfig
             {
@@ -23,12 +27,19 @@ namespace Kwetter.Services.FollowService.Application
                 EnableAutoCommit = false,
             };
             
-            var consumer = new ConsumerBuilder<Ignore, string>(config).Build();
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+
+            Consumer consumer = new Consumer(config);
+
+            Dictionary<string, IHandler> handlers = new Dictionary<string, IHandler>
+            {
+                {"Update-Profile", serviceProvider.GetRequiredService<IUpdateProfileHandler>()},
+                {"Create-Profile", serviceProvider.GetRequiredService<ICreateProfileHandler>()}
+            };
+            consumer.AddSubscriber(handlers);
             
-            consumer.Subscribe("ProfileUpdated");
-            services.AddHostedService(sp => new NewProfileHandler(consumer, services.BuildServiceProvider().GetRequiredService<IProfileService>()));
+            services.AddHostedService(sp => consumer);
             
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
         }

@@ -14,13 +14,13 @@ namespace Kwetter.Services.ProfileService.Application.Services
     {
         private readonly IProfileContext _context;
         private readonly IMapper _mapper;
-        private readonly INewProfileEvent _newProfileEvent;
+        private readonly IProducer _producer;
         
-        public ProfileService(IProfileContext context, IMapper mapper, INewProfileEvent newProfileEvent)
+        public ProfileService(IProfileContext context, IMapper mapper, IProducer producer)
         {
             _context = context;
             _mapper = mapper;
-            _newProfileEvent = newProfileEvent;
+            _producer = producer;
         }
 
         public async Task<Response<ProfileDto>> GetProfileAsync(Guid id)
@@ -102,7 +102,7 @@ namespace Kwetter.Services.ProfileService.Application.Services
             {
                 response.Success = true;
                 response.Data = _mapper.Map<ProfileDto>(profile);
-                CreateProfileEvent(response.Data);
+                UpdateProfileEvent(response.Data);
             }
             return response;
         }
@@ -111,7 +111,24 @@ namespace Kwetter.Services.ProfileService.Application.Services
         {
             if (profileDto != null)
             {
-                _newProfileEvent.SendNewProfileEvent(profileDto);
+                Event<ProfileDto> createProfileEvent = new Event<ProfileDto>
+                {
+                    Data = profileDto
+                };
+                    
+                _producer.Send("Create-Profile", createProfileEvent);
+            }
+        }
+        
+        private void UpdateProfileEvent(ProfileDto profileDto)
+        {
+            if (profileDto != null)
+            {
+                Event<ProfileDto> updateProfileEvent = new Event<ProfileDto>
+                {
+                    Data = profileDto
+                };
+                _producer.Send("Update-Profile", updateProfileEvent);
             }
         }
     }

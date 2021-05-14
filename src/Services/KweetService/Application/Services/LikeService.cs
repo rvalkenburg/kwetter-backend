@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kwetter.Services.KweetService.Application.Common.Interfaces;
+using Kwetter.Services.KweetService.Application.Common.Interfaces.Services;
 using Kwetter.Services.KweetService.Application.Common.Models;
 using Kwetter.Services.KweetService.Domain.Entities;
 using Profile = Kwetter.Services.KweetService.Domain.Entities.Profile;

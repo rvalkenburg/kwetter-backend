@@ -12,10 +12,9 @@ namespace Kwetter.Services.ProfileService.Infrastructure
         {
             ProducerConfig config = new ProducerConfig
             {
-                BootstrapServers = configuration.GetValue<string>("ProducerConfig:BootstrapServers"),
+                BootstrapServers = configuration.GetValue<string>("ProducerConfig:BootstrapServers"),            
             };
-            var producer = new ProducerBuilder<string, string>(config).Build();
-            services.AddSingleton<INewProfileEvent>(_ => new NewProfileEvent(producer, "ProfileUpdated"));
+            services.AddSingleton<IProducer>(_ => new KafkaProducer(config));
             return services;
         }
     }

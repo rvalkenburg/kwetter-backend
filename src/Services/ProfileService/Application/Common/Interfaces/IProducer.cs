@@ -1,10 +1,10 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using Kwetter.Services.ProfileService.Application.Common.Models;
 
 namespace Kwetter.Services.ProfileService.Application.Common.Interfaces
 {
-    public interface INewProfileEvent
+    public interface IProducer
     {
-        Object SendNewProfileEvent(ProfileDto profile);
+        Task<bool> Send<T>(string topic, Event<T> @event);
     }
 }

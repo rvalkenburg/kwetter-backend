@@ -5,10 +5,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Confluent.Kafka;
-using Kwetter.Services.KweetService.Application.Common.Interfaces.Handlers;
+using Kwetter.Services.FollowService.Application.Common.Interfaces.Handlers;
 using Microsoft.Extensions.Hosting;
 
-namespace Kwetter.Services.KweetService.Application.EventHandlers
+namespace Kwetter.Services.FollowService.Application.EventHandlers
 {
     public class Consumer : BackgroundService
     {

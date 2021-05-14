@@ -1,7 +1,9 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using Confluent.Kafka;
 using Kwetter.Services.KweetService.Application.Common.Interfaces;
 using Kwetter.Services.KweetService.Application.Common.Interfaces.Handlers;
+using Kwetter.Services.KweetService.Application.Common.Interfaces.Services;
 using Kwetter.Services.KweetService.Application.EventHandlers;
 using Kwetter.Services.KweetService.Application.EventHandlers.Follow;
 using Kwetter.Services.KweetService.Application.EventHandlers.Profile;
@@ -30,17 +32,21 @@ namespace Kwetter.Services.KweetService.Application
                 GroupId = configuration.GetValue<string>("ProducerConfig:GroupId"),
                 AutoOffsetReset = AutoOffsetReset.Earliest,
                 EnableAutoCommit = false,
+                AllowAutoCreateTopics = true
             };
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();
 
             Consumer consumer = new Consumer(config);
-            consumer.AddSubscriber("Create-Follow", serviceProvider.GetRequiredService<ICreateFollowHandler>());
-            consumer.AddSubscriber("Delete-Follow", serviceProvider.GetRequiredService<IDeleteFollowHandler>());
-            consumer.AddSubscriber("Update-Profile", serviceProvider.GetRequiredService<IUpdateProfileHandler>());
-            consumer.AddSubscriber("Create-Profile", serviceProvider.GetRequiredService<ICreateProfileHandler>());
-            services.AddHostedService(sp => consumer);
             
+            Dictionary<string, IHandler> handlers = new Dictionary<string, IHandler>();
+            handlers.Add("Create-Follow", serviceProvider.GetRequiredService<ICreateFollowHandler>());
+            handlers.Add("Delete-Follow", serviceProvider.GetRequiredService<IDeleteFollowHandler>());
+            handlers.Add("Update-Profile", serviceProvider.GetRequiredService<IUpdateProfileHandler>());
+            handlers.Add("Create-Profile", serviceProvider.GetRequiredService<ICreateProfileHandler>());
+            consumer.AddSubscriber(handlers);
+            
+            services.AddHostedService(sp => consumer);
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
         }

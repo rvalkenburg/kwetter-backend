@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Confluent.Kafka;
 using Kwetter.Services.ProfileService.Application.Common.Interfaces;
 using Kwetter.Services.ProfileService.Application.Common.Models;
@@ -6,34 +7,31 @@ using Newtonsoft.Json;
 
 namespace Kwetter.Services.ProfileService.Infrastructure.Producer
 {
-    public class NewProfileEvent : INewProfileEvent, IDisposable
+    public class KafkaProducer : IProducer, IDisposable
     {
         private readonly IProducer<string, string> _producer;
-        private readonly string _topic;
+        private readonly Message<string, string> _message;
 
-        public NewProfileEvent(IProducer<string, string> producer, string topic)
+        public KafkaProducer(ProducerConfig config)
         {
-            _producer = producer;
-            _topic = topic;
+            _producer = new ProducerBuilder<string, string>(config).Build();
+            _message = new Message<string, string>();
         }
 
-        public object SendNewProfileEvent(ProfileDto profileDto)
+        public async Task<bool> Send<T>(string topic, Event<T> @event)
         {
-            Message<string, string> message = new()
-            {
-                Value = JsonConvert.SerializeObject(profileDto),
-            };
-
             try
             {
-                return _producer.ProduceAsync(_topic, message);
+                _message.Value = JsonConvert.SerializeObject(@event.Data);
+                await _producer.ProduceAsync(topic, _message);
+                return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Oops, something went wrong: {e}");
             }
 
-            return null;
+            return false;
         }
 
         public void Dispose()

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Kwetter.Services.KweetService.Application.Common.Interfaces;
+using Kwetter.Services.KweetService.Application.Common.Interfaces.Services;
 using Kwetter.Services.KweetService.Rest.Models.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

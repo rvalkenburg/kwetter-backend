@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Kwetter.Services.KweetService.Application.Events
+namespace Kwetter.Services.FollowService.Application.Events
 {
-    public class ProfileEvent 
+    public class ProfileEvent
     {
         public Guid Id { get; set; }
         public string DisplayName { get; set; }

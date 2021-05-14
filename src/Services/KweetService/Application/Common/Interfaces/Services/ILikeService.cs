@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Kwetter.Services.KweetService.Application.Common.Models;
 
-namespace Kwetter.Services.KweetService.Application.Common.Interfaces
+namespace Kwetter.Services.KweetService.Application.Common.Interfaces.Services
 {
     public interface ILikeService
     {

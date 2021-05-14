@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kwetter.Services.KweetService.Application.Events
+namespace Kwetter.Services.FollowService.Application.Events
 {
     public class FollowEvent
     {
