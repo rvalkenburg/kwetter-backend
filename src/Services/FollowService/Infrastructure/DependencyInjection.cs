@@ -15,8 +15,7 @@ namespace Kwetter.Services.FollowService.Infrastructure
                 BootstrapServers = configuration.GetValue<string>("ProducerConfig:BootstrapServers"),
             };
             var producer = new ProducerBuilder<string, string>(config).Build();
-            services.AddSingleton<INewFollowEvent>(_ => new NewFollowEvent(producer, "FollowCreated"));
-            services.AddSingleton<IDeleteFollowEvent>(_ => new DeleteFollowEvent(producer, "FollowDelete"));
+            services.AddSingleton<IProducer>(_ => new KafkaProducer(config));
             return services;
         }
     }

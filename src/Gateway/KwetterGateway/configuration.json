@@ -25,6 +25,18 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
+      "DownstreamPathTemplate": "/api/like/{profileId}/{kweetId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/like/{profileId}/{kweetId}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/like",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -34,7 +46,7 @@
         }
       ],
       "UpstreamPathTemplate": "/gateway/like",
-      "UpstreamHttpMethod": [ "POST", "DELETE" ]
+      "UpstreamHttpMethod": [ "POST" ]
     },
     {
     "DownstreamPathTemplate": "/api/profile",
@@ -47,6 +59,18 @@
     ],
     "UpstreamPathTemplate": "/gateway/profile",
     "UpstreamHttpMethod": [ "POST", "GET", "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/profile/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/profile/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
     },
     {
       "DownstreamPathTemplate": "/api/profile/search",

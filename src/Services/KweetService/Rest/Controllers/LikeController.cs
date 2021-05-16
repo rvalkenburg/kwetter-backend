@@ -10,7 +10,7 @@ namespace Kwetter.Services.KweetService.Rest.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [AllowAnonymous]
     public class LikeController : ControllerBase
     {
         private readonly ILikeService _likeService;

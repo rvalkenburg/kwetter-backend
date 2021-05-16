@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Kwetter.Services.FollowService.Application.Common.Interfaces;
 using Kwetter.Services.FollowService.Application.Common.Models;
+using Kwetter.Services.FollowService.Application.Events;
 using Kwetter.Services.FollowService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Profile = Kwetter.Services.FollowService.Domain.Entities.Profile;
@@ -15,15 +16,13 @@ namespace Kwetter.Services.FollowService.Application.Services
     {
         private readonly IFollowContext _context;
         private readonly IMapper _mapper;
-        private readonly INewFollowEvent _newFollowEvent;
-        private readonly IDeleteFollowEvent _deleteFollowEvent;
+        private readonly IProducer _producer;
 
-        public FollowService(IFollowContext context, IMapper mapper, INewFollowEvent newFollowEvent, IDeleteFollowEvent deleteFollowEvent)
+        public FollowService(IFollowContext context, IMapper mapper, IProducer producer)
         {
             _context = context;
             _mapper = mapper;
-            _deleteFollowEvent = deleteFollowEvent;
-            _newFollowEvent = newFollowEvent;
+            _producer = producer;
         }
 
         public async Task<Response<FollowDto>> CreateFollow(Guid profileId, Guid followerId)
@@ -45,8 +44,7 @@ namespace Kwetter.Services.FollowService.Application.Services
                 Follower = follower,
                 DateOfCreation = DateTime.Now
             };
-            _newFollowEvent.SendNewFollowEvent(new FollowEvent
-                {ProfileId = follow.Profile.Id, FollowerId = follow.Follower.Id});
+            SendNewFollowEvent(follow.Profile.Id, follow.Follower.Id);
 
             _context.Follows.Add(follow);
             bool success = await _context.SaveChangesAsync() > 0;
@@ -73,6 +71,25 @@ namespace Kwetter.Services.FollowService.Application.Services
 
             if (success)
             {
+                response.Success = true;
+            }
+
+            return response;
+        }
+
+        public async Task<Response<FollowDto>> GetStatusBetweenProfiles(Guid userId, Guid profileId)
+        {
+            Response<FollowDto> response = new Response<FollowDto>();
+
+            Profile profile = await _context.Profile.FindAsync(userId);
+            Profile follower = await _context.Profile.FindAsync(profileId);
+
+            Follow followConnectionExist = await _context.Follows.FirstOrDefaultAsync(x =>
+                x.Profile == profile && x.Follower == follower);
+
+            if (followConnectionExist != null)
+            {
+                response.Data = _mapper.Map<FollowDto>(followConnectionExist);
                 response.Success = true;
             }
 
@@ -113,6 +130,21 @@ namespace Kwetter.Services.FollowService.Application.Services
                 response.Success = true;
             }
             return response;
+        }
+
+        private void SendNewFollowEvent(Guid profileId, Guid followerId)
+        {
+            FollowEvent followEvent = new FollowEvent
+            {
+                ProfileId = profileId,
+                FollowerId = followerId
+            };
+            
+            Event<FollowEvent> createFollowEvent = new Event<FollowEvent>
+            {
+                Data = followEvent
+            };
+            _producer.Send("Create-Follow", createFollowEvent);
         }
     }
 }
