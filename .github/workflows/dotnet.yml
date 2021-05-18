@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the docker ProfileService image
-        run: docker build . --file  services/ProfileService/Rest/ProfileService.Dockerfile --tag my-image-name:$(date +%s)
+        run: docker build . --file  Services/ProfileService/Rest/ProfileService.Dockerfile --tag my-image-name:$(date +%s)
       - name: Build the docker KweetService image
-        run: docker build . --file services/KweetService/Rest/KweetService.Dockerfile --tag my-image-name:$(date +%s)
+        run: docker build . --file Services/KweetService/Rest/KweetService.Dockerfile --tag my-image-name:$(date +%s)
 
