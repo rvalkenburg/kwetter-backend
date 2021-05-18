@@ -73,15 +73,15 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/profile/search",
+      "DownstreamPathTemplate": "/api/search",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5000
+          "Port": 5004
         }
       ],
-      "UpstreamPathTemplate": "/gateway/profile/search",
+      "UpstreamPathTemplate": "/gateway/search",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
@@ -94,7 +94,19 @@
         }
       ],
       "UpstreamPathTemplate": "/gateway/follow",
-      "UpstreamHttpMethod": [ "POST", "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "POST", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/follow/{profileId}/{followerid}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/follow/{profileId}/{followerid}",
+      "UpstreamHttpMethod": [ "DELETE" ]
     }
   ],
   "GlobalConfiguration": {

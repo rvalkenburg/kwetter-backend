@@ -35,19 +35,28 @@ namespace Kwetter.Services.FollowService.Rest.Controllers
             return StatusCode(400);
         }
         
-        [HttpDelete("{id}")]
+        [HttpDelete("{profileId}/{followerId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Delete([FromQuery] string id)
+        public async Task<IActionResult> Delete(string profileId, string followerId)
         {
             if (ModelState.IsValid)
             {
-                var response = await _followService.DeleteFollow(new Guid(id));
+                var response = await _followService.DeleteFollow(new Guid(profileId), new Guid(followerId));
                 return response.Success ? new OkObjectResult(response) : StatusCode(500);
             }
             return StatusCode(400);
         }
+        
+        // [HttpDelete("{profileId}/{kweetId}")]
+        // [ProducesResponseType(StatusCodes.Status200OK)]
+        // [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        // public async Task<IActionResult> Delete(string profileId, string kweetId)
+        // {
+        //     var response = await _likeService.DeleteLikeAsync(new Guid(profileId), new Guid(kweetId));
+        //     return response.Success ? new OkObjectResult(response) : StatusCode(500);
+        // }
         
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]

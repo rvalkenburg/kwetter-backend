@@ -3,5 +3,19 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
-
+    
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.4" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\Application\Kwetter.Services.SearchService.Application.csproj" />
+      <ProjectReference Include="..\Persistence\Kwetter.Services.SearchService.Persistence.csproj" />
+    </ItemGroup>
+    
 </Project>

@@ -44,12 +44,13 @@ namespace Kwetter.Services.FollowService.Application.Services
                 Follower = follower,
                 DateOfCreation = DateTime.Now
             };
-            SendNewFollowEvent(follow.Profile.Id, follow.Follower.Id);
+
 
             _context.Follows.Add(follow);
             bool success = await _context.SaveChangesAsync() > 0;
             if (success)
             {
+                SendNewFollowEvent(follow.Profile.Id, follow.Follower.Id);
                 response.Data = _mapper.Map<FollowDto>(follow);
                 response.Success = true;
 
@@ -58,11 +59,11 @@ namespace Kwetter.Services.FollowService.Application.Services
             return response;
         }
 
-        public async Task<Response<FollowDto>> DeleteFollow(Guid id)
+        public async Task<Response<FollowDto>> DeleteFollow(Guid profileId, Guid followerId)
         {
             Response<FollowDto> response = new Response<FollowDto>();
 
-            Follow follow = await _context.Follows.FindAsync(id);
+            Follow follow = await _context.Follows.FirstOrDefaultAsync(x=> x.Follower.Id == followerId && x.Profile.Id == profileId);
 
             if (follow == null) return response;
 
@@ -71,6 +72,7 @@ namespace Kwetter.Services.FollowService.Application.Services
 
             if (success)
             {
+                SendDeleteFollowEvent(profileId, followerId);
                 response.Success = true;
             }
 
@@ -145,6 +147,21 @@ namespace Kwetter.Services.FollowService.Application.Services
                 Data = followEvent
             };
             _producer.Send("Create-Follow", createFollowEvent);
+        }
+        
+        private void SendDeleteFollowEvent(Guid profileId, Guid followerId)
+        {
+            FollowEvent followEvent = new FollowEvent
+            {
+                ProfileId = profileId,
+                FollowerId = followerId
+            };
+            
+            Event<FollowEvent> createFollowEvent = new Event<FollowEvent>
+            {
+                Data = followEvent
+            };
+            _producer.Send("Delete-Follow", createFollowEvent);
         }
     }
 }

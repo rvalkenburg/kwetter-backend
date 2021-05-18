@@ -1,16 +1,15 @@
 ﻿using System.Threading.Tasks;
-using Kwetter.Services.KweetService.Application.Common.Interfaces;
-using Kwetter.Services.KweetService.Application.Common.Interfaces.Handlers;
-using Kwetter.Services.KweetService.Application.Events;
+using Kwetter.Services.SearchService.Application.Common.Interfaces;
+using Kwetter.Services.SearchService.Application.Events;
 using Newtonsoft.Json;
 
-namespace Kwetter.Services.KweetService.Application.EventHandlers.Profile
+namespace Kwetter.Services.SearchService.Application.EventHandlers.Profile
 {
     public class CreateProfileHandler : ICreateProfileHandler
     {
-        private readonly IKweetContext _context;
+        private readonly ISearchContext _context;
         
-        public CreateProfileHandler(IKweetContext context)
+        public CreateProfileHandler(ISearchContext context)
         {
             _context = context;
         }
