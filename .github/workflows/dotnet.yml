@@ -12,7 +12,7 @@ defaults:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
@@ -27,12 +27,12 @@ jobs:
       run: dotnet test --no-build --verbosity normal
   build-docker:
     needs: [ build ]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
       - name: Build the docker ProfileService image
-        run: docker build . --file ProfileService.Dockerfile --tag my-image-name:$(date +%s)
+        run: docker build . --file  Services/ProfileService/Rest/ProfileService.Dockerfile --tag my-image-name:$(date +%s)
       - name: Build the docker KweetService image
-        run: docker build . --file KweetService.Dockerfile --tag my-image-name:$(date +%s)
+        run: docker build . --file Services/KweetService/Rest/KweetService.Dockerfile --tag my-image-name:$(date +%s)
 
