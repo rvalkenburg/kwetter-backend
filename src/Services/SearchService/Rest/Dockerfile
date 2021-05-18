@@ -8,9 +8,8 @@ COPY ["Services/SearchService/Rest/Kwetter.Services.SearchService.Rest.csproj", 
 COPY ["Services/SearchService/Domain/Kwetter.Services.SearchService.Domain.csproj", "Domain/"]
 COPY ["Services/SearchService/Persistence/Kwetter.Services.SearchService.Persistence.csproj", "Persistence/"]
 COPY ["Services/SearchService/Application/Kwetter.Services.SearchService.Application.csproj", "Application/"]
-COPY ["Services/SearchService/Infrastructure/Kwetter.Services.SearchService.Infrastructure.csproj", "Infrastructure/"]
 
-RUN dotnet restore "Rest/Kwetter.Services.ProfileService.Rest.csproj"
+RUN dotnet restore "Rest/Kwetter.Services.SearchService.Rest.csproj"
 COPY . .
 WORKDIR "/src/Services/SearchService/Rest"
 RUN dotnet build "Kwetter.Services.SearchService.Rest.csproj" -c Release -o /app/build
