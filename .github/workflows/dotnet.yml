@@ -8,8 +8,8 @@ on:
 
 defaults:
   run:
-    working-directory: src    
-
+    working-directory: src
+    
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -25,20 +25,21 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      
   build-docker:
     needs: [ build ]
     runs-on: ubuntu-20.04
-
     steps:
       - uses: actions/checkout@v2
-      - name: Build the docker ProfileService image
-        run: docker build . --file  Services/ProfileService/Rest/Dockerfile --tag my-image-name:$(date +%s)
+#       - name: Build the docker ProfileService image
+#         run: docker build . --file  Services/ProfileService/Rest/Dockerfile --tag my-image-name:$(date +%s)
       - name: Build the docker KweetService image
         run: docker build . --file Services/KweetService/Rest/Dockerfile --tag my-image-name:$(date +%s)
-      - name: Build the docker SearchService image
-        run: docker build . --file Services/SearchService/Rest/Dockerfile --tag my-image-name:$(date +%s)
-      - name: Build the docker FollowService image
-        run: docker build . --file Services/FollowService/Rest/Dockerfile --tag my-image-name:$(date +%s)
+#       - name: Build the docker SearchService image
+#         run: docker build . --file Services/SearchService/Rest/Dockerfile --tag my-image-name:$(date +%s)
+#       - name: Build the docker FollowService image
+#         run: docker build . --file Services/FollowService/Rest/Dockerfile --tag my-image-name:$(date +%s)
+        
   publish-docker:
     if: contains(github.ref, 'master')
     needs: [build-docker]
@@ -51,5 +52,5 @@ jobs:
         name: rvalkenburg/kwetter-user-service
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: dockerfile      
+        dockerfile: Services/KweetService/Rest/Dockerfile     
 
