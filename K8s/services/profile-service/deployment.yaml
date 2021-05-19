@@ -1,0 +1,29 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: profile-service
+  namespace: kwetter
+spec:
+  selector:
+    matchLabels:
+      app: profile-service-pod
+  template:
+    metadata:
+      labels:
+        app: profile-service-pod
+    spec:
+      containers:
+        - name: profile-container
+          image: rvalkenburg/kwetter-profile-service:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: profile-service-secret
+          resources:
+            limits:
+              memory: 300Mi
+              cpu: 200m
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: mydockercredentials

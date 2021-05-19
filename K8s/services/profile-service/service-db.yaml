@@ -1,0 +1,16 @@
+﻿apiVersion: v1
+kind: Service
+metadata:
+  name: profile-service-db
+  labels:
+    app: profile-service-db
+  namespace: kwetter  
+spec:
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    name: tcp-psql
+    port: 5432
+    targetPort: 5432
+  selector:
+    app: profile-service-db
