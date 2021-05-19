@@ -52,5 +52,5 @@ jobs:
         name: rvalkenburg/kwetter-user-service
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: Services/KweetService/Rest/Dockerfile     
+        dockerfile: ../../Services/KweetService/Rest/Dockerfile     
 
