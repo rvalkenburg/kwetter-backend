@@ -35,14 +35,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-#       - name: Build the docker ProfileService image
-#         run: docker build . --file  Services/ProfileService/Rest/Dockerfile --tag kwetter-profile-service:$(date +%s)
       - name: Build the docker KweetService image
         run: docker build . --file Services/KweetService/Rest/Dockerfile --tag kwetter-kweet-service:$(date +%s)
-#       - name: Build the docker SearchService image
-#         run: docker build . --file Services/SearchService/Rest/Dockerfile --tag kwetter-search-service:$(date +%s)
-#       - name: Build the docker FollowService image
-#         run: docker build . --file Services/FollowService/Rest/Dockerfile --tag kwetter-follow-service:$(date +%s)
         
   publish-docker:
     if: contains(github.ref, 'master')
@@ -53,7 +47,7 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: rvalkenburg/kwetter-user-service
+        name: rvalkenburg/kwetter-kweet-service
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: Services/KweetService/Rest/Dockerfile   
