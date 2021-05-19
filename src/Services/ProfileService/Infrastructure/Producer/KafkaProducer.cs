@@ -26,9 +26,9 @@ namespace Kwetter.Services.ProfileService.Infrastructure.Producer
                 await _producer.ProduceAsync(topic, _message);
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine($"Oops, something went wrong: {e}");
+                Console.WriteLine($"Oops, something went wrong");
             }
 
             return false;

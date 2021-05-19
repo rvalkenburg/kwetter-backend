@@ -44,7 +44,7 @@ namespace Kwetter.Services.KweetService.Application.EventHandlers
                         _consumer.Commit();
                     }
                 }
-                catch (ConsumeException e)
+                catch (ConsumeException)
                 {
                     Console.WriteLine("Something went wrong");
                 }
