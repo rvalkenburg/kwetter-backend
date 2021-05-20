@@ -4,11 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using Kwetter.Services.AuthorizationService.Application.Common.Interfaces;
+using Kwetter.Services.AuthorizationService.Application.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace Kwetter.Services.AuthorizationService.Rest
 {
@@ -18,10 +21,20 @@ namespace Kwetter.Services.AuthorizationService.Rest
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            FirebaseApp.Create(new AppOptions()
+            FirebaseApp firebaseApp = FirebaseApp.Create(new AppOptions()
             {
-                Credential = GoogleCredential.FromFile("firebase-sdk.json"),
+                Credential = GoogleCredential.FromFile("firebase-settings.json"),
             });
+            services.AddSingleton(firebaseApp);
+            services.AddSwaggerGen(c=> {
+                c.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title="Kwetter",
+                    Version="1.0",
+                    Description="Authorization API for Kwetter."                   
+                });
+            });
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -29,14 +42,17 @@ namespace Kwetter.Services.AuthorizationService.Rest
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c=> {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kwetter");
+                });
             }
 
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });
+                endpoints.MapControllers();
             });
         }
     }

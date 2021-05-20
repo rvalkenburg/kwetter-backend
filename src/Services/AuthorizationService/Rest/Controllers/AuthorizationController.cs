@@ -1,16 +1,20 @@
 ﻿using System.Threading.Tasks;
 using Kwetter.Services.AuthorizationService.Application.Common.Interfaces;
 using Kwetter.Services.AuthorizationService.Rest.Models.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kwetter.Services.AuthorizationService.Rest.Controllers
 {
-    public class AuthorizationControllers : ControllerBase
+    [ApiController]
+    [Route("api/[controller]")]
+    [AllowAnonymous]
+    public class AuthorizationController: ControllerBase
     {
         private readonly IAuthService _authService;
 
-        public AuthorizationControllers(IAuthService authService)
+        public AuthorizationController(IAuthService authService)
         {
             _authService = authService;
         }
@@ -22,7 +26,7 @@ namespace Kwetter.Services.AuthorizationService.Rest.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                await _authService.SetUserClaims(createProfileRequest.Id);
             }
             return StatusCode(500);
         }

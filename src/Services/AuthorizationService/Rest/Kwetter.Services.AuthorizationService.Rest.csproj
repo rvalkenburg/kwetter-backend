@@ -3,7 +3,9 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
-
+    <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
+    </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Application\Kwetter.Services.AuthorizationService.Application.csproj" />
     </ItemGroup>
