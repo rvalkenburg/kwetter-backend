@@ -26,6 +26,8 @@ namespace Kwetter.Services.ProfileService.Application.EventHandlers.User
         public async Task<bool> Consume(string message)
         {
             UserEvent userEvent = JsonConvert.DeserializeObject<UserEvent>(message);
+
+            if (userEvent == null) return false;
             
             Profile profile = new Profile
             {
@@ -34,6 +36,7 @@ namespace Kwetter.Services.ProfileService.Application.EventHandlers.User
                 DisplayName = userEvent.DisplayName,
                 DateOfCreation = userEvent.DateOfCreation,
                 Email = userEvent.Email,
+                GoogleId = userEvent.GoogleId
             };
 
             await _context.Profiles.AddAsync(profile);

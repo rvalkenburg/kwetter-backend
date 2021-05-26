@@ -10,5 +10,6 @@ namespace Kwetter.Services.ProfileService.Application.Events
         public string Avatar { get; set; }
         public DateTime DateOfCreation { get; set; }
         public string Email { get; set; }
+        public string GoogleId { get; set; }
     }
 }

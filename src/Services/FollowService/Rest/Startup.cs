@@ -66,7 +66,8 @@ namespace Kwetter.Services.FollowService.Rest
             }
 
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

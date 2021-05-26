@@ -11,7 +11,7 @@ namespace Kwetter.Services.KweetService.Persistence
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<KweetContext>(
-                options => options.UseSqlServer(configuration.GetConnectionString("ConnectionString"))
+                options => options.UseNpgsql(configuration.GetConnectionString("ConnectionString"))
                 .UseLazyLoadingProxies()
             );
 

@@ -11,7 +11,7 @@ namespace Kwetter.Services.AuthorizationService.Persistence
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AuthContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("ConnectionString")));
+                options.UseNpgsql(configuration.GetConnectionString("ConnectionString")));
 
             services.AddScoped<IAuthContext>(provider => provider.GetService<AuthContext>());
 

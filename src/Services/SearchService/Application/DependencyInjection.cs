@@ -35,13 +35,11 @@ namespace Kwetter.Services.SearchService.Application
 
             Consumer consumer = new Consumer(config);
 
-            Dictionary<string, IHandler> handlers = new Dictionary<string, IHandler>
-            {
-                {"Create-Follow", serviceProvider.GetRequiredService<ICreateFollowHandler>()},
-                {"Delete-Follow", serviceProvider.GetRequiredService<IDeleteFollowHandler>()},
-                {"Update-Profile", serviceProvider.GetRequiredService<IUpdateProfileHandler>()},
-                {"Create-Profile", serviceProvider.GetRequiredService<ICreateProfileHandler>()}
-            };
+            Dictionary<string, IHandler> handlers = new Dictionary<string, IHandler>();
+            handlers.Add("Create-Follow", serviceProvider.GetRequiredService<ICreateFollowHandler>());
+            handlers.Add("Delete-Follow", serviceProvider.GetRequiredService<IDeleteFollowHandler>());
+            handlers.Add("Update-Profile", serviceProvider.GetRequiredService<IUpdateProfileHandler>());
+            handlers.Add("Create-Profile", serviceProvider.GetRequiredService<ICreateProfileHandler>());
             consumer.AddSubscriber(handlers);
             
             services.AddHostedService(sp => consumer);

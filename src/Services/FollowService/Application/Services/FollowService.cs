@@ -79,25 +79,6 @@ namespace Kwetter.Services.FollowService.Application.Services
             return response;
         }
 
-        public async Task<Response<FollowDto>> GetStatusBetweenProfiles(Guid userId, Guid profileId)
-        {
-            Response<FollowDto> response = new Response<FollowDto>();
-
-            Profile profile = await _context.Profile.FindAsync(userId);
-            Profile follower = await _context.Profile.FindAsync(profileId);
-
-            Follow followConnectionExist = await _context.Follows.FirstOrDefaultAsync(x =>
-                x.Profile == profile && x.Follower == follower);
-
-            if (followConnectionExist != null)
-            {
-                response.Data = _mapper.Map<FollowDto>(followConnectionExist);
-                response.Success = true;
-            }
-
-            return response;
-        }
-
         public async Task<Response<IEnumerable<FollowDto>>> GetPaginatedFollowersByProfileId(Guid id)
         {
             Response<IEnumerable<FollowDto>> response = new Response<IEnumerable<FollowDto>>();

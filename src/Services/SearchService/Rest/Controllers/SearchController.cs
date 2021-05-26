@@ -10,7 +10,7 @@ namespace Kwetter.Services.SearchService.Rest.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [AllowAnonymous]
+    [Authorize]
     public class SearchController : ControllerBase
     {
         private readonly ISearchService _searchService;

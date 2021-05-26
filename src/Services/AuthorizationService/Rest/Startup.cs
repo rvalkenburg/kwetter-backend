@@ -6,11 +6,13 @@ using Kwetter.Services.AuthorizationService.Application.Services;
 using Kwetter.Services.AuthorizationService.Infrastructure;
 using Kwetter.Services.AuthorizationService.Infrastructure.Authorization;
 using Kwetter.Services.AuthorizationService.Persistence;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace Kwetter.Services.AuthorizationService.Rest
@@ -44,6 +46,20 @@ namespace Kwetter.Services.AuthorizationService.Rest
                     Description="Authorization API for Kwetter."                   
                 });
             });
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = "https://securetoken.google.com/s64-1-vetis";
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = "https://securetoken.google.com/s64-1-vetis",
+                        ValidateAudience = true,
+                        ValidAudience = "s64-1-vetis",
+                        ValidateLifetime = true
+                    };
+                });
             services.AddScoped<IAuthService, AuthService>();
 
             services.AddControllers();
@@ -61,7 +77,8 @@ namespace Kwetter.Services.AuthorizationService.Rest
             }
 
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

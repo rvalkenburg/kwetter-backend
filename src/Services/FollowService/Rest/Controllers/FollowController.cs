@@ -10,7 +10,7 @@ namespace Kwetter.Services.FollowService.Rest.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [AllowAnonymous]
+    [Authorize]
     public class FollowController : ControllerBase
     {
         private readonly IFollowService _followService;
@@ -48,30 +48,7 @@ namespace Kwetter.Services.FollowService.Rest.Controllers
             }
             return StatusCode(400);
         }
-        
-        // [HttpDelete("{profileId}/{kweetId}")]
-        // [ProducesResponseType(StatusCodes.Status200OK)]
-        // [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        // public async Task<IActionResult> Delete(string profileId, string kweetId)
-        // {
-        //     var response = await _likeService.DeleteLikeAsync(new Guid(profileId), new Guid(kweetId));
-        //     return response.Success ? new OkObjectResult(response) : StatusCode(500);
-        // }
-        
-        [HttpGet("")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetStatusBetweenProfiles([FromQuery] string userId, [FromQuery] string profileId)
-        {
-            if (ModelState.IsValid)
-            {
-                var response = await _followService.GetStatusBetweenProfiles(new Guid(userId), new Guid(profileId));
-                return response.Success ? new OkObjectResult(response) : StatusCode(500);
-            }
-            return StatusCode(400);
-        }
-        
+
         [HttpGet("followers")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

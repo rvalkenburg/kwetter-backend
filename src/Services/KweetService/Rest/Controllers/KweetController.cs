@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Kwetter.Services.KweetService.Application.Common.Interfaces.Services;
 using Kwetter.Services.KweetService.Rest.Models.Requests;
@@ -10,7 +11,7 @@ namespace Kwetter.Services.KweetService.Rest.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [AllowAnonymous]
+    [Authorize]
     public class KweetController : ControllerBase
     {
         private readonly IKweetService _kweetService;
@@ -25,14 +26,14 @@ namespace Kwetter.Services.KweetService.Rest.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create([FromBody] CreateKweetRequest createProfileRequest)
         {
-            if (ModelState.IsValid)
-            {
-                var response = await _kweetService.CreateKweetAsync(new Guid(createProfileRequest.ProfileId), createProfileRequest.Message);
-                return response.Success ? new OkObjectResult(response) : StatusCode(500);
-            }
-            return StatusCode(500);
+            if (!ModelState.IsValid) return StatusCode(500);
+            Guid userId = Guid.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "Id").Value);
+
+            if (userId != new Guid(createProfileRequest.ProfileId)) return StatusCode(403);
+            
+            var response = await _kweetService.CreateKweetAsync(new Guid(createProfileRequest.ProfileId), createProfileRequest.Message);
+            return response.Success ? new OkObjectResult(response) : StatusCode(500);
         }
-        
         
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]

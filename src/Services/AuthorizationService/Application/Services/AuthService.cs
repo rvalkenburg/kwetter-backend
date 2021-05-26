@@ -51,18 +51,16 @@ namespace Kwetter.Services.AuthorizationService.Application.Services
 
                     _authContext.Users.Add(user);
                     await _authContext.SaveChangesAsync();
+                    
                     Dictionary<string, object> claims = new Dictionary<string, object>()
                     {
                         {"Id", user.Id },
                         { "user", true },
                     };
                     await _tokenVerifier.AddClaims(claimsDto.Subject, claims);
-                    Event<UserEvent> createUserEvent = new Event<UserEvent>
-                    {
-                        Data = _mapper.Map<User, UserEvent>(user)
-                    };
-                    await _producer.Send("Create-User", createUserEvent);
 
+                    await SendNewProfileCreated(user);
+                    
                     response.Data = _mapper.Map<User, UserDto>(user);
                     response.Success = true;
                     return response;
@@ -80,6 +78,16 @@ namespace Kwetter.Services.AuthorizationService.Application.Services
             }
 
             return response;
+        }
+
+        private async Task SendNewProfileCreated(User user)
+        {
+            Event<UserEvent> createUserEvent = new Event<UserEvent>
+            {
+                Data = _mapper.Map<User, UserEvent>(user)
+            };
+            await _producer.Send("Create-User", createUserEvent);
+
         }
     }
 }

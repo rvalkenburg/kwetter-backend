@@ -70,7 +70,7 @@
       }
     ],
     "UpstreamPathTemplate": "/gateway/profile",
-    "UpstreamHttpMethod": [ "POST", "GET", "PUT" ]
+    "UpstreamHttpMethod": [ "GET", "PUT" ]
     },
     {
       "DownstreamPathTemplate": "/api/profile/{everything}",

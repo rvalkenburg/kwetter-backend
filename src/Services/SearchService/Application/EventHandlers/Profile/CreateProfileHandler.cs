@@ -17,6 +17,7 @@ namespace Kwetter.Services.SearchService.Application.EventHandlers.Profile
         public async Task<bool> Consume(string message)
         {
             ProfileEvent profileEvent =  JsonConvert.DeserializeObject<ProfileEvent>(message);
+            
             if (profileEvent == null) return false;
             
             Domain.Entities.Profile profile = await _context.Profiles.FindAsync(profileEvent.Id);

@@ -11,7 +11,7 @@ namespace Kwetter.Services.ProfileService.Persistence
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ProfileContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("ConnectionString")));
+                options.UseNpgsql(configuration.GetConnectionString("ConnectionString")));
 
             services.AddScoped<IProfileContext>(provider => provider.GetService<ProfileContext>());
 

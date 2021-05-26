@@ -18,7 +18,9 @@ namespace Kwetter.Services.SearchService.Application.EventHandlers.Follow
         public async Task<bool> Consume(string message)
         {
             FollowEvent followEvent = JsonConvert.DeserializeObject<FollowEvent>(message);
-
+            
+            if (followEvent == null) return false;
+            
             Domain.Entities.Follow followConnectionExist = _context.Follow.FirstOrDefault(x => x.Profile.Id == followEvent.ProfileId && x.Follower.Id == followEvent.FollowerId);
             
             if (followConnectionExist != null)
@@ -26,8 +28,7 @@ namespace Kwetter.Services.SearchService.Application.EventHandlers.Follow
                 _context.Follow.Remove(followConnectionExist);
                 return await _context.SaveChangesAsync() > 0;
             }
-
-            return false;
+            return true;
         }
     }
 }

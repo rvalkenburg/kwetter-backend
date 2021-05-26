@@ -48,6 +48,10 @@ namespace Kwetter.Services.SearchService.Application.EventHandlers
                 {
                     Console.WriteLine("Something went wrong");
                 }
+                catch (OperationCanceledException)
+                {
+                    Console.WriteLine("Operation was canceled");
+                }
             }
         }
         

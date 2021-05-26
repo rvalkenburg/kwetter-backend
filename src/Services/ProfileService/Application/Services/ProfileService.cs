@@ -36,26 +36,6 @@ namespace Kwetter.Services.ProfileService.Application.Services
             return response;
         }
 
-        public async Task<PaginationResponse<ProfileDto>> GetPaginatedProfiles(int pageSize, int pageNumber, string name)
-        {
-            PaginationResponse<ProfileDto> response = new();
-
-            var entities = await _context.Profiles
-                .Where(x => x.DisplayName == name)
-                .Skip(pageNumber * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-
-            if (entities == null) return response;
-            
-            response.Data = _mapper.Map<IEnumerable<ProfileDto>>(entities);
-            response.PageSize = pageSize;
-            response.PageNumber = pageNumber;
-            response.Success = true;
-
-            return response;
-        }
-
         public async Task<Response<ProfileDto>> UpdateProfileAsync(string displayName, string email, string description, string googleId)
         {
             Response<ProfileDto> response = new();

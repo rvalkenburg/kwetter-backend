@@ -21,6 +21,8 @@ namespace Kwetter.Services.SearchService.Application.EventHandlers.Follow
             Domain.Entities.Profile profile = await _context.Profiles.FindAsync(followEvent.ProfileId);
             Domain.Entities.Profile follower = await _context.Profiles.FindAsync(followEvent.FollowerId);
 
+            if (profile == null && follower == null) return false;
+            
             var followConnectionExist = profile.Followers.FirstOrDefault(x => x.Id == follower.Id);
 
             if (followConnectionExist == null)
@@ -34,7 +36,7 @@ namespace Kwetter.Services.SearchService.Application.EventHandlers.Follow
                 _context.Profiles.Update(profile);
                 return await _context.SaveChangesAsync() > 0;
             }
-            return false;
+            return true;
         }
     }
 }

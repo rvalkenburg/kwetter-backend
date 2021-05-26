@@ -10,7 +10,7 @@ namespace Kwetter.Services.ProfileService.Rest.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [AllowAnonymous]
+    [Authorize]
     public class ProfileController : ControllerBase
     {
         private readonly IProfileService _profileService;
@@ -27,21 +27,6 @@ namespace Kwetter.Services.ProfileService.Rest.Controllers
         {
             var response = await _profileService.GetProfileAsync(new Guid(id));
             return response.Success ? new OkObjectResult(response.Data) : new NotFoundResult();
-        }
-        
-        [HttpGet("search")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPaginated([FromQuery] GetProfilesRequest profilesRequest)
-        {
-            if (ModelState.IsValid)
-            {
-                var response = await _profileService.GetPaginatedProfiles(profilesRequest.PageSize, profilesRequest.PageNumber, profilesRequest
-                    .Name);
-                return response.Success ? new OkObjectResult(response) : new NotFoundResult();
-            }
-
-            return StatusCode(500);
         }
         
         [HttpPut("")]

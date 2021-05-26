@@ -11,7 +11,7 @@ namespace Kwetter.Services.SearchService.Persistence
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<SearchContext>(
-                options => options.UseSqlServer(configuration.GetConnectionString("ConnectionString"))
+                options => options.UseNpgsql(configuration.GetConnectionString("ConnectionString"))
                 .UseLazyLoadingProxies()
                 );
             services.AddScoped<ISearchContext>(provider => provider.GetService<SearchContext>());
