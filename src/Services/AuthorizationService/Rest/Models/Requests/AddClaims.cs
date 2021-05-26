@@ -2,6 +2,6 @@
 {
     public class AddClaims
     {
-        public string Id { get; set; }
+        public string Jwt { get; set; }
     }
 }

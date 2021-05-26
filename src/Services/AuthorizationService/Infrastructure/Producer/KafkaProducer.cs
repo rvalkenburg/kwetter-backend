@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Confluent.Kafka;
-using Kwetter.Services.FollowService.Application.Common.Interfaces;
-using Kwetter.Services.FollowService.Application.Common.Models;
-using Kwetter.Services.FollowService.Application.Events;
+using Kwetter.Services.AuthorizationService.Application.Common.Interfaces;
+using Kwetter.Services.AuthorizationService.Application.Common.Models;
+using Kwetter.Services.AuthorizationService.Application.Events;
 using Newtonsoft.Json;
 
-namespace Kwetter.Services.FollowService.Infrastructure.Producer
+namespace Kwetter.Services.AuthorizationService.Infrastructure.Producer
 {
     public class KafkaProducer : IProducer, IDisposable
     {
@@ -26,9 +26,9 @@ namespace Kwetter.Services.FollowService.Infrastructure.Producer
                 await _producer.ProduceAsync(topic, _message);
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine($"Oops, something went wrong: {e}");
+                Console.WriteLine($"Oops, something went wrong");
             }
 
             return false;

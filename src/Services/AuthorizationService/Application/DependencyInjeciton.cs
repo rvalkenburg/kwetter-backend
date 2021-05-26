@@ -9,7 +9,7 @@ namespace Kwetter.Services.AuthorizationService.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
         }
     }

@@ -26,7 +26,8 @@ namespace Kwetter.Services.AuthorizationService.Rest.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _authService.SetUserClaims(createProfileRequest.Id);
+                var response =  await _authService.SetUserClaims(createProfileRequest.Jwt);
+                return response.Success ? new OkObjectResult(response.Data) : StatusCode(400);
             }
             return StatusCode(500);
         }

@@ -1,14 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using Kwetter.Services.AuthorizationService.Application;
 using Kwetter.Services.AuthorizationService.Application.Common.Interfaces;
 using Kwetter.Services.AuthorizationService.Application.Services;
+using Kwetter.Services.AuthorizationService.Infrastructure;
+using Kwetter.Services.AuthorizationService.Infrastructure.Authorization;
+using Kwetter.Services.AuthorizationService.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
@@ -17,10 +17,21 @@ namespace Kwetter.Services.AuthorizationService.Rest
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddInfrastructure(Configuration);
+            services.AddApplication();
+            services.AddPersistence(Configuration);
+            services.AddScoped<ITokenVerifier, FirebaseTokenVerifier>();
+            
             FirebaseApp firebaseApp = FirebaseApp.Create(new AppOptions()
             {
                 Credential = GoogleCredential.FromFile("firebase-settings.json"),
@@ -34,6 +45,7 @@ namespace Kwetter.Services.AuthorizationService.Rest
                 });
             });
             services.AddScoped<IAuthService, AuthService>();
+
             services.AddControllers();
         }
 

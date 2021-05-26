@@ -9,7 +9,6 @@ namespace Kwetter.Services.ProfileService.Application.Common.Interfaces
     {
         Task<Response<ProfileDto>> GetProfileAsync(Guid id);
         Task<PaginationResponse<ProfileDto>> GetPaginatedProfiles(int pageSize, int pageNumber, string name);
-        Task<Response<ProfileDto>> CreateProfileAsync(string avatar, string displayName, string googleId, string email);
         Task<Response<ProfileDto>> UpdateProfileAsync(string displayName, string email, string description, string googleId);
     }
 }

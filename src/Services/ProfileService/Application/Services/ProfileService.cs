@@ -56,33 +56,6 @@ namespace Kwetter.Services.ProfileService.Application.Services
             return response;
         }
 
-        public async Task<Response<ProfileDto>> CreateProfileAsync(string avatar, string displayName, string googleId, string email)
-        {
-            Response<ProfileDto> response = new();
-            
-            Profile profile = new Profile
-            {
-                Id = new Guid(),
-                Avatar = avatar,
-                DisplayName = displayName,
-                DateOfCreation = DateTime.Now,
-                Email = email,
-                GoogleId = googleId
-            };
-
-            await _context.Profiles.AddAsync(profile);
-            bool success = await _context.SaveChangesAsync() > 0;
-
-            if (!success) return response;
-            
-            ProfileDto profileDto = _mapper.Map<ProfileDto>(profile);
-            response.Success = true;
-            response.Data = profileDto;
-            CreateProfileEvent(response.Data);
-            
-            return response;
-        }
-
         public async Task<Response<ProfileDto>> UpdateProfileAsync(string displayName, string email, string description, string googleId)
         {
             Response<ProfileDto> response = new();
@@ -105,19 +78,6 @@ namespace Kwetter.Services.ProfileService.Application.Services
                 UpdateProfileEvent(response.Data);
             }
             return response;
-        }
-
-        private void CreateProfileEvent(ProfileDto profileDto)
-        {
-            if (profileDto != null)
-            {
-                Event<ProfileDto> createProfileEvent = new Event<ProfileDto>
-                {
-                    Data = profileDto
-                };
-                    
-                _producer.Send("Create-Profile", createProfileEvent);
-            }
         }
         
         private void UpdateProfileEvent(ProfileDto profileDto)

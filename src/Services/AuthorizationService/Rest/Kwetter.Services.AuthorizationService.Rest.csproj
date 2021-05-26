@@ -5,9 +5,15 @@
     </PropertyGroup>
     <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Application\Kwetter.Services.AuthorizationService.Application.csproj" />
+      <ProjectReference Include="..\Infrastructure\Kwetter.Services.AuthorizationService.Infrastructure.csproj" />
+      <ProjectReference Include="..\Persistence\Kwetter.Services.AuthorizationService.Persistence.csproj" />
     </ItemGroup>
 
 </Project>

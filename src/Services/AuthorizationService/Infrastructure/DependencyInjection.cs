@@ -1,10 +1,10 @@
 ﻿using Confluent.Kafka;
-using Kwetter.Services.FollowService.Application.Common.Interfaces;
-using Kwetter.Services.FollowService.Infrastructure.Producer;
+using Kwetter.Services.AuthorizationService.Application.Common.Interfaces;
+using Kwetter.Services.AuthorizationService.Infrastructure.Producer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Kwetter.Services.FollowService.Infrastructure
+namespace Kwetter.Services.AuthorizationService.Infrastructure
 {
     public static class DependencyInjection
     {
@@ -12,7 +12,7 @@ namespace Kwetter.Services.FollowService.Infrastructure
         {
             ProducerConfig config = new ProducerConfig
             {
-                BootstrapServers = configuration.GetValue<string>("ProducerConfig:BootstrapServers"),
+                BootstrapServers = configuration.GetValue<string>("ProducerConfig:BootstrapServers"),            
             };
             services.AddSingleton<IProducer>(_ => new KafkaProducer(config));
             return services;

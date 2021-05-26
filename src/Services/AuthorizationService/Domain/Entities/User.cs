@@ -1,0 +1,15 @@
+﻿using System;
+
+namespace Kwetter.Services.AuthorizationService.Domain.Entities
+{
+    public class User
+    {
+        public Guid Id { get; set; }
+        public string DisplayName { get; set; }
+        public string Description { get; set; }
+        public string Avatar { get; set; }
+        public DateTime DateOfCreation { get; set; }
+        public string Email { get; set; }
+        public string GoogleId { get; set; } 
+    }
+}

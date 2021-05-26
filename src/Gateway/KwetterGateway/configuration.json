@@ -1,6 +1,18 @@
 ﻿{
   "Routes": [
     {
+      "DownstreamPathTemplate": "/api/Authorization",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5006
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Authorization",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/kweet",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
