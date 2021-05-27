@@ -1,0 +1,54 @@
+﻿apiVersion: v1
+kind: Service
+metadata:
+  name: kwetter-profile-db
+  namespace: kwetter
+  labels:
+    app: kwetter-profile-db
+    service: kwetter-profile-db
+spec:
+  selector:
+    app: kwetter-profile-db-pod
+  ports:
+    - protocol: TCP
+      name: tcp-psql
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kwetter-profile-db
+  namespace: kwetter
+spec:
+  selector:
+    matchLabels:
+      app: kwetter-profile-db-pod
+      version: latest
+  template:
+    metadata:
+      labels:
+        app: kwetter-profile-db-pod
+        version: latest
+    spec:
+      containers:
+        - name: kwetter-profile-db-container
+          image: postgres:13.3
+          imagePullPolicy: "IfNotPresent"
+          resources:
+            limits:
+              memory: 200Mi
+              cpu: 300m
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+                name: kwetter-profile-db-secret
+          volumeMounts:
+            - name: kwetter-profile-db-volume
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: kwetter-profile-db-volume
+          persistentVolumeClaim:
+            claimName: kwetter-profile-db-volume-claim

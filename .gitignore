@@ -395,5 +395,6 @@ MigrationBackup/
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,git,dotnetcore
 /src/Vetis.Services/Vetis.Services.UserService/Vetis.Services.UserService.Persistence/appsettings.json
+K8s/secrets/**
 
 .idea
