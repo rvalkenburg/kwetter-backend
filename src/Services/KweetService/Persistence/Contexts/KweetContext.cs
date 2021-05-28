@@ -10,8 +10,6 @@ namespace Kwetter.Services.KweetService.Persistence.Contexts
         public DbSet<Kweet> Kweets { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Profile> Profiles { get; set; }
-
-        public DbSet<HashTag> Tags { get; set; }
         public DbSet<Follow> Follows { get; set; }
 
         public Task<int> SaveChangesAsync()
@@ -27,6 +25,13 @@ namespace Kwetter.Services.KweetService.Persistence.Contexts
         {
             optionsBuilder.UseLazyLoadingProxies();
             base.OnConfiguring(optionsBuilder);
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Profile>()
+                .HasMany(x => x.Follows)
+                .WithOne(x => x.Follower);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

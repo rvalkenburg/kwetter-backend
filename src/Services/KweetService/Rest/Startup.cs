@@ -1,5 +1,6 @@
 using Kwetter.Services.KweetService.Application;
 using Kwetter.Services.KweetService.Persistence;
+using Kwetter.Services.KweetService.Persistence.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -60,6 +61,13 @@ namespace Kwetter.Services.KweetService.Rest
                 app.UseSwaggerUI(c=> {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kwetter");
                 });
+            }
+            
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<KweetContext>();
+                context.Database.EnsureCreated();
             }
             
             app.UseRouting();

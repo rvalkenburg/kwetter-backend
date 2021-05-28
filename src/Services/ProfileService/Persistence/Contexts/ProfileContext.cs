@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Kwetter.Services.ProfileService.Application.Common.Interfaces;
 using Kwetter.Services.ProfileService.Domain.Entity;
-using Kwetter.Services.ProfileService.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kwetter.Services.ProfileService.Persistence.Contexts
@@ -16,12 +15,6 @@ namespace Kwetter.Services.ProfileService.Persistence.Contexts
 
         public ProfileContext(DbContextOptions<ProfileContext> options) : base(options)
         {
-        }
-        
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfiguration(new ProfileConfiguration());
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

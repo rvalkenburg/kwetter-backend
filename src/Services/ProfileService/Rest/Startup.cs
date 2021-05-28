@@ -2,6 +2,7 @@ using Kwetter.Services.ProfileService.Application;
 using Kwetter.Services.ProfileService.Application.Common.Interfaces;
 using Kwetter.Services.ProfileService.Infrastructure;
 using Kwetter.Services.ProfileService.Persistence;
+using Kwetter.Services.ProfileService.Persistence.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -65,7 +66,12 @@ namespace Kwetter.Services.ProfileService.Rest
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kwetter");
                 });
             }
-            
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<ProfileContext>();
+                context.Database.EnsureCreated();
+            }
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

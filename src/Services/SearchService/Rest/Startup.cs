@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Kwetter.Services.SearchService.Application;
 using Kwetter.Services.SearchService.Application.Common.Interfaces;
 using Kwetter.Services.SearchService.Persistence;
+using Kwetter.Services.SearchService.Persistence.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -66,7 +67,12 @@ namespace Kwetter.Services.SearchService.Rest
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kwetter");
                 });
             }
-            
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<SearchContext>();
+                context.Database.EnsureCreated();
+            }
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

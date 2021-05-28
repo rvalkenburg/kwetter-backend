@@ -31,8 +31,8 @@ namespace Kwetter.Services.KweetService.Application.Services
             Like like = new Like
             {
                 Id = new Guid(),
-                Profile = profile,
-                Kweet = kweet,
+                ProfileId = profile.Id,
+                KweetId = kweet.Id,
                 DateOfCreation = DateTime.Now,
             };
 
@@ -55,7 +55,7 @@ namespace Kwetter.Services.KweetService.Application.Services
             Kweet kweet = await _context.Kweets.FindAsync(kweetId);
             Profile profile = await _context.Profiles.FindAsync(profileId);
 
-            Like like = _context.Likes.FirstOrDefault(x => x.Profile == profile && x.Kweet == kweet);
+            Like like = _context.Likes.FirstOrDefault(x => x.ProfileId == profile.Id && x.KweetId == kweet.Id);
             if (like != null)
             {
                 _context.Likes.Remove(like);

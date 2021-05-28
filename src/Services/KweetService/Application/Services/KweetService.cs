@@ -41,8 +41,7 @@ namespace Kwetter.Services.KweetService.Application.Services
             
             await _context.Kweets.AddAsync(kweet);
             bool success = await _context.SaveChangesAsync() > 0;
-            bool addedTags = await GetHashTagsFromMessage(kweet);
-            if (success && addedTags)
+            if (success)
             {
                 response.Success = true;
                 response.Data = _mapper.Map<KweetDto>(kweet);
@@ -80,21 +79,21 @@ namespace Kwetter.Services.KweetService.Application.Services
             Response<IEnumerable<KweetDto>> response = new();
             
             Profile profile = await _context.Profiles.FindAsync(profileId);
-
+            
             List<Follow> follows = await _context.Follows.Where(x => x.Profile == profile).ToListAsync();
-
+            
             List<Kweet> kweets = await _context.Kweets.Where(x => follows.Select(y => y.Follower)
                 .Contains(x.Profile))
                 .OrderBy(x => x.DateOfCreation)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
-
+            
             if (kweets != null)
             {
                 response.Data = _mapper.Map<IEnumerable<Kweet>, IEnumerable<KweetDto>>(kweets);;
             }
-
+            
             response.Success = true;
 
             return response;
@@ -106,33 +105,6 @@ namespace Kwetter.Services.KweetService.Application.Services
 
             return response;
 
-        }
-
-        private async Task<bool> GetHashTagsFromMessage(Kweet kweet)
-        {
-            List<HashTag> tags = new List<HashTag>();
-            
-            var regex = new Regex(@"#\w+");
-            var matches = regex.Matches(kweet.Message);
-            if (matches.Count > 0)
-            {
-                foreach (var match in matches)
-                {
-                    HashTag tag = new HashTag
-                    {
-                        Tag = match.ToString().ToLower(),
-                        Kweet = kweet,
-                    };
-                    tags.Add(tag);
-                }
-                _context.Tags.AddRange(tags);
-                bool success = await _context.SaveChangesAsync() > 0;
-                if (!success)
-                {
-                    return false;
-                }
-            }
-            return true;
         }
     }
 }

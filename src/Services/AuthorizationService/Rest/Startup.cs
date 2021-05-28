@@ -6,6 +6,7 @@ using Kwetter.Services.AuthorizationService.Application.Services;
 using Kwetter.Services.AuthorizationService.Infrastructure;
 using Kwetter.Services.AuthorizationService.Infrastructure.Authorization;
 using Kwetter.Services.AuthorizationService.Persistence;
+using Kwetter.Services.AuthorizationService.Persistence.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -74,6 +75,13 @@ namespace Kwetter.Services.AuthorizationService.Rest
                 app.UseSwaggerUI(c=> {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kwetter");
                 });
+            }
+
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<AuthContext>();
+                context.Database.EnsureCreated();
             }
 
             app.UseRouting();

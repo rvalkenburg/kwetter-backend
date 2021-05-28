@@ -10,7 +10,7 @@ namespace Kwetter.Services.FollowService.Rest.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [AllowAnonymous]
     public class FollowController : ControllerBase
     {
         private readonly IFollowService _followService;

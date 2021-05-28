@@ -1,6 +1,7 @@
 using Kwetter.Services.FollowService.Application;
 using Kwetter.Services.FollowService.Infrastructure;
 using Kwetter.Services.FollowService.Persistence;
+using Kwetter.Services.FollowService.Persistence.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -64,7 +65,12 @@ namespace Kwetter.Services.FollowService.Rest
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kwetter");
                 });
             }
-
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<FollowContext>();
+                context.Database.EnsureCreated();
+            }
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

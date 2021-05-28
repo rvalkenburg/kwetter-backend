@@ -14,7 +14,7 @@ namespace Kwetter.Services.AuthorizationService.Persistence
                 options.UseNpgsql(configuration.GetConnectionString("ConnectionString")));
 
             services.AddScoped<IAuthContext>(provider => provider.GetService<AuthContext>());
-
+            
             return services;
         }
     }
