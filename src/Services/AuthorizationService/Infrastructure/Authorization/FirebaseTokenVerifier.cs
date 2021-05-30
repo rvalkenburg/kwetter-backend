@@ -41,7 +41,6 @@ namespace Kwetter.Services.AuthorizationService.Infrastructure.Authorization
                 Console.WriteLine(e);
                 throw;
             }
-
         }
 
         public async Task<bool> AddClaims(string jwt, Dictionary<string, object> claims)
