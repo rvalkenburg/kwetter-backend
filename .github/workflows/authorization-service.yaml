@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: Build the docker FollowService image
+      - name: Build the docker AuthorizationService image
         run: docker build . --file Services/AuthorizationService/Rest/Dockerfile --tag kwetter-authorization-service:$(date +%s)
         
   publish-docker:
