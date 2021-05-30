@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: kwetter-search-db
+  name: kwetter-kweet-db
   namespace: kwetter
   labels:
-    app: kwetter-search-db
-    service: kwetter-search-db
+    app: kwetter-kweet-db
+    service: kwetter-kweet-db
 spec:
   selector:
-    app: kwetter-search-db-pod
+    app: kwetter-kweet-db-pod
   ports:
     - protocol: TCP
       name: tcp-psql
@@ -19,21 +19,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kwetter-search-db
+  name: kwetter-kweet-db
   namespace: kwetter
 spec:
   selector:
     matchLabels:
-      app: kwetter-search-db-pod
+      app: kwetter-kweet-db-pod
       version: latest
   template:
     metadata:
       labels:
-        app: kwetter-search-db-pod
+        app: kwetter-kweet-db-pod
         version: latest
     spec:
       containers:
-        - name: kwetter-search-db-container
+        - name: kwetter-kweet-db-container
           image: postgres:13.3
           imagePullPolicy: "IfNotPresent"
           resources:
@@ -44,11 +44,11 @@ spec:
             - containerPort: 5432
           envFrom:
             - secretRef:
-                name: kwetter-search-db-secret
+                name: kwetter-kweet-db-secret
           volumeMounts:
-            - name: kwetter-search-db-volume
+            - name: kwetter-kweet-db-volume
               mountPath: /var/lib/postgresql/data
       volumes:
-        - name: kwetter-search-db-volume
+        - name: kwetter-kweet-db-volume
           persistentVolumeClaim:
-            claimName: kwetter-search-db-volume-claim
+            claimName: kwetter-kweet-db-volume-claim
