@@ -1,14 +1,14 @@
-name: FollowService
+name: AuthorizationService
 
 on:
   push:
     branches: [ master ]
     paths:
-      - src/Services/FollowService/**
+      - src/Services/AuthorizationService/**
   pull_request:
     branches: [ master ]
     paths:
-      - src/Services/FollowService/**
+      - src/Services/AuthorizationService/**
 
 defaults:
   run:
@@ -35,14 +35,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-#       - name: Build the docker ProfileService image
-#         run: docker build . --file  Services/ProfileService/Rest/Dockerfile --tag kwetter-profile-service:$(date +%s)
-#       - name: Build the docker KweetService image
-#         run: docker build . --file Services/KweetService/Rest/Dockerfile --tag kwetter-kweet-service:$(date +%s)
-#       - name: Build the docker SearchService image
-#         run: docker build . --file Services/SearchService/Rest/Dockerfile --tag kwetter-search-service:$(date +%s)
       - name: Build the docker FollowService image
-        run: docker build . --file Services/FollowService/Rest/Dockerfile --tag kwetter-follow-service:$(date +%s)
+        run: docker build . --file Services/AuthorizationService/Rest/Dockerfile --tag kwetter-authorization-service:$(date +%s)
         
   publish-docker:
     if: contains(github.ref, 'master')
@@ -56,5 +50,5 @@ jobs:
         name: rvalkenburg/kwetter-follow-service
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: Services/FollowService/Rest/Dockerfile   
+        dockerfile: Services/AuthorizationService/Rest/Dockerfile   
         workdir: src
