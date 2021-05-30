@@ -1,3 +1,4 @@
+using System.Linq;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Kwetter.Services.AuthorizationService.Application;
@@ -15,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 
 namespace Kwetter.Services.AuthorizationService.Rest
 {
@@ -34,10 +36,13 @@ namespace Kwetter.Services.AuthorizationService.Rest
             services.AddApplication();
             services.AddPersistence(Configuration);
             services.AddScoped<ITokenVerifier, FirebaseTokenVerifier>();
-            
+
+            var firebaseSettings = Configuration.GetSection("FirebaseConfig").GetChildren();
+            var configurationSections = firebaseSettings.ToList();
+            string json = JsonConvert.SerializeObject(configurationSections.AsEnumerable().ToDictionary(k => k.Key, v=> v.Value));
             FirebaseApp firebaseApp = FirebaseApp.Create(new AppOptions()
             {
-                Credential = GoogleCredential.FromFile("firebase-settings.json"),
+                Credential = GoogleCredential.FromJson(json),
             });
             services.AddSingleton(firebaseApp);
             services.AddSwaggerGen(c=> {
