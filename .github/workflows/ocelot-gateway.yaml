@@ -6,11 +6,11 @@ on:
   push:
     branches: [ master ]
     paths:
-      - src/Gateway/KwetterGateway/**
+      - src/Gateway/**
   pull_request:
     branches: [ master ]
     paths:
-      - src/Gateway/KwetterGateway/**
+      - src/Gateway/**
 
 defaults:
   run:
@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the docker KwetterGateway image
-        run: docker build . --file Gateway/KwetterGateway/Dockerfile --tag kwetter-ocelot-gateway:$(date +%s)
+        run: docker build . --file Gateway/Dockerfile --tag kwetter-ocelot-gateway:$(date +%s)
         
   publish-docker:
     if: contains(github.ref, 'master')
