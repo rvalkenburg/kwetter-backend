@@ -6,7 +6,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 80
+          "Port": 5006
         }
       ],
       "UpstreamPathTemplate": "/gateway/Authorization",
@@ -17,8 +17,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "kwetter-kweet-service",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 5001
         }
       ],
       "UpstreamPathTemplate": "/gateway/kweet",
@@ -29,8 +29,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "kwetter-kweet-service",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 5001
         }
       ],
       "UpstreamPathTemplate": "/gateway/kweet/timeline",
@@ -41,8 +41,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "kwetter-kweet-service",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 5001
         }
       ],
       "UpstreamPathTemplate": "/gateway/like/{profileId}/{kweetId}",
@@ -53,8 +53,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "kwetter-kweet-service",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 5001
         }
       ],
       "UpstreamPathTemplate": "/gateway/like",
@@ -65,8 +65,8 @@
     "DownstreamScheme": "http",
     "DownstreamHostAndPorts": [
       {
-        "Host": "kwetter-profile-service",
-        "Port": 80
+        "Host": "localhost",
+        "Port": 5000
       }
     ],
     "UpstreamPathTemplate": "/gateway/profile",
@@ -77,8 +77,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "kwetter-profile-service",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/gateway/profile/{everything}",
@@ -89,8 +89,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "kwetter-search-service",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 5004
         }
       ],
       "UpstreamPathTemplate": "/gateway/search",
@@ -101,8 +101,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "kwetter-follow-service",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 5002
         }
       ],
       "UpstreamPathTemplate": "/gateway/follow",
@@ -113,12 +113,15 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "kwetter-follow-service",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 5002
         }
       ],
       "UpstreamPathTemplate": "/gateway/follow/{profileId}/{followerid}",
       "UpstreamHttpMethod": [ "DELETE" ]
     }
-  ]
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5050"
+  }
 }
