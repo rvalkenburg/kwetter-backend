@@ -52,5 +52,5 @@ jobs:
         name: rvalkenburg/kwetter-ocelot-gateway
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: Gateway/KwetterGateway/Dockerfile  
+        dockerfile: Gateway/Dockerfile  
         workdir: src
