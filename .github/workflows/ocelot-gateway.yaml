@@ -1,0 +1,56 @@
+
+
+name: OcelotGateway
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - src/Gateway/KwetterGateway/**
+  pull_request:
+    branches: [ master ]
+    paths:
+      - src/Gateway/KwetterGateway/**
+
+defaults:
+  run:
+    working-directory: src
+    
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      
+  build-docker:
+    needs: [ build ]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the docker KwetterGateway image
+        run: docker build . --file Gateway/KwetterGateway/Dockerfile --tag kwetter-ocelot-gateway:$(date +%s)
+        
+  publish-docker:
+    if: contains(github.ref, 'master')
+    needs: [build-docker]
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@master
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: rvalkenburg/kwetter-ocelot-gateway
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        dockerfile: Gateway/KwetterGateway/Dockerfile  
+        workdir: src
