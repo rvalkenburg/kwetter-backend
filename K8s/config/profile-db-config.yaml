@@ -1,0 +1,10 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kwetter-profile-db-config
+  namespace: kwetter
+  labels:
+    app: kwetter-profile-db
+data:
+  PGDATA: /var/lib/postgresql/data
+      

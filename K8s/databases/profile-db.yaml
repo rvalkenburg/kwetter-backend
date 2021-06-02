@@ -45,9 +45,12 @@ spec:
           envFrom:
             - secretRef:
                 name: kwetter-profile-db-secret
+            - configMapRef:
+                name: kwetter-profile-db-config
           volumeMounts:
             - name: kwetter-profile-db-volume
               mountPath: /var/lib/postgresql/data
+              subPath: postgres
       volumes:
         - name: kwetter-profile-db-volume
           persistentVolumeClaim:

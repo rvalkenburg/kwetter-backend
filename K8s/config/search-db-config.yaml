@@ -1,0 +1,10 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kwetter-search-db-config
+  namespace: kwetter
+  labels:
+    app: kwetter-search-db
+data:
+  PGDATA: /var/lib/postgresql/data
+      

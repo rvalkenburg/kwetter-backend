@@ -1,0 +1,21 @@
+﻿kind: Pod
+apiVersion: v1
+metadata:
+  name: api-gateway
+  labels:
+    app: api-gateway
+spec:
+  containers:
+    - name: api-gateway
+      image: rvalkenburg/kwetter-ocelot-gateway:latest
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: api-gateway-service
+spec:
+  selector:
+    app: api-gateway
+  ports:
+    - port: 80
