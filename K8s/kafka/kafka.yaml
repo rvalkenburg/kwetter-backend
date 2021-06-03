@@ -30,9 +30,9 @@ spec:
       containers:
         - env:
             - name: KAFKA_ADVERTISED_HOST_NAME
-              value: kafka-broker
+              value: kafka-service
             - name: KAFKA_ADVERTISED_PORT
-              value: "30092"
+              value: "9092"
             - name: KAFKA_BROKER_ID
               value: "1"
             - name: KAFKA_ZOOKEEPER_CONNECT
