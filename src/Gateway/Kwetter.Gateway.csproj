@@ -7,6 +7,7 @@
     <ItemGroup>
       <PackageReference Include="MMLib.SwaggerForOcelot" Version="4.4.1" />
       <PackageReference Include="Ocelot" Version="17.0.0" />
+      <PackageReference Include="Ocelot.Provider.Kubernetes" Version="17.0.0"/>
     </ItemGroup>
 
 </Project>

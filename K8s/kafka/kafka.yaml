@@ -5,7 +5,7 @@ metadata:
   labels:
     app: kafka
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 9092
       name: kafka-port
