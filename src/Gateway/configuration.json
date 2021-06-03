@@ -3,6 +3,15 @@
     {
       "DownstreamPathTemplate": "/api/Authorization",
       "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/gateway/Authorization",
+      "ServiceName": "kwetter-authorization-service",
+      "UpstreamHttpMethod": [
+        "POST"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Authorization",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -118,7 +127,14 @@
         }
       ],
       "UpstreamPathTemplate": "/gateway/follow/{profileId}/{followerid}",
-      "UpstreamHttpMethod": [ "DELETE" ]
+      "UpstreamHttpMethod": [
+        "DELETE"
+      ]
     }
-  ]
+  ],
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": {
+      "Namespace": "Kwetter"
+    }
+  }
 }
