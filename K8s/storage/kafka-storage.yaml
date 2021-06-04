@@ -1,0 +1,13 @@
+﻿apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kwetter-kafka-volume-claim
+  namespace: kwetter
+spec:
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: managed-premium

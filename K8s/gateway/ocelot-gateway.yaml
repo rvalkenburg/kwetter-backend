@@ -19,3 +19,4 @@ spec:
     app: api-gateway
   ports:
     - port: 80
+  type: LoadBalancer
