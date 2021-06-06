@@ -3,8 +3,13 @@
     {
       "DownstreamPathTemplate": "/api/Authorization",
       "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "kwetter-authorization-service",
+          "Port": 80
+        }
+      ],
       "UpstreamPathTemplate": "/gateway/Authorization",
-      "ServiceName": "kwetter-authorization-service",
       "UpstreamHttpMethod": [
         "POST"
       ]
