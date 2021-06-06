@@ -73,7 +73,6 @@
       ],
       "UpstreamPathTemplate": "/gateway/profile",
       "UpstreamHttpMethod": [
-        "GET",
         "PUT"
       ]
     },
