@@ -63,20 +63,6 @@
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
-    "DownstreamPathTemplate": "/api/profile",
-    "DownstreamScheme": "http",
-    "DownstreamHostAndPorts": [
-      {
-        "Host": "kwetter-profile-service",
-        "Port": 80
-      }
-    ],
-    "UpstreamPathTemplate": "/gateway/profile",
-    "UpstreamHttpMethod": [
-      "PUT"
-    ]
-    },
-    {
       "DownstreamPathTemplate": "/api/profile/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -85,8 +71,11 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gateway/profile/{everything}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamPathTemplate": "/gateway/profile",
+      "UpstreamHttpMethod": [
+        "PUT",
+        "GET"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/search",
