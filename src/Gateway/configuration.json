@@ -10,18 +10,6 @@
       ]
     },
     {
-      "DownstreamPathTemplate": "/api/Authorization",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/gateway/Authorization",
-      "UpstreamHttpMethod": [ "POST" ]
-    },
-    {
       "DownstreamPathTemplate": "/api/kweet",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
