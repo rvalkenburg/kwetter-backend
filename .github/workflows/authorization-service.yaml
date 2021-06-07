@@ -52,3 +52,19 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: Services/AuthorizationService/Rest/Dockerfile   
         workdir: src
+  
+  update-deployment:
+    needs: [ publish-docker ]
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Azure Login
+      uses: Azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Azure CLI Action
+      uses: Azure/cli@1.0.4
+      with:
+        inlineScript: kubectl rollout restart deployment kwetter-authorization-service
+
+
+  
