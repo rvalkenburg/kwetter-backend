@@ -11,6 +11,5 @@ namespace Kwetter.Services.AuthorizationService.Application.Events
         public DateTime DateOfCreation { get; set; }
         public string Email { get; set; }
         public string GoogleId { get; set; }
-
     }
 }
