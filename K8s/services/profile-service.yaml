@@ -55,3 +55,17 @@ spec:
               memory: 256Mi
           ports:
             - containerPort: 80
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: kwetter-profile-service-autoscaler
+  namespace: kwetter
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kwetter-profile-service
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 75
