@@ -52,7 +52,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: Services/AuthorizationService/Rest/Dockerfile   
         workdir: src
-        tags: --tag kwetter-authorization-service:$(date +%s)
+        tags: $(date +%s)
   
 #   update-deployment:
 #     needs: [ publish-docker ]
