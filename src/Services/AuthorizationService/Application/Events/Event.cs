@@ -3,6 +3,5 @@
     public class Event<T>
     {
         public T Data { get; set; }
-
     }
 }
