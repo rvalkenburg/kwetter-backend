@@ -46,7 +46,8 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Publish to Registry
-      pre: echo ::save-state name=RELEASE_VERSION::$(echo ${GITHUB_REF:10})
+    - name: Dynamically set MY_DATE environment variable
+      run: echo "NOW::$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: rvalkenburg/kwetter-authorization-service
@@ -54,7 +55,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: Services/AuthorizationService/Rest/Dockerfile   
         workdir: src
-        tags: "latest,${{ env.STATE_RELEASE_VERSION }}"
+        tags: "latest, $NOW"
   
 #   update-deployment:
 #     needs: [ publish-docker ]
