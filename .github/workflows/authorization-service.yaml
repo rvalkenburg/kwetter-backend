@@ -46,6 +46,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Publish to Registry
+      pre: echo ::save-state name=RELEASE_VERSION::$(echo ${GITHUB_REF:10})
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: rvalkenburg/kwetter-authorization-service
@@ -53,7 +54,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: Services/AuthorizationService/Rest/Dockerfile   
         workdir: src
-        tags: $(date +'%Y-%m-%dT%H:%M:%S') 
+        tags: "latest,${{ env.STATE_RELEASE_VERSION }}"
   
 #   update-deployment:
 #     needs: [ publish-docker ]
