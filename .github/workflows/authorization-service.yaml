@@ -36,7 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the docker AuthorizationService image
-        run: docker build . --file Services/AuthorizationService/Rest/Dockerfile --tag kwetter-authorization-service:$(date +%s)
+        run: docker build . --file Services/AuthorizationService/Rest/Dockerfile
         
   publish-docker:
     if: contains(github.ref, 'master')
@@ -52,19 +52,20 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: Services/AuthorizationService/Rest/Dockerfile   
         workdir: src
+        tags: --tag kwetter-authorization-service:$(date +%s)
   
-  update-deployment:
-    needs: [ publish-docker ]
-    runs-on: ubuntu-20.04
-    steps:
-    - name: Azure Login
-      uses: Azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: Azure CLI Action
-      uses: Azure/cli@1.0.4
-      with:
-        inlineScript: kubectl rollout restart deployment kwetter-authorization-service
+#   update-deployment:
+#     needs: [ publish-docker ]
+#     runs-on: ubuntu-20.04
+#     steps:
+#     - name: Azure Login
+#       uses: Azure/login@v1
+#       with:
+#         creds: ${{ secrets.AZURE_CREDENTIALS }}
+#     - name: Azure CLI Action
+#       uses: Azure/cli@1.0.4
+#       with:
+#         inlineScript: kubectl rollout restart deployment kwetter-authorization-service
 
 
   
