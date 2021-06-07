@@ -5,6 +5,7 @@ on:
     branches: [ master ]
     paths:
       - src/Services/AuthorizationService/**
+      - .github/workflows/authorization-service.yaml
   pull_request:
     branches: [ master ]
     paths:
@@ -52,7 +53,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: Services/AuthorizationService/Rest/Dockerfile   
         workdir: src
-        tags: $(date +%s)
+        tags: $(date +'%Y-%m-%dT%H:%M:%S') 
   
 #   update-deployment:
 #     needs: [ publish-docker ]
