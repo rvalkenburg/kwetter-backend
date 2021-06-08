@@ -47,6 +47,7 @@ jobs:
         
   publish-docker:
     if: contains(github.ref, 'master')
+    needs: [ build-docker ]
     runs-on: ubuntu-20.04
     steps:
     - name: Get current date
