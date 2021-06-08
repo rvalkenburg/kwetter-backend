@@ -5,18 +5,22 @@ on:
     branches: [ master ]
     paths:
       - src/Services/AuthorizationService/**
+      - .github/workflows/authorization-service.yaml
   pull_request:
     branches: [ master ]
     paths:
       - src/Services/AuthorizationService/**
 
-defaults:
-  run:
-    working-directory: src
+# defaults:
+#   run:
+#     working-directory: src
     
 jobs:
   build:
     runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: src
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
@@ -33,6 +37,9 @@ jobs:
   build-docker:
     needs: [ build ]
     runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: src
     steps:
       - uses: actions/checkout@v2
       - name: Build the docker AuthorizationService image
@@ -40,9 +47,12 @@ jobs:
         
   publish-docker:
     if: contains(github.ref, 'master')
-    needs: [build-docker]
+    needs: [ build-docker ]
     runs-on: ubuntu-20.04
     steps:
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +%s)"
     - uses: actions/checkout@master
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
@@ -50,9 +60,9 @@ jobs:
         name: rvalkenburg/kwetter-authorization-service
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: Services/AuthorizationService/Rest/Dockerfile   
         workdir: src
-        tags: $(date +%s)
+        dockerfile: Services/AuthorizationService/Rest/Dockerfile   
+        tags: "latest, ${{ steps.date.outputs.date }}"
   
 #   update-deployment:
 #     needs: [ publish-docker ]
