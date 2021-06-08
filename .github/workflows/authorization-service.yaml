@@ -44,8 +44,9 @@ jobs:
     needs: [build-docker]
     runs-on: ubuntu-20.04
     steps:
-    - name: set time
-      run: echo "TIME=$(date +%s)" >> $GITHUB_ENV
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +%s)"
     - uses: actions/checkout@master
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
@@ -54,7 +55,7 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: src/Services/AuthorizationService/Rest/Dockerfile   
-        tags: "latest, ${{ env.TIME }}"
+        tags: "latest, ${{ steps.date.outputs.date }}"
   
 #   update-deployment:
 #     needs: [ publish-docker ]
