@@ -53,7 +53,8 @@ jobs:
         name: rvalkenburg/kwetter-authorization-service
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: src/Services/AuthorizationService/Rest/Dockerfile   
+        workdir: src
+        dockerfile: Services/AuthorizationService/Rest/Dockerfile   
         tags: "latest, ${{ steps.date.outputs.date }}"
   
 #   update-deployment:
