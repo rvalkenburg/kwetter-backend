@@ -16,28 +16,34 @@ on:
 #     working-directory: src
     
 jobs:
-#   build:
-#     runs-on: ubuntu-20.04
-#     steps:
-#     - uses: actions/checkout@v2
-#     - name: Setup .NET
-#       uses: actions/setup-dotnet@v1
-#       with:
-#         dotnet-version: 5.0.x
-#     - name: Restore dependencies
-#       run: dotnet restore
-#     - name: Build
-#       run: dotnet build --no-restore
-#     - name: Test
-#       run: dotnet test --no-build --verbosity normal
+  build:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: src
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
       
-#   build-docker:
-#     needs: [ build ]
-#     runs-on: ubuntu-20.04
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Build the docker AuthorizationService image
-#         run: docker build . --file Services/AuthorizationService/Rest/Dockerfile
+  build-docker:
+    needs: [ build ]
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: src
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the docker AuthorizationService image
+        run: docker build . --file Services/AuthorizationService/Rest/Dockerfile
         
   publish-docker:
     if: contains(github.ref, 'master')
