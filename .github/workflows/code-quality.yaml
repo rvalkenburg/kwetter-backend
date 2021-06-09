@@ -1,0 +1,44 @@
+name: CodeQuality
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - src/Services/**
+  pull_request:
+    branches: [ master ]
+    paths:
+      - src/Services/**
+
+defaults:
+  run:
+    working-directory: src
+    
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal  
+  
+  codequality:
+    needs: [build]
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@master
+      - name: Test dotnet
+        run: dotnet test
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
