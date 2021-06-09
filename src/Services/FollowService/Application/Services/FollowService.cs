@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kwetter.Services.FollowService.Application.Common.Interfaces;
@@ -8,7 +6,6 @@ using Kwetter.Services.FollowService.Application.Common.Models;
 using Kwetter.Services.FollowService.Application.Events;
 using Kwetter.Services.FollowService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Profile = Kwetter.Services.FollowService.Domain.Entities.Profile;
 
 namespace Kwetter.Services.FollowService.Application.Services
 {
@@ -27,17 +24,17 @@ namespace Kwetter.Services.FollowService.Application.Services
 
         public async Task<Response<FollowDto>> CreateFollow(Guid profileId, Guid followerId)
         {
-            Response<FollowDto> response = new Response<FollowDto>();
+            var response = new Response<FollowDto>();
 
-            Profile profile = await _context.Profile.FindAsync(profileId);
-            Profile follower = await _context.Profile.FindAsync(followerId);
+            var profile = await _context.Profile.FindAsync(profileId);
+            var follower = await _context.Profile.FindAsync(followerId);
 
-            Follow followConnectionExist = await _context.Follows.FirstOrDefaultAsync(x =>
+            var followConnectionExist = await _context.Follows.FirstOrDefaultAsync(x =>
                 x.Profile == profile && x.Follower == follower);
 
             if (followConnectionExist != null) return response;
 
-            Follow follow = new Follow
+            var follow = new Follow
             {
                 Id = new Guid(),
                 Profile = profile,
@@ -47,13 +44,12 @@ namespace Kwetter.Services.FollowService.Application.Services
 
 
             _context.Follows.Add(follow);
-            bool success = await _context.SaveChangesAsync() > 0;
+            var success = await _context.SaveChangesAsync() > 0;
             if (success)
             {
                 SendNewFollowEvent(follow.Profile.Id, follow.Follower.Id);
                 response.Data = _mapper.Map<FollowDto>(follow);
                 response.Success = true;
-
             }
 
             return response;
@@ -61,14 +57,16 @@ namespace Kwetter.Services.FollowService.Application.Services
 
         public async Task<Response<FollowDto>> DeleteFollow(Guid profileId, Guid followerId)
         {
-            Response<FollowDto> response = new Response<FollowDto>();
+            var response = new Response<FollowDto>();
 
-            Follow follow = await _context.Follows.FirstOrDefaultAsync(x=> x.Follower.Id == followerId && x.Profile.Id == profileId);
+            var follow =
+                await _context.Follows.FirstOrDefaultAsync(
+                    x => x.Follower.Id == followerId && x.Profile.Id == profileId);
 
             if (follow == null) return response;
 
             _context.Follows.Remove(follow);
-            bool success = await _context.SaveChangesAsync() > 0;
+            var success = await _context.SaveChangesAsync() > 0;
 
             if (success)
             {
@@ -79,66 +77,30 @@ namespace Kwetter.Services.FollowService.Application.Services
             return response;
         }
 
-        public async Task<Response<IEnumerable<FollowDto>>> GetPaginatedFollowersByProfileId(Guid id)
-        {
-            Response<IEnumerable<FollowDto>> response = new Response<IEnumerable<FollowDto>>();
-
-            Profile profile = await _context.Profile.FindAsync(id);
-            
-            if (profile == null) return response;
-
-            List<Follow> follows = await _context.Follows.Where(x => x.Profile == profile).ToListAsync();
-
-            if (follows != null)
-            {
-                response.Data = _mapper.Map<IEnumerable<FollowDto>>(follows);
-                response.Success = true;
-            }
-            return response;
-        }
-        
-        public async Task<Response<IEnumerable<FollowingDto>>> GetPaginatedFollowingByProfileId(Guid id)
-        {
-            Response<IEnumerable<FollowingDto>> response = new Response<IEnumerable<FollowingDto>>();
-
-            Profile profile = await _context.Profile.FindAsync(id);
-            
-            if (profile == null) return response;
-
-            List<Follow> follows = await _context.Follows.Where(x => x.Follower == profile).ToListAsync();
-
-            if (follows != null)
-            {
-                response.Data = _mapper.Map<IEnumerable<FollowingDto>>(follows);
-                response.Success = true;
-            }
-            return response;
-        }
-
         private void SendNewFollowEvent(Guid profileId, Guid followerId)
         {
-            FollowEvent followEvent = new FollowEvent
+            var followEvent = new FollowEvent
             {
                 ProfileId = profileId,
                 FollowerId = followerId
             };
-            
-            Event<FollowEvent> createFollowEvent = new Event<FollowEvent>
+
+            var createFollowEvent = new Event<FollowEvent>
             {
                 Data = followEvent
             };
             _producer.Send("Create-Follow", createFollowEvent);
         }
-        
+
         private void SendDeleteFollowEvent(Guid profileId, Guid followerId)
         {
-            FollowEvent followEvent = new FollowEvent
+            var followEvent = new FollowEvent
             {
                 ProfileId = profileId,
                 FollowerId = followerId
             };
-            
-            Event<FollowEvent> createFollowEvent = new Event<FollowEvent>
+
+            var createFollowEvent = new Event<FollowEvent>
             {
                 Data = followEvent
             };

@@ -19,7 +19,7 @@ namespace Kwetter.Services.FollowService.Rest.Controllers
         {
             _followService = followService;
         }
-        
+
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -32,9 +32,10 @@ namespace Kwetter.Services.FollowService.Rest.Controllers
                     new Guid(createFollowRequest.FollowId));
                 return response.Success ? new OkObjectResult(response) : StatusCode(500);
             }
+
             return StatusCode(400);
         }
-        
+
         [HttpDelete("{profileId}/{followerId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -46,34 +47,7 @@ namespace Kwetter.Services.FollowService.Rest.Controllers
                 var response = await _followService.DeleteFollow(new Guid(profileId), new Guid(followerId));
                 return response.Success ? new OkObjectResult(response) : StatusCode(500);
             }
-            return StatusCode(400);
-        }
 
-        [HttpGet("followers")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetFollowersByProfileId([FromQuery] string id)
-        {
-            if (ModelState.IsValid)
-            {
-                var response = await _followService.GetPaginatedFollowersByProfileId(new Guid(id));
-                return response.Success ? new OkObjectResult(response) : StatusCode(500);
-            }
-            return StatusCode(400);
-        }
-        
-        [HttpGet("followed")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetFollowingsByProfileId([FromQuery] string id)
-        {
-            if (ModelState.IsValid)
-            {
-                var response = await _followService.GetPaginatedFollowingByProfileId(new Guid(id));
-                return response.Success ? new OkObjectResult(response) : StatusCode(500);
-            }
             return StatusCode(400);
         }
     }

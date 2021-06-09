@@ -10,14 +10,18 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.4" />
         <PackageReference Include="Moq" Version="4.16.1" />
         <PackageReference Include="NUnit" Version="3.12.0" />
-        <PackageReference Include="NUnit.Mocks" Version="2.6.4" />
-        <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+        <PackageReference Include="NUnit.Mocks" Version="2.6.4"/>
+        <PackageReference Include="NUnit3TestAdapter" Version="3.16.1"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Application\Kwetter.Services.ProfileService.Application.csproj" />
-      <ProjectReference Include="..\Persistence\Kwetter.Services.ProfileService.Persistence.csproj" />
+        <ProjectReference Include="..\Application\Kwetter.Services.ProfileService.Application.csproj"/>
+        <ProjectReference Include="..\Persistence\Kwetter.Services.ProfileService.Persistence.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Unit\EventHandlers"/>
     </ItemGroup>
 
 </Project>

@@ -14,42 +14,43 @@ namespace Kwetter.Services.SearchService.Application.Services
     {
         private readonly ISearchContext _context;
         private readonly IMapper _mapper;
-        
+
         public SearchService(ISearchContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
-        
-        public async Task<PaginationResponse<SearchDto>> GetPaginatedSearch(int pageSize, int pageNumber, string name, Guid profileId)
+
+        public async Task<PaginationResponse<SearchDto>> GetPaginatedSearch(int pageSize, int pageNumber, string name,
+            Guid profileId)
         {
-            
             PaginationResponse<SearchDto> response = new();
 
-            Profile currentUser = await _context.Profiles.FindAsync(profileId);
-            
-            List<Profile> entities = await _context.Profiles
+            var currentUser = await _context.Profiles.FindAsync(profileId);
+
+            var entities = await _context.Profiles
                 .Where(x => x.DisplayName == name)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
 
-                response.Data = _mapper.Map<IEnumerable<Profile>, IEnumerable<SearchDto>>(entities,
-                    opt => opt.AfterMap((src, dest) =>
-                    {
+            response.Data = _mapper.Map<IEnumerable<Profile>, IEnumerable<SearchDto>>(entities,
+                opt => opt.AfterMap((src, dest) =>
+                {
+                    if (currentUser != null)
                         foreach (var i in dest)
                         {
-                            i.Status = currentUser.Followers.Any(x => x.Follower.Id == i.Id);;
+                            i.Status = currentUser.Followers.Any(x => x.Follower.Id == i.Id);
+                            ;
                         }
-                    }));
-            
+                }));
+
             response.PageSize = pageSize;
             response.PageNumber = pageNumber;
             response.Success = true;
 
             return response;
         }
-        
     }
 }
