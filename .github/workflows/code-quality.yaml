@@ -46,7 +46,6 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"rvalkenburg_kwetter-backend" /o:"rvalkenburg" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet restore src/src.sln
-          dotnet test src/src.sln --collect "Code Coverage"
+          dotnet test src/src.sln --blame --collect "Code Coverage"
           dotnet build src/src.sln --configuration release
-          
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
