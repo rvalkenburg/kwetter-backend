@@ -14,20 +14,20 @@ defaults:
     
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    name: Build
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v1.7.2
       with:
-        dotnet-version: 5.0.x
-    - name: Restore dependencies
+        dotnet-version: '5.0.x'
+    - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal  
-  
+      run: dotnet build --no-restore --configuration "Services Build"
+      
   codequality:
     needs: [build]
     runs-on: [ubuntu-latest]
