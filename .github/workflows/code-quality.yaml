@@ -41,7 +41,6 @@ jobs:
           args: >
             -Dsonar.organization=rvalkenburg
             -Dsonar.projectKey=rvalkenburg_kwetter-backend
-            -Dsonar.sources=/github/workspace/kwetter-backend/src/Services/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
