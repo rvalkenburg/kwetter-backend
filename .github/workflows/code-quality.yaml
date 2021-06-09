@@ -3,8 +3,6 @@ name: CodeQuality
 on:
   push:
     branches: [ master ]
-    paths:
-      - src/Services/**
   pull_request:
     branches: [ master ]
     paths:
