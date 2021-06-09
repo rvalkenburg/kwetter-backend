@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Kwetter.Services.SearchService.Application.Common.Interfaces;
@@ -15,28 +16,33 @@ namespace Kwetter.Services.SearchService.Application.EventHandlers.Follow
         {
             _context = context;
         }
+
         public async Task<bool> Consume(string message)
         {
-            FollowEvent followEvent = JsonConvert.DeserializeObject<FollowEvent>(message);
-            Domain.Entities.Profile profile = await _context.Profiles.FindAsync(followEvent.ProfileId);
-            Domain.Entities.Profile follower = await _context.Profiles.FindAsync(followEvent.FollowerId);
+            var followEvent = JsonConvert.DeserializeObject<FollowEvent>(message);
+            var profile = await _context.Profiles.FindAsync(followEvent.ProfileId);
+            var follower = await _context.Profiles.FindAsync(followEvent.FollowerId);
 
-            if (profile == null && follower == null) return false;
-            
-            var followConnectionExist = profile.Followers.FirstOrDefault(x => x.Id == follower.Id);
-
-            if (followConnectionExist == null)
+            if (profile != null && follower != null)
             {
-                profile.Followers.Add(new Domain.Entities.Follow
+                profile.Followers ??= new List<Domain.Entities.Follow>();
+
+                var followConnectionExist = profile.Followers.Any(x => x.Follower.Id == follower.Id);
+
+                if (followConnectionExist == false)
                 {
-                    Id = new Guid(),
-                    DateOfCreation = DateTime.Now,
-                    Follower = follower
-                });
-                _context.Profiles.Update(profile);
-                return await _context.SaveChangesAsync() > 0;
+                    profile.Followers.Add(new Domain.Entities.Follow
+                    {
+                        Id = new Guid(),
+                        DateOfCreation = DateTime.Now,
+                        Follower = follower
+                    });
+                    _context.Profiles.Update(profile);
+                    return await _context.SaveChangesAsync() > 0;
+                }
             }
-            return true;
+
+            return false;
         }
     }
 }
