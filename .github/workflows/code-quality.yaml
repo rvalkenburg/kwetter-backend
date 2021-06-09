@@ -40,7 +40,7 @@ jobs:
         with:
           args: >
             -Dsonar.organization=rvalkenburg
-            -Dsonar.projectKey=rvalkenburg
+            -Dsonar.projectKey=rvalkenburg_kwetter-backend
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
