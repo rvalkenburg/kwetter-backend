@@ -38,6 +38,7 @@ jobs:
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
+          projectBaseDir: src/Services
           args: >
             -Dsonar.organization=rvalkenburg
             -Dsonar.projectKey=rvalkenburg_kwetter-backend
