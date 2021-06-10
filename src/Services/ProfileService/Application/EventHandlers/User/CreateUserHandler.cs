@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using Kwetter.Services.ProfileService.Application.Common.Interfaces;
 using Kwetter.Services.ProfileService.Application.Common.Interfaces.Handlers;
