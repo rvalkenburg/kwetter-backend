@@ -52,9 +52,9 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        sonarProjectKey: metalglove_Kwetter
-        sonarProjectName: Kwetter
-        sonarOrganization: metalglove-github
+        sonarProjectKey: rvalkenburg_kwetter-backend
+        sonarProjectName: kwetter-backend
+        sonarOrganization: rvalkenburg
         dotnetBuildArguments: ./src/Kwetter.sln --configuration "Services Build"
         dotnetTestArguments: ./src/Kwetter.sln --configuration "Services Build" --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
         sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
