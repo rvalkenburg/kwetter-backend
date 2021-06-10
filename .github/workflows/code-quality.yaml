@@ -41,6 +41,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         sonarProjectKey: rvalkenburg_kwetter-backend
+        sonarProjectName: kwetter-backend
         sonarOrganization: rvalkenburg
         dotnetBuildArguments: ./src/src.sln --configuration "Services Build"
         dotnetTestArguments: ./src/src.sln --configuration "Services Build" --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
