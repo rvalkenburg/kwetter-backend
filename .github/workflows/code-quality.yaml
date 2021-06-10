@@ -12,41 +12,28 @@ defaults:
     working-directory: src      
       
 jobs:
-
-  # Builds the code 
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    # Checks out the code
     - name: Checkout
       uses: actions/checkout@v2
-
-    # Sets up the .NET SDK
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1.7.2
       with:
         dotnet-version: '5.0.x'
-    
-    # Installs the dependencies
     - name: Install dependencies
       run: dotnet restore
-
-    # Builds the code
     - name: Build
       run: dotnet build --no-restore --configuration "Services Build"
   
-  # Runs the tests with sonarscan
   test:
     needs: build
     name: Test
     runs-on: ubuntu-latest
     steps:
-    # Checks out the code
     - name: Checkout
       uses: actions/checkout@v2
-    
-    # Tests the code and performs a sonarscan
     - name: Test
       uses: highbyte/sonarscan-dotnet@v2.1.1-beta
       env:
