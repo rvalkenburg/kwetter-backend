@@ -25,7 +25,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore --configuration "Services Build"
+      run: dotnet build --no-restore
   
   test:
     needs: build
