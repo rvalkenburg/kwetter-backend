@@ -55,7 +55,7 @@ jobs:
         sonarProjectKey: rvalkenburg_kwetter-backend
         sonarProjectName: kwetter-backend
         sonarOrganization: rvalkenburg
-        dotnetBuildArguments: ./src/src.sln --configuration "Services Build"
-        dotnetTestArguments: ./src/src.sln --configuration "Services Build" --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        dotnetBuildArguments: ./src/src.sln 
+        dotnetTestArguments: ./src/src.sln  --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
         sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
 
