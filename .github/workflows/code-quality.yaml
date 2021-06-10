@@ -6,23 +6,56 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     
+defaults:
+  run:
+    working-directory: src
+
 jobs:
+
+  # Builds the code 
   build:
-  - name: SonarScanner for .NET 5 with pull request decoration support
-    uses: highbyte/sonarscan-dotnet@2.0
-    with:
-        # The key of the SonarQube project
-      sonarProjectKey: rvalkenburg_kwetter-backend
-        # The name of the SonarQube project
-      sonarProjectName: kwetter-backend
-        # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
-      sonarOrganization: rvalkenburg
-        # Optional command arguments to dotnet test
-      dotnetTestArguments: --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
-        # Optional extra command arguments the the SonarScanner 'begin' command
-      sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
-        
-  env:
-    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    # Checks out the code
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Sets up the .NET SDK
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        dotnet-version: '5.0.x'
+    
+    # Installs the dependencies
+    - name: Install dependencies
+      run: dotnet restore
+
+    # Builds the code
+    - name: Build
+      run: dotnet build --no-restore --configuration "Services Build"
+  
+  # Runs the tests with sonarscan
+  test:
+    needs: build
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+    # Checks out the code
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    # Tests the code and performs a sonarscan
+    - name: Test
+      uses: highbyte/sonarscan-dotnet@v2.1.1-beta
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        sonarProjectKey: metalglove_Kwetter
+        sonarProjectName: Kwetter
+        sonarOrganization: metalglove-github
+        dotnetBuildArguments: ./src/Kwetter.sln --configuration "Services Build"
+        dotnetTestArguments: ./src/Kwetter.sln --configuration "Services Build" --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
 
