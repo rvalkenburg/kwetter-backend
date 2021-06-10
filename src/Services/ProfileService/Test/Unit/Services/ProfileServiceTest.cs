@@ -51,7 +51,7 @@ namespace Kwetter.Services.ProfileService.Test.Unit.Services
             Assert.True(result.Success);
             Assert.AreEqual(entity.Id, result.Data.Id);
         }
-        
+
         [Test]
         public async Task FindNotExistingProfileById()
         {
@@ -63,8 +63,6 @@ namespace Kwetter.Services.ProfileService.Test.Unit.Services
                 Description = "Test"
             };
 
-            Context.Profiles.Add(entity);
-            await Context.SaveChangesAsync();
             var result = await _profileService.GetProfileAsync(entity.Id);
 
             Assert.NotNull(result);
