@@ -7,28 +7,9 @@ on:
     branches: [ master ]
     paths:
       - src/Services/**
-defaults:
-  run:
-    working-directory: src      
       
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v1.7.2
-      with:
-        dotnet-version: '5.0.x'
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-  
   test:
-    needs: build
     name: Test
     runs-on: ubuntu-latest
     steps:
