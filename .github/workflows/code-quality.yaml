@@ -12,41 +12,28 @@ defaults:
     working-directory: src      
       
 jobs:
-
-  # Builds the code 
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    # Checks out the code
     - name: Checkout
       uses: actions/checkout@v2
-
-    # Sets up the .NET SDK
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1.7.2
       with:
         dotnet-version: '5.0.x'
-    
-    # Installs the dependencies
     - name: Install dependencies
       run: dotnet restore
-
-    # Builds the code
     - name: Build
-      run: dotnet build --no-restore --configuration "Services Build"
+      run: dotnet build --no-restore
   
-  # Runs the tests with sonarscan
   test:
     needs: build
     name: Test
     runs-on: ubuntu-latest
     steps:
-    # Checks out the code
     - name: Checkout
       uses: actions/checkout@v2
-    
-    # Tests the code and performs a sonarscan
     - name: Test
       uses: highbyte/sonarscan-dotnet@v2.1.1-beta
       env:
@@ -54,7 +41,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         sonarProjectKey: rvalkenburg_kwetter-backend
+        sonarProjectName: kwetter-backend
         sonarOrganization: rvalkenburg
-        dotnetBuildArguments: ./src/src.sln --configuration "Services Build"
-        dotnetTestArguments: ./src/src.sln --configuration "Services Build" --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        dotnetBuildArguments: ./src/src.sln
+        dotnetTestArguments: ./src/src.sln --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
         sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
