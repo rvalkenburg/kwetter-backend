@@ -7,6 +7,10 @@ on:
     branches: [ master ]
     paths:
       - src/Services/**
+defaults:
+  run:
+    working-directory: src      
+      
 jobs:
 
   # Builds the code 
