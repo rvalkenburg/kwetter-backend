@@ -82,7 +82,10 @@
     {
       "DownstreamPathTemplate": "/api/profile/{everything}",
       "DownstreamScheme": "http",
-      "DownstreamHttpMethod": "GET",
+      "DownstreamHttpMethod": [
+        "GET",
+        "PUT"
+      ],
       "DownstreamHostAndPorts": [
         {
           "Host": "kwetter-profile-service",
@@ -91,7 +94,8 @@
       ],
       "UpstreamPathTemplate": "/10.0.125.38:80/gateway/profile/{everything}",
       "UpstreamHttpMethod": [
-        "GET"
+        "GET",
+        "PUT"
       ]
     },
     {
