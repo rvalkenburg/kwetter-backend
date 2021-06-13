@@ -24,12 +24,11 @@ namespace Kwetter.Gateway
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
             app.UseRouting();
-            app.UseCors(builder => builder
+
+            app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-
-            app.UseCors(builder => builder.AllowCredentials());
 
             await app.UseOcelot();
         }
