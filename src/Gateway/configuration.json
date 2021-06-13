@@ -60,21 +60,38 @@
         }
       ],
       "UpstreamPathTemplate": "/gateway/like",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [
+        "POST"
+      ]
     },
     {
-      "DownstreamPathTemplate": "/api/profile/{everything}",
+      "DownstreamPathTemplate": "/api/profile",
       "DownstreamScheme": "http",
+      "DownstreamHttpMethod": "PUT",
       "DownstreamHostAndPorts": [
         {
           "Host": "kwetter-profile-service",
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "api-gateway-service:80/gateway/profile/{everything}",
+      "UpstreamPathTemplate": "/10.0.125.38/gateway/profile",
       "UpstreamHttpMethod": [
-        "GET",
         "PUT"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/profile/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpMethod": "GET",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "kwetter-profile-service",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/10.0.125.38/gateway/profile/{everything}",
+      "UpstreamHttpMethod": [
+        "GET"
       ]
     },
     {
