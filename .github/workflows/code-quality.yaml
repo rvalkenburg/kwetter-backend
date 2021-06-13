@@ -1,10 +1,13 @@
-name: Build
+name: code-quality
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
+    paths:
+      - src/Services/**
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches: [ master ]
+    paths:
+      - src/Services/**
     
 defaults:
   run:
