@@ -40,10 +40,7 @@ namespace Kwetter.Services.SearchService.Application.Services
                 {
                     if (currentUser != null)
                         foreach (var i in dest)
-                        {
                             i.Status = currentUser.Followers.Any(x => x.Follower.Id == i.Id);
-                            ;
-                        }
                 }));
 
             response.PageSize = pageSize;

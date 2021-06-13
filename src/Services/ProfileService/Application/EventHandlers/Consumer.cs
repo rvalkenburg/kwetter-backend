@@ -18,7 +18,6 @@ namespace Kwetter.Services.ProfileService.Application.EventHandlers
         public Consumer(ConsumerConfig config)
         {
             _consumer = new ConsumerBuilder<Ignore, string>(config).Build();
-            ;
             _topicDictionary = new ConcurrentDictionary<string, IHandler>();
         }
 
@@ -27,24 +26,20 @@ namespace Kwetter.Services.ProfileService.Application.EventHandlers
             await Task.Yield();
 
             while (!stoppingToken.IsCancellationRequested)
-            {
                 try
                 {
                     var consumeResult = _consumer.Consume(stoppingToken);
 
                     if (consumeResult == null) continue;
-                    if (!_topicDictionary.TryGetValue(consumeResult.Topic, out IHandler handler))
+                    if (!_topicDictionary.TryGetValue(consumeResult.Topic, out var handler))
                     {
                         Console.WriteLine("Topic was not found");
                         continue;
                     }
 
-                    bool success = await handler.Consume(consumeResult.Message.Value);
+                    var success = await handler.Consume(consumeResult.Message.Value);
 
-                    if (success)
-                    {
-                        _consumer.Commit();
-                    }
+                    if (success) _consumer.Commit();
                 }
                 catch (ConsumeException)
                 {
@@ -54,7 +49,6 @@ namespace Kwetter.Services.ProfileService.Application.EventHandlers
                 {
                     Console.WriteLine("Operation was canceled");
                 }
-            }
         }
 
         public override void Dispose()
@@ -66,9 +60,7 @@ namespace Kwetter.Services.ProfileService.Application.EventHandlers
         public void AddSubscriber(Dictionary<string, IHandler> handlers)
         {
             foreach (var handler in handlers.Where(handler => !_topicDictionary.ContainsKey(handler.Key)))
-            {
                 _topicDictionary.TryAdd(handler.Key, handler.Value);
-            }
 
             _consumer.Subscribe(handlers.Keys);
         }

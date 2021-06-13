@@ -20,21 +20,22 @@ namespace Kwetter.Services.KweetService.Rest.Controllers
         {
             _kweetService = kweetService;
         }
-        
+
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create([FromBody] CreateKweetRequest createProfileRequest)
         {
             if (!ModelState.IsValid) return StatusCode(500);
-            Guid userId = Guid.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "Id").Value);
+            var userId = Guid.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "Id").Value);
 
             if (userId != new Guid(createProfileRequest.ProfileId)) return StatusCode(403);
-            
-            var response = await _kweetService.CreateKweetAsync(new Guid(createProfileRequest.ProfileId), createProfileRequest.Message);
+
+            var response = await _kweetService.CreateKweetAsync(new Guid(createProfileRequest.ProfileId),
+                createProfileRequest.Message);
             return response.Success ? new OkObjectResult(response) : StatusCode(500);
         }
-        
+
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -42,12 +43,14 @@ namespace Kwetter.Services.KweetService.Rest.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _kweetService.GetPaginatedKweetsByProfile(getKweetsRequest.PageNumber, getKweetsRequest.PageSize, new Guid(getKweetsRequest.ProfileId));
+                var response = await _kweetService.GetPaginatedKweetsByProfile(getKweetsRequest.PageNumber,
+                    getKweetsRequest.PageSize, new Guid(getKweetsRequest.ProfileId));
                 return response.Success ? new OkObjectResult(response) : new NotFoundResult();
             }
+
             return StatusCode(500);
         }
-        
+
         [HttpGet("timeline")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -55,22 +58,11 @@ namespace Kwetter.Services.KweetService.Rest.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _kweetService.GetPaginatedTimeline(getKweetsRequest.PageNumber, getKweetsRequest.PageSize, new Guid(getKweetsRequest.ProfileId));
+                var response = await _kweetService.GetPaginatedTimeline(getKweetsRequest.PageNumber,
+                    getKweetsRequest.PageSize, new Guid(getKweetsRequest.ProfileId));
                 return response.Success ? new OkObjectResult(response) : new NotFoundResult();
             }
-            return StatusCode(500);
-        }
-        
-        [HttpGet("trending")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPaginatedTrending([FromQuery] GetKweetsRequest getKweetsRequest)
-        {
-            if (ModelState.IsValid)
-            {
-                var response = await _kweetService.GetPaginatedTrendingKweets(getKweetsRequest.PageNumber, getKweetsRequest.PageSize);
-                return response.Success ? new OkObjectResult(response) : new NotFoundResult();
-            }
+
             return StatusCode(500);
         }
     }

@@ -7,6 +7,10 @@ namespace Kwetter.Services.FollowService.Persistence.Contexts
 {
     public class FollowContext : DbContext, IFollowContext
     {
+        public FollowContext(DbContextOptions<FollowContext> options) : base(options)
+        {
+        }
+
         public DbSet<Follow> Follows { get; set; }
         public DbSet<Profile> Profile { get; set; }
 
@@ -15,18 +19,10 @@ namespace Kwetter.Services.FollowService.Persistence.Contexts
             return base.SaveChangesAsync();
         }
 
-        public FollowContext(DbContextOptions<FollowContext> options) : base(options)
-        {
-        }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();
             base.OnConfiguring(optionsBuilder);
-        }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

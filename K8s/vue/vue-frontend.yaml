@@ -1,0 +1,93 @@
+﻿apiVersion: v1
+kind: Service
+metadata:
+  name: kwetter-frontend
+  namespace: kwetter
+  labels:
+    app: kwetter-frontend
+    service: kwetter-frontend
+spec:
+  selector:
+    app: kwetter-frontend-pod
+  ports:
+    - protocol: TCP
+      name: http
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kwetter-frontend
+  namespace: kwetter
+spec:
+  replicas: 1
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: kwetter-frontend-pod
+      version: latest
+  template:
+    metadata:
+      labels:
+        app: kwetter-frontend-pod
+        version: latest
+    spec:
+      containers:
+        - name: kwetter-frontend-container
+          image: rvalkenburg/kwetter-frontend:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: kwetter-frontend-secret
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          ports:
+            - containerPort: 80
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: kwetter-frontend-autoscaler
+  namespace: kwetter
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kwetter-frontend
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 75
+#kind: Pod
+#apiVersion: v1
+#metadata:
+#  name: kwetter-frontend
+#  namespace: kwetter
+#  labels:
+#    app: kwetter-frontend
+#spec:
+#  containers:
+#    - name: kwetter-frontend
+#      image: rvalkenburg/kwetter-frontend:latest
+#      imagePullPolicy: Always
+#      envFrom:
+#        - configMapRef:
+#            name: kwetter-frontend-config
+#      resources:
+#        requests:
+#          cpu: 100m
+#          memory: 128Mi
+#        limits:
+#          cpu: 250m
+#          memory: 256Mi
