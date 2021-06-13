@@ -22,12 +22,13 @@ namespace Kwetter.Services.AuthorizationService.Rest
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -39,17 +40,20 @@ namespace Kwetter.Services.AuthorizationService.Rest
 
             var firebaseSettings = Configuration.GetSection("FirebaseConfig").GetChildren();
             var configurationSections = firebaseSettings.ToList();
-            string json = JsonConvert.SerializeObject(configurationSections.AsEnumerable().ToDictionary(k => k.Key, v=> v.Value));
-            FirebaseApp firebaseApp = FirebaseApp.Create(new AppOptions()
+            var json = JsonConvert.SerializeObject(configurationSections.AsEnumerable()
+                .ToDictionary(k => k.Key, v => v.Value));
+            var firebaseApp = FirebaseApp.Create(new AppOptions
             {
-                Credential = GoogleCredential.FromJson(json),
+                Credential = GoogleCredential.FromJson(json)
             });
             services.AddSingleton(firebaseApp);
-            services.AddSwaggerGen(c=> {
-                c.SwaggerDoc("v1", new OpenApiInfo { 
-                    Title="Kwetter",
-                    Version="1.0",
-                    Description="Authorization API for Kwetter."                   
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Kwetter",
+                    Version = "1.0",
+                    Description = "Authorization API for Kwetter."
                 });
             });
             services
@@ -74,12 +78,11 @@ namespace Kwetter.Services.AuthorizationService.Rest
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             if (env.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI(c=> {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kwetter");
-                });
+                app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kwetter"); });
             }
 
             using (var scope = app.ApplicationServices.CreateScope())
@@ -92,10 +95,7 @@ namespace Kwetter.Services.AuthorizationService.Rest
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }
