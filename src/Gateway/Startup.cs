@@ -14,6 +14,7 @@ namespace Kwetter.Gateway
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddOcelot()
                 .AddKubernetes();
         }
@@ -21,6 +22,13 @@ namespace Kwetter.Gateway
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+            app.UseCors(builder => builder.AllowCredentials());
+
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseRouting();
