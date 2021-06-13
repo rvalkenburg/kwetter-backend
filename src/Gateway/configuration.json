@@ -74,7 +74,7 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/10.0.125.38/gateway/profile",
+      "UpstreamPathTemplate": "/10.0.125.38:80/gateway/profile",
       "UpstreamHttpMethod": [
         "PUT"
       ]
@@ -89,7 +89,7 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/10.0.125.38/gateway/profile/{everything}",
+      "UpstreamPathTemplate": "/10.0.125.38:80/gateway/profile/{everything}",
       "UpstreamHttpMethod": [
         "GET"
       ]
