@@ -33,7 +33,7 @@ jobs:
 
     # Builds the code
     - name: Build
-      run: dotnet build --no-restore --configuration "Services Build"
+      run: dotnet build --no-restore
   
   # Runs the tests with sonarscan
   test:
