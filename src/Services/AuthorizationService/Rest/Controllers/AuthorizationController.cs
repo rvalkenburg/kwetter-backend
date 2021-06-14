@@ -4,21 +4,22 @@ using Kwetter.Services.AuthorizationService.Rest.Models.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Kwetter.Services.AuthorizationService.Rest.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class AuthorizationController: ControllerBase
+    public class AuthorizationController : ControllerBase
     {
         private readonly IAuthService _authService;
 
-        public AuthorizationController(IAuthService authService)
+        public AuthorizationController(IAuthService authService, ILogger logger)
         {
             _authService = authService;
         }
-        
+
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -26,9 +27,10 @@ namespace Kwetter.Services.AuthorizationService.Rest.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response =  await _authService.SetUserClaims(createProfileRequest.Jwt);
+                var response = await _authService.SetUserClaims(createProfileRequest.Jwt);
                 return response.Success ? new OkObjectResult(response.Data) : StatusCode(500);
             }
+
             return StatusCode(400);
         }
     }
