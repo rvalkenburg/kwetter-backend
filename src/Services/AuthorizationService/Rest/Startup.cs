@@ -38,6 +38,9 @@ namespace Kwetter.Services.AuthorizationService.Rest
             services.AddPersistence(Configuration);
             services.AddScoped<ITokenVerifier, FirebaseTokenVerifier>();
 
+            services.AddApplicationInsightsTelemetry(
+                Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
+
             var firebaseSettings = Configuration.GetSection("FirebaseConfig").GetChildren();
             var configurationSections = firebaseSettings.ToList();
             var json = JsonConvert.SerializeObject(configurationSections.AsEnumerable()
