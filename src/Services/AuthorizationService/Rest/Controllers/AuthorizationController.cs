@@ -10,7 +10,7 @@ namespace Kwetter.Services.AuthorizationService.Rest.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [AllowAnonymous]
+    [Authorize]
     public class AuthorizationController : ControllerBase
     {
         private readonly IAuthService _authService;
