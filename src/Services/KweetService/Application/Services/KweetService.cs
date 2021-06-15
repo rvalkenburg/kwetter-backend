@@ -82,7 +82,7 @@ namespace Kwetter.Services.KweetService.Application.Services
 
             var kweets = await _context.Kweets.Where(x => follows.Select(y => y.Follower)
                     .Contains(x.Profile))
-                .OrderBy(x => x.DateOfCreation)
+                .OrderByDescending(x => x.DateOfCreation)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
