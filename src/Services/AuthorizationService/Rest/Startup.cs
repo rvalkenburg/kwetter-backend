@@ -7,7 +7,6 @@ using Kwetter.Services.AuthorizationService.Application.Services;
 using Kwetter.Services.AuthorizationService.Infrastructure;
 using Kwetter.Services.AuthorizationService.Infrastructure.Authorization;
 using Kwetter.Services.AuthorizationService.Persistence;
-using Kwetter.Services.AuthorizationService.Persistence.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,13 +32,14 @@ namespace Kwetter.Services.AuthorizationService.Rest
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplicationInsightsTelemetry(
+                Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
+
             services.AddInfrastructure(Configuration);
             services.AddApplication();
             services.AddPersistence(Configuration);
             services.AddScoped<ITokenVerifier, FirebaseTokenVerifier>();
 
-            services.AddApplicationInsightsTelemetry(
-                Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
 
             var firebaseSettings = Configuration.GetSection("FirebaseConfig").GetChildren();
             var configurationSections = firebaseSettings.ToList();
@@ -87,12 +87,12 @@ namespace Kwetter.Services.AuthorizationService.Rest
                 app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kwetter"); });
             }
 
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                var context = services.GetRequiredService<AuthContext>();
-                context.Database.EnsureCreated();
-            }
+            // using (var scope = app.ApplicationServices.CreateScope())
+            // {
+            //     var services = scope.ServiceProvider;
+            //     var context = services.GetRequiredService<AuthContext>();
+            //     context.Database.EnsureCreated();
+            // }
 
             app.UseRouting();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

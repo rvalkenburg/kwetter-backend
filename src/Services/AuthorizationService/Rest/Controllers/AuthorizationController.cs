@@ -14,10 +14,12 @@ namespace Kwetter.Services.AuthorizationService.Rest.Controllers
     public class AuthorizationController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly ILogger _logger;
 
         public AuthorizationController(IAuthService authService, ILogger logger)
         {
             _authService = authService;
+            _logger = logger;
         }
 
         [HttpPost("")]
@@ -27,7 +29,7 @@ namespace Kwetter.Services.AuthorizationService.Rest.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _authService.SetUserClaims(createProfileRequest.Jwt);
+                var response = await _authService.SetUserClaims(createProfileRequest.Jwt, _logger);
                 return response.Success ? new OkObjectResult(response.Data) : StatusCode(500);
             }
 

@@ -15,22 +15,19 @@ namespace Kwetter.Services.AuthorizationService.Application.Services
     public class AuthService : IAuthService
     {
         private readonly IAuthContext _authContext;
-        private readonly ILogger _logger;
         private readonly IMapper _mapper;
         private readonly IProducer _producer;
         private readonly ITokenVerifier _tokenVerifier;
 
-        public AuthService(IProducer producer, IAuthContext authContext, ITokenVerifier tokenVerifier, IMapper mapper,
-            ILogger logger)
+        public AuthService(IProducer producer, IAuthContext authContext, ITokenVerifier tokenVerifier, IMapper mapper)
         {
             _producer = producer;
             _authContext = authContext;
             _tokenVerifier = tokenVerifier;
             _mapper = mapper;
-            _logger = logger;
         }
 
-        public async Task<Response<UserDto>> SetUserClaims(string uid)
+        public async Task<Response<UserDto>> SetUserClaims(string uid, ILogger logger)
         {
             var response = new Response<UserDto>();
 
@@ -68,18 +65,18 @@ namespace Kwetter.Services.AuthorizationService.Application.Services
 
                     response.Data = _mapper.Map<User, UserDto>(user);
                     response.Success = true;
-                    _logger.LogInformation("Set user claims of user: " + user.Id);
+                    logger.LogInformation("Set user claims of user: " + user.Id);
                     return response;
                 }
             }
             catch (FirebaseAuthException e)
             {
-                _logger.LogError("Claims could not be added to user!");
+                logger.LogError("Claims could not be added to user!");
                 throw;
             }
             catch (ArgumentNullException e)
             {
-                _logger.LogError("Claims could not be added to user!");
+                logger.LogError("Claims could not be added to user!");
                 throw;
             }
 

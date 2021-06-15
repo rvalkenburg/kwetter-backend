@@ -1,16 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <UserSecretsId>7ee4fe59-36f6-4cd3-8c9a-3b94a79f01d6</UserSecretsId>
+        <ApplicationInsightsResourceId>/subscriptions/ca188ed9-80a1-479b-9be9-8537b1dbbb59/resourceGroups/KwetterResourceGroup/providers/microsoft.insights/components/Kwetter-insights</ApplicationInsightsResourceId>
     </PropertyGroup>
     <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.4" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.17.0"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+        <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.17.0"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.17.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.4"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Application\Kwetter.Services.AuthorizationService.Application.csproj" />
