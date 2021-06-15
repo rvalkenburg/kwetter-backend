@@ -15,19 +15,22 @@ namespace Kwetter.Services.AuthorizationService.Application.Services
     public class AuthService : IAuthService
     {
         private readonly IAuthContext _authContext;
+        private readonly ILogger<AuthService> _logger;
         private readonly IMapper _mapper;
         private readonly IProducer _producer;
         private readonly ITokenVerifier _tokenVerifier;
 
-        public AuthService(IProducer producer, IAuthContext authContext, ITokenVerifier tokenVerifier, IMapper mapper)
+        public AuthService(IProducer producer, IAuthContext authContext, ITokenVerifier tokenVerifier, IMapper mapper,
+            ILogger<AuthService> logger)
         {
             _producer = producer;
             _authContext = authContext;
             _tokenVerifier = tokenVerifier;
             _mapper = mapper;
+            _logger = logger;
         }
 
-        public async Task<Response<UserDto>> SetUserClaims(string uid, ILogger logger)
+        public async Task<Response<UserDto>> SetUserClaims(string uid)
         {
             var response = new Response<UserDto>();
 
@@ -65,18 +68,18 @@ namespace Kwetter.Services.AuthorizationService.Application.Services
 
                     response.Data = _mapper.Map<User, UserDto>(user);
                     response.Success = true;
-                    logger.LogInformation("Set user claims of user: " + user.Id);
+                    _logger.LogInformation("Set user claims of user: " + user.Id);
                     return response;
                 }
             }
             catch (FirebaseAuthException e)
             {
-                logger.LogError("Claims could not be added to user!");
+                _logger.LogError("Claims could not be added to user!");
                 throw;
             }
             catch (ArgumentNullException e)
             {
-                logger.LogError("Claims could not be added to user!");
+                _logger.LogError("Claims could not be added to user!");
                 throw;
             }
 
