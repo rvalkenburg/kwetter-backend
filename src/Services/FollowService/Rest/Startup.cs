@@ -46,6 +46,16 @@ namespace Kwetter.Services.FollowService.Rest
                         ValidateLifetime = true
                     };
                 });
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -60,11 +70,6 @@ namespace Kwetter.Services.FollowService.Rest
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(x => x
-                .WithOrigins("http://20.82.45.10:80")
-                .WithMethods("")
-                .WithHeaders("authorization", "accept", "content-type", "origin"));
-
             if (env.IsDevelopment())
             {
                 app.UseSwagger();
@@ -79,6 +84,7 @@ namespace Kwetter.Services.FollowService.Rest
             }
 
             app.UseRouting();
+            app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

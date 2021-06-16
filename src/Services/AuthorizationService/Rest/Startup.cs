@@ -59,6 +59,16 @@ namespace Kwetter.Services.AuthorizationService.Rest
                     Description = "Authorization API for Kwetter."
                 });
             });
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -95,10 +105,7 @@ namespace Kwetter.Services.AuthorizationService.Rest
             }
 
             app.UseRouting();
-            app.UseCors(x => x
-                .WithOrigins("http://20.82.45.10:80")
-                .WithMethods("")
-                .WithHeaders("authorization", "accept", "content-type", "origin"));
+            app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
