@@ -26,7 +26,7 @@ namespace Kwetter.Services.KweetService.Application.Services
 
             var like = new Like
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 ProfileId = profile.Id,
                 KweetId = kweet.Id,
                 DateOfCreation = DateTime.Now

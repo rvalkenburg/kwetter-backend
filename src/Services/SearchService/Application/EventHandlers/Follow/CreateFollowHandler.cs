@@ -29,11 +29,11 @@ namespace Kwetter.Services.SearchService.Application.EventHandlers.Follow
 
                 var followConnectionExist = profile.Followers.Any(x => x.Follower.Id == follower.Id);
 
-                if (followConnectionExist == false)
+                if (!followConnectionExist)
                 {
                     profile.Followers.Add(new Domain.Entities.Follow
                     {
-                        Id = new Guid(),
+                        Id = Guid.NewGuid(),
                         DateOfCreation = DateTime.Now,
                         Follower = follower
                     });

@@ -72,12 +72,12 @@ namespace Kwetter.Services.AuthorizationService.Application.Services
                     return response;
                 }
             }
-            catch (FirebaseAuthException e)
+            catch (FirebaseAuthException)
             {
                 _logger.LogError("Claims could not be added to user!");
                 throw;
             }
-            catch (ArgumentNullException e)
+            catch (ArgumentNullException)
             {
                 _logger.LogError("Claims could not be added to user!");
                 throw;
