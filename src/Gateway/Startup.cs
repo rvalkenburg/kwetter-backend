@@ -19,7 +19,7 @@ namespace Kwetter.Gateway
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://20.82.45.10:80")
+                        builder.WithOrigins("http://20.82.87.48:80")
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
