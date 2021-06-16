@@ -69,25 +69,3 @@ spec:
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 75
-#kind: Pod
-#apiVersion: v1
-#metadata:
-#  name: kwetter-frontend
-#  namespace: kwetter
-#  labels:
-#    app: kwetter-frontend
-#spec:
-#  containers:
-#    - name: kwetter-frontend
-#      image: rvalkenburg/kwetter-frontend:latest
-#      imagePullPolicy: Always
-#      envFrom:
-#        - configMapRef:
-#            name: kwetter-frontend-config
-#      resources:
-#        requests:
-#          cpu: 100m
-#          memory: 128Mi
-#        limits:
-#          cpu: 250m
-#          memory: 256Mi

@@ -60,7 +60,11 @@ namespace Kwetter.Services.FollowService.Rest
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(x => x
+                .WithOrigins("http://20.82.87.48:80")
+                .WithMethods("")
+                .WithHeaders("authorization", "accept", "content-type", "origin"));
+
             if (env.IsDevelopment())
             {
                 app.UseSwagger();
