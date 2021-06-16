@@ -75,7 +75,7 @@ namespace Kwetter.Services.ProfileService.Rest
 
             app.UseRouting();
             app.UseCors(x => x
-                .WithOrigins("http://20.82.45.10:80")
+                .WithOrigins("http://20.82.45.10:80", "http://20.82.87.48:80")
                 .WithMethods("")
                 .WithHeaders("authorization", "accept", "content-type", "origin"));
             app.UseAuthentication();
