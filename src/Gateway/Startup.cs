@@ -27,8 +27,8 @@ namespace Kwetter.Gateway
             app.UseRouting();
 
             app.UseCors(x => x
-                .WithOrigins("http://20.82.87.48:80")
-                .WithMethods("")
+                .WithOrigins("http://20.82.87.48/")
+                .AllowAnyMethod()
                 .WithHeaders("authorization", "accept", "content-type", "origin"));
 
             await app.UseOcelot();
