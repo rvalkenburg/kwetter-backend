@@ -49,8 +49,8 @@ namespace Kwetter.Services.ProfileService.Rest
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://20.82.45.10:80",
-                            "http://20.82.87.48:80");
+                        builder.WithOrigins("http://20.82.45.10:80")
+                            .WithHeaders("Authorization", "Content-Type");
                     });
             });
             services.AddSwaggerGen(c =>
