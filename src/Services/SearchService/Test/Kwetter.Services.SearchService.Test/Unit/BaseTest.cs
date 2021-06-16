@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Kwetter.Services.SearchService.Domain.Entities;
 using Kwetter.Services.SearchService.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -21,8 +22,10 @@ namespace Kwetter.Services.SearchService.Test.Unit
 
         private void SetProfiles()
         {
-            TestProfile1 = new Profile {Id = new Guid(), DisplayName = "Roger", Avatar = "Test.png"};
-            TestProfile2 = new Profile {Id = new Guid(), DisplayName = "John", Avatar = "Test.png"};
+            TestProfile1 = new Profile
+                {Id = Guid.NewGuid(), DisplayName = "Roger", Avatar = "Test.png", Followers = new List<Follow>()};
+            TestProfile2 = new Profile
+                {Id = Guid.NewGuid(), DisplayName = "John", Avatar = "Test.png", Followers = new List<Follow>()};
             Context.Add(TestProfile1);
             Context.Add(TestProfile2);
             Context.SaveChangesAsync();

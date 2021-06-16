@@ -31,12 +31,15 @@ namespace Kwetter.Services.SearchService.Application.EventHandlers.Follow
 
                 if (!followConnectionExist)
                 {
-                    profile.Followers.Add(new Domain.Entities.Follow
+                    var follow = new Domain.Entities.Follow
                     {
                         Id = Guid.NewGuid(),
                         DateOfCreation = DateTime.Now,
-                        Follower = follower
-                    });
+                        Follower = follower,
+                        Profile = profile
+                    };
+                    profile.Followers.Add(follow);
+                    _context.Follow.Add(follow);
                     _context.Profiles.Update(profile);
                     return await _context.SaveChangesAsync() > 0;
                 }

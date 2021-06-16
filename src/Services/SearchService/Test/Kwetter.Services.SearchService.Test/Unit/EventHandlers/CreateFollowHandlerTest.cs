@@ -28,10 +28,11 @@ namespace Kwetter.Services.SearchService.Test.Unit.EventHandlers
         public async Task CreateFollowWhileFollowExists()
         {
             var follow = new Follow {Profile = TestProfile1, Follower = TestProfile2};
-            var followEvent = new FollowEvent {FollowerId = follow.Follower.Id, ProfileId = follow.Profile.Id};
-
             Context.Follow.Add(follow);
             await Context.SaveChangesAsync();
+
+            var followEvent = new FollowEvent {FollowerId = follow.Follower.Id, ProfileId = follow.Profile.Id};
+
             var success = await _createFollowHandler.Consume(JsonConvert.SerializeObject(followEvent));
 
             Assert.False(success);
