@@ -14,7 +14,15 @@ namespace Kwetter.Gateway
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("http://20.82.45.10:80",
+                            "http://20.82.87.48:80");
+                    });
+            });
             services.AddOcelot()
                 .AddKubernetes();
         }
@@ -25,10 +33,7 @@ namespace Kwetter.Gateway
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
             app.UseRouting();
 
-            app.UseCors(x => x
-                .WithOrigins("http://20.82.87.48/")
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            app.UseCors();
 
             await app.UseOcelot();
         }
