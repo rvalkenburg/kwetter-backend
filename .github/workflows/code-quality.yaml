@@ -3,7 +3,12 @@ name: code-quality
 defaults:
   run:
     working-directory: src
-
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+      
 jobs:
 
   # Builds the code 
