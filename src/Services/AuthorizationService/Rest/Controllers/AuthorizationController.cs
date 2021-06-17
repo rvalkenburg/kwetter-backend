@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Kwetter.Services.AuthorizationService.Application.Common.Interfaces;
 using Kwetter.Services.AuthorizationService.Rest.Models.Requests;
 using Microsoft.AspNetCore.Authorization;
@@ -41,10 +43,18 @@ namespace Kwetter.Services.AuthorizationService.Rest.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AssignAdminRole([FromBody] AddClaims createProfileRequest)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var response = await _authService.SetAdminClaims(createProfileRequest.Jwt);
-                return response ? new OkResult() : StatusCode(500);
+                var isAdmin = bool.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "Admin").Value);
+                if (ModelState.IsValid && isAdmin)
+                {
+                    var response = await _authService.SetAdminClaims(createProfileRequest.Jwt);
+                    return response ? new OkResult() : StatusCode(500);
+                }
+            }
+            catch (NullReferenceException)
+            {
+                return StatusCode(403);
             }
 
             return StatusCode(400);
