@@ -44,23 +44,12 @@ namespace Kwetter.Services.AuthorizationService.Application.Services
                     x.GoogleId == claimsDto.Claims["user_id"].ToString());
                 if (userExist == null)
                 {
-                    var user = new User
-                    {
-                        Id = Guid.NewGuid(),
-                        DisplayName = claimsDto.Claims["name"].ToString(),
-                        Avatar = claimsDto.Claims["picture"].ToString(),
-                        DateOfCreation = DateTime.Now,
-                        GoogleId = claimsDto.Claims["user_id"].ToString(),
-                        Email = claimsDto.Claims["email"].ToString()
-                    };
-
-                    _authContext.Users.Add(user);
-                    await _authContext.SaveChangesAsync();
+                    var user = await CreateNewUser(claimsDto);
 
                     var claims = new Dictionary<string, object>
                     {
                         {"Id", user.Id},
-                        {"user", true}
+                        {"User", true}
                     };
                     await _tokenVerifier.AddClaims(claimsDto.Subject, claims);
 
@@ -86,6 +75,17 @@ namespace Kwetter.Services.AuthorizationService.Application.Services
             return response;
         }
 
+        public async Task<bool> SetAdminClaims(string uid)
+        {
+            var user = await _authContext.Users.FirstOrDefaultAsync(x => x.GoogleId == uid);
+            var claims = new Dictionary<string, object>
+            {
+                {"Id", user.Id},
+                {"Admin", true}
+            };
+            return await _tokenVerifier.AddClaims(user.GoogleId, claims);
+        }
+
         private async Task SendNewProfileCreated(User user)
         {
             var createUserEvent = new Event<UserEvent>
@@ -93,6 +93,23 @@ namespace Kwetter.Services.AuthorizationService.Application.Services
                 Data = _mapper.Map<User, UserEvent>(user)
             };
             await _producer.Send("Create-User", createUserEvent);
+        }
+
+        private async Task<User> CreateNewUser(ClaimsDto claimsDto)
+        {
+            var user = new User
+            {
+                Id = Guid.NewGuid(),
+                DisplayName = claimsDto.Claims["name"].ToString(),
+                Avatar = claimsDto.Claims["picture"].ToString(),
+                DateOfCreation = DateTime.Now,
+                GoogleId = claimsDto.Claims["user_id"].ToString(),
+                Email = claimsDto.Claims["email"].ToString()
+            };
+
+            _authContext.Users.Add(user);
+            await _authContext.SaveChangesAsync();
+            return user;
         }
     }
 }

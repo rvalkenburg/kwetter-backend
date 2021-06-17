@@ -49,6 +49,18 @@ namespace Kwetter.Services.KweetService.Application.Services
             return response;
         }
 
+        public async Task<bool> DeleteKweetAsync(Guid kweetId)
+        {
+            var kweet = await _context.Kweets.FirstOrDefaultAsync(x => x.Id == kweetId);
+            if (kweet != null)
+            {
+                _context.Kweets.Remove(kweet);
+                return await _context.SaveChangesAsync() > 0;
+            }
+
+            return false;
+        }
+
         public async Task<Response<IEnumerable<KweetDto>>> GetPaginatedKweetsByProfile(int pageNumber, int pageSize,
             Guid profileId)
         {

@@ -42,6 +42,27 @@ namespace Kwetter.Services.AuthorizationService.Infrastructure.Authorization
             }
         }
 
+        public async Task<UserDto> GetById(string id)
+        {
+            try
+            {
+                var userRecord = await _firebaseApp.GetUserAsync(id);
+
+                var userDto = new UserDto
+                {
+                    Id = userRecord.Uid,
+                    Claims = userRecord.CustomClaims
+                };
+
+                return userDto;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         public async Task<bool> AddClaims(string jwt, Dictionary<string, object> claims)
         {
             await _firebaseApp.SetCustomUserClaimsAsync(jwt, claims);

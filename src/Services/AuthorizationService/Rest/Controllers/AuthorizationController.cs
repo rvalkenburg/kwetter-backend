@@ -35,5 +35,19 @@ namespace Kwetter.Services.AuthorizationService.Rest.Controllers
 
             return StatusCode(400);
         }
+
+        [HttpPut("")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AssignAdminRole([FromBody] AddClaims createProfileRequest)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _authService.SetAdminClaims(createProfileRequest.Jwt);
+                return response ? new OkResult() : StatusCode(500);
+            }
+
+            return StatusCode(400);
+        }
     }
 }

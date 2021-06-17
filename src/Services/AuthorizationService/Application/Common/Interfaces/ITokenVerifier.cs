@@ -8,5 +8,6 @@ namespace Kwetter.Services.AuthorizationService.Application.Common.Interfaces
     {
         Task<ClaimsDto> VerifyTokenAsync(string jwt);
         Task<bool> AddClaims(string jwt, Dictionary<string, object> claims);
+        Task<UserDto> GetById(string id);
     }
 }

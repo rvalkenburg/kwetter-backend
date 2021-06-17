@@ -65,5 +65,27 @@ namespace Kwetter.Services.KweetService.Rest.Controllers
 
             return StatusCode(500);
         }
+
+        [HttpDelete("{kweetId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteKweet(string kweetId)
+        {
+            try
+            {
+                var isAdmin = bool.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "Admin").Value);
+                if (ModelState.IsValid && isAdmin)
+                {
+                    var response = await _kweetService.DeleteKweetAsync(Guid.Parse(kweetId));
+                    return response ? new OkResult() : new NotFoundResult();
+                }
+            }
+            catch (NullReferenceException)
+            {
+                return StatusCode(403);
+            }
+
+            return StatusCode(500);
+        }
     }
 }
