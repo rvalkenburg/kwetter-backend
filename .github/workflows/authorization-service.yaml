@@ -55,7 +55,7 @@ jobs:
       run: echo "::set-output name=date::$(date +%s)"
     - uses: actions/checkout@master
     - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@master
+      uses: elgohr/Publish-Docker-Github-Action@v5
       with:
         name: rvalkenburg/kwetter-authorization-service
         username: ${{ secrets.DOCKER_USERNAME }}
